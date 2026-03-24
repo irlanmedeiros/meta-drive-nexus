@@ -55,7 +55,7 @@ const ContatoSection = () => {
         </div>
 
         <a
-          href="mailto:contato@metaverso.com"
+          href="mailto:comercial@flamastudio.com"
           className={`inline-block font-display font-bold text-sm md:text-base px-10 py-4 rounded-lg bg-gradient-to-r from-neon-green to-neon-blue text-background uppercase tracking-widest transition-all hover:scale-105 box-glow-green ${isVisible ? "opacity-100" : "opacity-0"}`}
           style={{ transitionDelay: "700ms" }}
         >
