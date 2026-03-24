@@ -1,4 +1,5 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import glitchVilanesco from "@/assets/glitch-vilanesco.png";
 
 const reasons = [
   { emoji: "📍", title: "Mercado em Expansão", desc: "A cena geek nordestina cresce rapidamente, com público ávido e mercado ainda pouco explorado por grandes marcas." },
