@@ -1,5 +1,6 @@
 import logo from "@/assets/logo-metaverso.png";
 import decoScribble from "@/assets/deco-scribble.png";
+import glitchApresentador from "@/assets/glitch-apresentador.png";
 import Particles from "./Particles";
 
 const HeroSection = () => {
