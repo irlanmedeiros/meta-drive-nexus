@@ -1,4 +1,5 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import glitchKpop from "@/assets/glitch-kpop.png";
 
 const profiles = [
   { emoji: "🎮", label: "Gamers", desc: "Jogadores casuais e competitivos" },
