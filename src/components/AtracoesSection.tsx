@@ -1,4 +1,5 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import glitchCpe from "@/assets/glitch-cpe.png";
 
 const atracoes = [
   { emoji: "🏆", name: "CPE", desc: "Campeonato Pessoense de E-Sports — 6 anos de história" },
