@@ -1,5 +1,6 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import decoWave from "@/assets/deco-wave.png";
+import glitchNeutro from "@/assets/glitch-neutro.png";
 
 const eras = [
   { emoji: "🏰", name: "Era Medieval", desc: "Card Games, universos de fantasia e RPG", color: "from-amber-800 to-yellow-600", border: "border-yellow-600", glow: "0 0 20px rgba(202,138,4,0.4)" },
@@ -13,6 +14,7 @@ const EventoSection = () => {
   return (
     <section id="evento" className="relative py-24 px-4 overflow-hidden">
       <img src={decoWave} alt="" className="absolute bottom-0 left-0 w-64 opacity-10 pointer-events-none" />
+      <img src={glitchNeutro} alt="Glitch" className="absolute top-8 right-4 w-24 md:w-36 opacity-30 pointer-events-none hidden md:block" />
       <div ref={ref} className="container mx-auto max-w-6xl">
         <h2 className={`font-display text-3xl md:text-5xl font-bold text-center mb-4 text-glow-purple transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           O EVENTO

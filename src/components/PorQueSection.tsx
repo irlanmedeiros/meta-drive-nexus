@@ -1,4 +1,5 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import glitchVilanesco from "@/assets/glitch-vilanesco.png";
 
 const reasons = [
   { emoji: "📍", title: "Mercado em Expansão", desc: "A cena geek nordestina cresce rapidamente, com público ávido e mercado ainda pouco explorado por grandes marcas." },
@@ -11,7 +12,8 @@ const PorQueSection = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="porque" className="relative py-24 px-4 grid-bg">
+    <section id="porque" className="relative py-24 px-4 grid-bg overflow-hidden">
+      <img src={glitchVilanesco} alt="Glitch" className="absolute top-12 left-4 w-24 md:w-36 opacity-25 pointer-events-none hidden md:block" />
       <div ref={ref} className="container mx-auto max-w-5xl">
         <h2 className={`font-display text-3xl md:text-5xl font-bold text-center mb-16 text-glow-green transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           POR QUE PATROCINAR?

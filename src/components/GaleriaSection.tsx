@@ -1,4 +1,5 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import glitchColerico from "@/assets/glitch-colerico.png";
 
 const photoPlaceholders = [
   { id: 1, label: "Foto 1", aspect: "aspect-[4/3]" },
@@ -20,7 +21,8 @@ const GaleriaSection = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="galeria" className="relative py-24 px-4">
+    <section id="galeria" className="relative py-24 px-4 overflow-hidden">
+      <img src={glitchColerico} alt="Glitch" className="absolute top-10 left-4 w-24 md:w-36 opacity-25 pointer-events-none hidden md:block" />
       <div ref={ref} className="container mx-auto max-w-6xl">
         <h2
           className={`font-display text-3xl md:text-5xl font-bold text-center mb-4 text-glow-pink transition-all duration-700 ${

@@ -1,5 +1,6 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import decoCloud from "@/assets/deco-cloud.png";
+import glitchSedutor from "@/assets/glitch-sedutor.png";
 
 const SobreSection = () => {
   const { ref, isVisible } = useScrollAnimation();
@@ -7,6 +8,7 @@ const SobreSection = () => {
   return (
     <section id="sobre" className="relative py-24 px-4 overflow-hidden">
       <img src={decoCloud} alt="" className="absolute top-10 left-5 w-40 opacity-10 pointer-events-none hidden md:block" />
+      <img src={glitchSedutor} alt="Glitch" className="absolute bottom-8 right-4 w-24 md:w-36 opacity-25 pointer-events-none hidden md:block" />
       <div ref={ref} className="container mx-auto max-w-4xl text-center">
         <h2 className={`font-display text-3xl md:text-5xl font-bold mb-8 text-glow-blue transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           SOBRE NÓS

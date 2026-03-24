@@ -1,5 +1,6 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import decoSmile from "@/assets/deco-smile.png";
+import glitchPalco from "@/assets/glitch-palco.png";
 import Particles from "./Particles";
 
 const ContatoSection = () => {
@@ -11,18 +12,10 @@ const ContatoSection = () => {
       <div className="absolute inset-0 bg-gradient-to-t from-neon-purple/10 to-transparent pointer-events-none" />
 
       <div ref={ref} className="relative z-10 container mx-auto max-w-4xl text-center">
-        {/* Glitch mascot representation */}
+        {/* Glitch mascot */}
         <div className={`mb-8 transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-75"}`}>
           <div className="inline-block relative">
-            <div className="w-28 h-28 mx-auto rounded-2xl bg-gradient-to-br from-slate-500 to-slate-700 border-4 border-neon-purple relative overflow-hidden box-glow-purple">
-              {/* CRT screen */}
-              <div className="absolute inset-2 rounded-lg bg-primary flex items-center justify-center scanlines">
-                <span className="text-3xl">😈</span>
-              </div>
-              {/* Antenna */}
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-1 h-4 bg-neon-green rounded-full" />
-              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-3 h-3 bg-neon-green rounded-full" />
-            </div>
+            <img src={glitchPalco} alt="Glitch" className="w-40 md:w-52 mx-auto drop-shadow-[0_0_30px_rgba(107,33,168,0.6)]" />
             <img src={decoSmile} alt="" className="absolute -bottom-4 -right-8 w-16 opacity-60" />
           </div>
           <p className="font-display text-xs text-neon-green mt-4 tracking-widest">GLITCH</p>

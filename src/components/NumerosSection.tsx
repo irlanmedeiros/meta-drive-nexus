@@ -1,5 +1,6 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useCountUp } from "@/hooks/useCountUp";
+import glitchInovatec from "@/assets/glitch-inovatec.png";
 
 const metrics = [
   { value: 3, label: "Dias de Evento", suffix: "", color: "text-neon-green" },
@@ -28,7 +29,8 @@ const NumerosSection = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="numeros" className="relative py-24 px-4">
+    <section id="numeros" className="relative py-24 px-4 overflow-hidden">
+      <img src={glitchInovatec} alt="Glitch" className="absolute top-12 right-4 w-28 md:w-44 opacity-25 pointer-events-none hidden md:block" />
       <div ref={ref} className="container mx-auto max-w-6xl">
         <h2 className={`font-display text-3xl md:text-5xl font-bold text-center mb-16 text-glow-green transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           NÚMEROS E IMPACTO

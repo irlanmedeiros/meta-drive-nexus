@@ -1,4 +1,5 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import glitchSentado from "@/assets/glitch-sentado.png";
 
 const cotas = [
   {
@@ -74,7 +75,8 @@ const CotasSection = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="cotas" className="relative py-24 px-4">
+    <section id="cotas" className="relative py-24 px-4 overflow-hidden">
+      <img src={glitchSentado} alt="Glitch" className="absolute bottom-8 left-4 w-32 md:w-48 opacity-20 pointer-events-none hidden md:block" />
       <div ref={ref} className="container mx-auto max-w-6xl">
         <h2 className={`font-display text-3xl md:text-5xl font-bold text-center mb-4 text-glow-purple transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           COTAS DE PATROCÍNIO
