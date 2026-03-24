@@ -1,4 +1,5 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import glitchSentado from "@/assets/glitch-sentado.png";
 
 const cotas = [
   {
