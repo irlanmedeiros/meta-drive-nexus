@@ -1,5 +1,6 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import decoWave from "@/assets/deco-wave.png";
+import glitchNeutro from "@/assets/glitch-neutro.png";
 
 const eras = [
   { emoji: "🏰", name: "Era Medieval", desc: "Card Games, universos de fantasia e RPG", color: "from-amber-800 to-yellow-600", border: "border-yellow-600", glow: "0 0 20px rgba(202,138,4,0.4)" },
