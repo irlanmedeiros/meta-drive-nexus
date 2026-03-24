@@ -45,7 +45,7 @@ const ContatoSection = () => {
           <div className="rounded-xl p-6 bg-card border border-border hover:neon-border-pink transition-all">
             <span className="text-2xl mb-2 block">📱</span>
             <p className="text-xs text-muted-foreground font-display uppercase mb-1">WhatsApp</p>
-            <p className="text-neon-pink text-sm font-semibold">(83) XXXXX-XXXX</p>
+            <p className="text-neon-pink text-sm font-semibold">(83) 99392-7595</p>
           </div>
           <div className="rounded-xl p-6 bg-card border border-border hover:neon-border-green transition-all">
             <span className="text-2xl mb-2 block">📸</span>
