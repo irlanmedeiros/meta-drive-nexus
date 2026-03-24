@@ -1,5 +1,6 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import decoSmile from "@/assets/deco-smile.png";
+import glitchPalco from "@/assets/glitch-palco.png";
 import Particles from "./Particles";
 
 const ContatoSection = () => {
