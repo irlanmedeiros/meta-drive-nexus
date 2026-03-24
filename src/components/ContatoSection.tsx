@@ -40,7 +40,7 @@ const ContatoSection = () => {
           <div className="rounded-xl p-6 bg-card border border-border hover:neon-border-purple transition-all">
             <span className="text-2xl mb-2 block">📧</span>
             <p className="text-xs text-muted-foreground font-display uppercase mb-1">E-mail</p>
-            <p className="text-neon-purple text-sm font-semibold">contato@metaverso.com</p>
+            <p className="text-neon-purple text-sm font-semibold">comercial@flamastudio.com</p>
           </div>
           <div className="rounded-xl p-6 bg-card border border-border hover:neon-border-pink transition-all">
             <span className="text-2xl mb-2 block">📱</span>
