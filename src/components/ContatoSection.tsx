@@ -40,12 +40,12 @@ const ContatoSection = () => {
           <div className="rounded-xl p-6 bg-card border border-border hover:neon-border-purple transition-all">
             <span className="text-2xl mb-2 block">📧</span>
             <p className="text-xs text-muted-foreground font-display uppercase mb-1">E-mail</p>
-            <p className="text-neon-purple text-sm font-semibold">contato@metaverso.com</p>
+            <p className="text-neon-purple text-sm font-semibold">comercial@flamastudio.com</p>
           </div>
           <div className="rounded-xl p-6 bg-card border border-border hover:neon-border-pink transition-all">
             <span className="text-2xl mb-2 block">📱</span>
             <p className="text-xs text-muted-foreground font-display uppercase mb-1">WhatsApp</p>
-            <p className="text-neon-pink text-sm font-semibold">(83) XXXXX-XXXX</p>
+            <p className="text-neon-pink text-sm font-semibold">(83) 99392-7595</p>
           </div>
           <div className="rounded-xl p-6 bg-card border border-border hover:neon-border-green transition-all">
             <span className="text-2xl mb-2 block">📸</span>
@@ -55,7 +55,7 @@ const ContatoSection = () => {
         </div>
 
         <a
-          href="mailto:contato@metaverso.com"
+          href="mailto:comercial@flamastudio.com"
           className={`inline-block font-display font-bold text-sm md:text-base px-10 py-4 rounded-lg bg-gradient-to-r from-neon-green to-neon-blue text-background uppercase tracking-widest transition-all hover:scale-105 box-glow-green ${isVisible ? "opacity-100" : "opacity-0"}`}
           style={{ transitionDelay: "700ms" }}
         >

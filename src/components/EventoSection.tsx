@@ -2,7 +2,7 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import decoWave from "@/assets/deco-wave.png";
 
 const eras = [
-  { emoji: "🏰", name: "Era Medieval", desc: "Card Games, cenografia de castelo, universos de fantasia e RPG", color: "from-amber-800 to-yellow-600", border: "border-yellow-600", glow: "0 0 20px rgba(202,138,4,0.4)" },
+  { emoji: "🏰", name: "Era Medieval", desc: "Card Games, universos de fantasia e RPG", color: "from-amber-800 to-yellow-600", border: "border-yellow-600", glow: "0 0 20px rgba(202,138,4,0.4)" },
   { emoji: "🎵", name: "Era do Presente", desc: "K-Pop, Shows, Influencers, Cultura Pop e tudo que é tendência", color: "from-neon-pink to-neon-blue", border: "border-neon-pink", glow: "0 0 20px rgba(224,64,160,0.4)" },
   { emoji: "🚀", name: "Era do Futuro", desc: "E-Sports, VR, Laser Tag, tecnologia e inovação além da realidade", color: "from-neon-green to-neon-purple", border: "border-neon-green", glow: "0 0 20px rgba(168,212,32,0.4)" },
 ];

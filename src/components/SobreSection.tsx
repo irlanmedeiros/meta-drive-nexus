@@ -13,10 +13,13 @@ const SobreSection = () => {
         </h2>
         <div className={`rounded-xl p-8 md:p-12 bg-card border border-border transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-6">
-            Por trás do <span className="text-neon-purple font-semibold">Metaverso Experience</span> está uma agência de marketing e produtora de eventos com experiência em captação, produção, design, tráfego e conteúdo — tudo feito em <span className="text-neon-green font-semibold">João Pessoa</span> com talentos locais.
+            Por trás do <span className="text-neon-purple font-semibold">Metaverso Experience</span> está a <span className="text-neon-green font-semibold">Flama Studio</span>, uma agência de marketing e produtora de eventos que nasce em João Pessoa e é movida por talentos locais.
+          </p>
+          <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-6">
+            Nosso propósito vai além de criar eventos: trabalhamos para <span className="text-neon-pink font-semibold">fortalecer a cena geek nordestina</span> e impulsionar artistas e criadores da Paraíba, dando visibilidade a quem transforma ideias em cultura.
           </p>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-            Nosso compromisso é com o <span className="text-neon-pink font-semibold">fortalecimento da cena geek nordestina</span> e a valorização de artistas e criadores da Paraíba. Acreditamos que a cultura pop é um veículo de transformação, inclusão e entretenimento.
+            Acreditamos que a cultura pop é uma poderosa ferramenta de transformação, capaz de conectar pessoas, promover inclusão e entregar experiências únicas de entretenimento.
           </p>
         </div>
       </div>

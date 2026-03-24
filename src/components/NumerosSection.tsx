@@ -9,7 +9,7 @@ const metrics = [
 ];
 
 const placeholders = [
-  { label: "Público Estimado", value: "XX.XXX pessoas", color: "text-neon-green" },
+  { label: "Público Estimado", value: "+de 10 Mil Pessoas", color: "text-neon-green" },
   { label: "Alcance nas Redes", value: "Em breve", color: "text-neon-blue" },
   { label: "Influencers Confirmados", value: "Em breve", color: "text-neon-pink" },
 ];
