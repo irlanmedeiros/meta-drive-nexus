@@ -37,6 +37,9 @@ const HeroSection = () => {
         </a>
       </div>
 
+      {/* Glitch mascot */}
+      <img src={glitchApresentador} alt="Glitch - Mascote do Metaverso Experience" className="absolute bottom-4 right-4 md:right-16 w-32 md:w-48 opacity-80 animate-float pointer-events-none drop-shadow-[0_0_20px_rgba(107,33,168,0.5)]" />
+
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
         <div className="w-6 h-10 rounded-full border-2 border-neon-purple flex items-start justify-center p-1">

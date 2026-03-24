@@ -14,7 +14,8 @@ const PublicoSection = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="publico" className="relative py-24 px-4 grid-bg">
+    <section id="publico" className="relative py-24 px-4 grid-bg overflow-hidden">
+      <img src={glitchKpop} alt="Glitch" className="absolute bottom-8 right-4 w-28 md:w-40 opacity-25 pointer-events-none hidden md:block" />
       <div ref={ref} className="container mx-auto max-w-6xl">
         <h2 className={`font-display text-3xl md:text-5xl font-bold text-center mb-4 text-glow-pink transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           PÚBLICO-ALVO

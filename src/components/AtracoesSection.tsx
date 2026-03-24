@@ -20,6 +20,7 @@ const AtracoesSection = () => {
 
   return (
     <section id="atracoes" className="relative py-24 px-4 grid-bg">
+      <img src={glitchCpe} alt="Glitch" className="absolute bottom-8 left-4 w-28 md:w-40 opacity-25 pointer-events-none hidden md:block" />
       <div ref={ref} className="container mx-auto max-w-6xl">
         <h2 className={`font-display text-3xl md:text-5xl font-bold text-center mb-16 text-glow-blue transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           ATRAÇÕES
