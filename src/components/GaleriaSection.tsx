@@ -1,4 +1,5 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import glitchColerico from "@/assets/glitch-colerico.png";
 
 const photoPlaceholders = [
   { id: 1, label: "Foto 1", aspect: "aspect-[4/3]" },
