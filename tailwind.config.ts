@@ -14,7 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["Orbitron", "sans-serif"],
+        display: ["Bangers", "cursive"],
+        orbitron: ["Orbitron", "sans-serif"],
         body: ["Inter", "sans-serif"],
       },
       colors: {
@@ -57,6 +58,10 @@ export default {
           green: "hsl(var(--neon-green))",
           pink: "hsl(var(--neon-pink))",
           yellow: "hsl(var(--neon-yellow))",
+        },
+        comic: {
+          cyan: "hsl(var(--comic-cyan))",
+          orange: "hsl(var(--comic-orange))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
