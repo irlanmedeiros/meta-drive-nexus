@@ -5,10 +5,10 @@ const cotas = [
   {
     tier: "APOIO",
     emoji: "🤝",
-    color: "border-slate-500",
-    glowClass: "hover:shadow-[0_0_30px_rgba(100,116,139,0.5)]",
-    textColor: "text-slate-400",
-    bgGradient: "from-slate-800/20 to-slate-700/10",
+    color: "border-t-muted-foreground",
+    cardBorder: "border-muted-foreground",
+    textColor: "text-muted-foreground",
+    headerBg: "bg-muted",
     price: "R$ 5.000",
     benefits: [
       "Logo em lista de apoiadores no site e materiais",
@@ -20,10 +20,10 @@ const cotas = [
   {
     tier: "BRONZE",
     emoji: "🥉",
-    color: "border-amber-700",
-    glowClass: "hover:shadow-[0_0_30px_rgba(180,83,9,0.5)]",
-    textColor: "text-amber-500",
-    bgGradient: "from-amber-900/20 to-amber-800/10",
+    color: "border-t-comic-orange",
+    cardBorder: "border-comic-orange",
+    textColor: "text-comic-orange",
+    headerBg: "bg-comic-orange/20",
     price: "R$ 17.000",
     benefits: [
       "Logo em materiais de divulgação e rodapé de posts",
@@ -37,10 +37,10 @@ const cotas = [
   {
     tier: "PRATA",
     emoji: "🥈",
-    color: "border-slate-400",
-    glowClass: "hover:shadow-[0_0_30px_rgba(148,163,184,0.5)]",
-    textColor: "text-slate-300",
-    bgGradient: "from-slate-700/20 to-slate-600/10",
+    color: "border-t-comic-cyan",
+    cardBorder: "border-comic-cyan",
+    textColor: "text-comic-cyan",
+    headerBg: "bg-comic-cyan/20",
     price: "R$ 32.000",
     benefits: [
       "Logo em banners do evento e materiais de divulgação",
@@ -54,10 +54,10 @@ const cotas = [
   {
     tier: "OURO",
     emoji: "🥇",
-    color: "border-neon-pink",
-    glowClass: "hover:shadow-[0_0_30px_rgba(224,64,160,0.5)]",
-    textColor: "text-neon-pink",
-    bgGradient: "from-pink-900/20 to-purple-900/10",
+    color: "border-t-neon-yellow",
+    cardBorder: "border-neon-yellow",
+    textColor: "text-neon-yellow",
+    headerBg: "bg-neon-yellow/20",
     price: "R$ 45.000",
     benefits: [
       "Logo em banners principais, palco e materiais digitais",
@@ -74,10 +74,10 @@ const cotas = [
     tier: "MASTER",
     subtitle: "NAMING RIGHTS",
     emoji: "💎",
-    color: "border-neon-green",
-    glowClass: "hover:shadow-[0_0_40px_rgba(168,212,32,0.6)]",
-    textColor: "text-neon-green",
-    bgGradient: "from-green-900/20 to-emerald-900/10",
+    color: "border-t-neon-pink",
+    cardBorder: "border-neon-pink",
+    textColor: "text-neon-pink",
+    headerBg: "bg-neon-pink/20",
     price: "R$ 80.000",
     featured: true,
     benefits: [
@@ -104,11 +104,15 @@ const CotasSection = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="cotas" className="relative py-24 px-4 overflow-hidden">
-      <img src={glitchSentado} alt="Glitch" className="absolute bottom-8 left-4 w-32 md:w-48 opacity-20 pointer-events-none hidden md:block" />
-      <div ref={ref} className="container mx-auto max-w-7xl">
-        <h2 className={`font-display text-3xl md:text-5xl font-bold text-center mb-4 text-glow-purple transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          COTAS DE PATROCÍNIO
+    <section id="cotas" className="relative py-24 px-4 overflow-hidden halftone">
+      <img src={glitchSentado} alt="Glitch" className="absolute bottom-8 left-4 w-36 md:w-52 opacity-25 pointer-events-none hidden md:block" />
+
+      <div className="absolute top-16 right-8 w-16 h-16 bg-neon-yellow starburst opacity-40 hidden md:block" />
+      <div className="absolute bottom-32 left-20 w-12 h-12 bg-neon-pink starburst opacity-30 hidden md:block" />
+
+      <div ref={ref} className="relative z-10 container mx-auto max-w-7xl">
+        <h2 className={`font-display text-4xl md:text-6xl text-center mb-4 text-neon-yellow text-glow-yellow transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          COTAS DE PATROCÍNIO 💰
         </h2>
         <p className={`text-center text-muted-foreground mb-16 transition-all duration-700 delay-200 ${isVisible ? "opacity-100" : "opacity-0"}`}>
           Escolha sua cota e entre neste universo
@@ -119,30 +123,29 @@ const CotasSection = () => {
           {cotas.filter(c => !c.featured).map((c, i) => (
             <div
               key={c.tier}
-              className={`relative rounded-xl p-6 bg-card border-2 ${c.color} ${c.glowClass} transition-all duration-500 hover:scale-105 flex flex-col ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+              className={`comic-card bg-card border-t-[8px] ${c.color} flex flex-col transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
               style={{ transitionDelay: `${300 + i * 150}ms` }}
             >
-              <div className={`absolute inset-0 rounded-xl bg-gradient-to-br ${c.bgGradient} pointer-events-none`} />
-              <div className="relative z-10 flex flex-col h-full">
-                <div className="text-center mb-4">
-                  <span className="text-4xl">{c.emoji}</span>
-                  <h3 className={`font-display text-lg font-black ${c.textColor} mt-2`}>{c.tier}</h3>
-                </div>
+              <div className={`${c.headerBg} px-6 py-4 text-center border-b-2 border-black/30`}>
+                <span className="text-4xl">{c.emoji}</span>
+                <h3 className={`font-display text-2xl ${c.textColor} mt-1`}>{c.tier}</h3>
+              </div>
 
-                <div className={`font-display text-xl font-bold ${c.textColor} text-center mb-4 py-2 border-t border-b border-border`}>
+              <div className="p-6 flex flex-col flex-1">
+                <div className={`font-display text-2xl ${c.textColor} text-center mb-4 py-2 border-b-2 border-border`}>
                   {c.price}
                 </div>
 
                 <ul className="space-y-2 flex-1">
                   {c.benefits.map(b => (
                     <li key={b} className="text-xs text-muted-foreground flex gap-2">
-                      <span className={`${c.textColor} shrink-0`}>✓</span>
+                      <span className={`${c.textColor} shrink-0 font-display`}>✓</span>
                       {b}
                     </li>
                   ))}
                 </ul>
 
-                <a href="#contato" className={`mt-6 block text-center font-display text-xs font-bold uppercase py-3 rounded-lg border ${c.color} ${c.textColor} hover:bg-foreground/5 transition-colors`}>
+                <a href="#contato" className={`mt-6 block text-center font-display text-sm uppercase py-3 comic-card ${c.headerBg} ${c.textColor} hover:brightness-125 transition-all`}>
                   Quero essa cota
                 </a>
               </div>
@@ -154,32 +157,31 @@ const CotasSection = () => {
         {cotas.filter(c => c.featured).map((c) => (
           <div
             key={c.tier}
-            className={`relative rounded-xl p-8 md:p-10 bg-card border-2 ${c.color} ${c.glowClass} transition-all duration-700 hover:scale-[1.02] ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+            className={`comic-card bg-card border-t-[10px] ${c.color} transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
             style={{ transitionDelay: "900ms" }}
           >
-            <div className={`absolute inset-0 rounded-xl bg-gradient-to-br ${c.bgGradient} pointer-events-none`} />
-            <div className="relative z-10">
-              <div className="text-center mb-6">
-                <span className="text-5xl">{c.emoji}</span>
-                <h3 className={`font-display text-2xl md:text-3xl font-black ${c.textColor} mt-2`}>{c.tier}</h3>
-                {c.subtitle && <p className="text-muted-foreground text-sm font-display mt-1">{c.subtitle}</p>}
-                <div className={`font-display text-2xl md:text-3xl font-bold ${c.textColor} mt-4`}>
-                  {c.price}
-                </div>
+            <div className={`${c.headerBg} px-8 py-6 text-center border-b-2 border-black/30`}>
+              <span className="text-5xl">{c.emoji}</span>
+              <h3 className={`font-display text-3xl md:text-4xl ${c.textColor} mt-2`}>{c.tier}</h3>
+              {c.subtitle && <p className="text-muted-foreground text-sm font-display mt-1">{c.subtitle}</p>}
+              <div className={`font-display text-3xl md:text-4xl ${c.textColor} mt-4`}>
+                {c.price}
               </div>
+            </div>
 
+            <div className="p-8 md:p-10">
               <div className="grid md:grid-cols-3 gap-x-8 gap-y-2 mb-8">
                 {c.benefits.map(b => (
                   <div key={b} className="text-sm text-muted-foreground flex gap-2 py-1">
-                    <span className={`${c.textColor} shrink-0`}>✓</span>
+                    <span className={`${c.textColor} shrink-0 font-display`}>✓</span>
                     {b}
                   </div>
                 ))}
               </div>
 
               <div className="text-center">
-                <a href="#contato" className={`inline-block font-display text-sm font-bold uppercase px-10 py-4 rounded-lg bg-gradient-to-r from-neon-green to-neon-blue text-background tracking-widest transition-all hover:scale-105 box-glow-green`}>
-                  Quero a cota Master
+                <a href="#contato" className="inline-block font-display text-lg uppercase px-10 py-4 bg-neon-pink text-foreground comic-card tracking-widest transition-all hover:scale-105">
+                  Quero a cota Master 💎
                 </a>
               </div>
             </div>
