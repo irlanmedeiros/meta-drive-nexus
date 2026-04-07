@@ -28,9 +28,9 @@ const Index = () => {
       <ScrollToTop />
 
       {/* Footer */}
-      <footer className="py-8 text-center border-t border-border">
-        <p className="text-muted-foreground text-xs font-display">
-          © 2026 Metaverso Experience — Todos os direitos reservados
+      <footer className="py-8 text-center border-t-3 border-black bg-card halftone-dense">
+        <p className="text-muted-foreground text-sm font-display">
+          © 2026 Metaverso Experience — Todos os direitos reservados 🎮
         </p>
       </footer>
     </div>

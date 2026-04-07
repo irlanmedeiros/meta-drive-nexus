@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 const navItems = [
   { label: "O Evento", href: "#evento" },
   { label: "Atrações", href: "#atracoes" },
+  { label: "Galeria", href: "#galeria" },
   { label: "Números", href: "#numeros" },
   { label: "Público", href: "#publico" },
   { label: "Cotas", href: "#cotas" },
@@ -22,28 +23,28 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/90 backdrop-blur-md border-b border-border" : "bg-transparent"}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/95 backdrop-blur-md border-b-3 border-black shadow-[0_4px_0_hsl(270,76%,50%)]" : "bg-transparent"}`}>
       <div className="container mx-auto flex items-center justify-between py-3 px-4">
-        <a href="#hero" className="font-display text-sm font-bold text-neon-purple text-glow-purple">
+        <a href="#hero" className="font-display text-lg text-neon-yellow text-glow-yellow">
           METAVERSO
         </a>
         <div className="hidden md:flex gap-6">
           {navItems.map(item => (
-            <a key={item.href} href={item.href} className="text-xs font-display uppercase tracking-wider text-muted-foreground hover:text-neon-green transition-colors">
+            <a key={item.href} href={item.href} className="text-xs font-display uppercase tracking-wider text-muted-foreground hover:text-neon-yellow transition-colors">
               {item.label}
             </a>
           ))}
         </div>
         <button onClick={() => setOpen(!open)} className="md:hidden text-foreground">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
             {open ? <path d="M6 6l12 12M6 18L18 6" /> : <><path d="M3 6h18" /><path d="M3 12h18" /><path d="M3 18h18" /></>}
           </svg>
         </button>
       </div>
       {open && (
-        <div className="md:hidden bg-background/95 backdrop-blur-md border-b border-border px-4 pb-4">
+        <div className="md:hidden bg-background/95 backdrop-blur-md border-b-3 border-black px-4 pb-4">
           {navItems.map(item => (
-            <a key={item.href} href={item.href} onClick={() => setOpen(false)} className="block py-2 text-sm font-display uppercase text-muted-foreground hover:text-neon-green transition-colors">
+            <a key={item.href} href={item.href} onClick={() => setOpen(false)} className="block py-2 text-sm font-display uppercase text-muted-foreground hover:text-neon-yellow transition-colors">
               {item.label}
             </a>
           ))}

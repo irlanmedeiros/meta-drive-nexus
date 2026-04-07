@@ -3,20 +3,25 @@ import decoWave from "@/assets/deco-wave.png";
 import glitchNeutro from "@/assets/glitch-neutro.png";
 
 const eras = [
-  { emoji: "🏰", name: "Era Medieval", desc: "Card Games, universos de fantasia e RPG", color: "from-amber-800 to-yellow-600", border: "border-yellow-600", glow: "0 0 20px rgba(202,138,4,0.4)" },
-  { emoji: "🎵", name: "Era do Presente", desc: "K-Pop, Shows, Influencers, Cultura Pop e tudo que é tendência", color: "from-neon-pink to-neon-blue", border: "border-neon-pink", glow: "0 0 20px rgba(224,64,160,0.4)" },
-  { emoji: "🚀", name: "Era do Futuro", desc: "E-Sports, VR, Laser Tag, tecnologia e inovação além da realidade", color: "from-neon-green to-neon-purple", border: "border-neon-green", glow: "0 0 20px rgba(168,212,32,0.4)" },
+  { emoji: "🏰", name: "Era Medieval", desc: "Card Games, universos de fantasia e RPG", color: "bg-neon-yellow", borderColor: "border-neon-yellow", textHead: "text-background" },
+  { emoji: "🎵", name: "Era do Presente", desc: "K-Pop, Shows, Influencers, Cultura Pop e tudo que é tendência", color: "bg-neon-pink", borderColor: "border-neon-pink", textHead: "text-foreground" },
+  { emoji: "🚀", name: "Era do Futuro", desc: "E-Sports, VR, Laser Tag, tecnologia e inovação além da realidade", color: "bg-comic-cyan", borderColor: "border-comic-cyan", textHead: "text-background" },
 ];
 
 const EventoSection = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="evento" className="relative py-24 px-4 overflow-hidden">
-      <img src={decoWave} alt="" className="absolute bottom-0 left-0 w-64 opacity-10 pointer-events-none" />
-      <img src={glitchNeutro} alt="Glitch" className="absolute top-8 right-4 w-24 md:w-36 opacity-30 pointer-events-none hidden md:block" />
-      <div ref={ref} className="container mx-auto max-w-6xl">
-        <h2 className={`font-display text-3xl md:text-5xl font-bold text-center mb-4 text-glow-purple transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+    <section id="evento" className="relative py-24 px-4 overflow-hidden radial-burst-purple">
+      <div className="absolute inset-0 halftone pointer-events-none" />
+      <img src={decoWave} alt="" className="absolute bottom-0 left-0 w-64 opacity-15 pointer-events-none" />
+      <img src={glitchNeutro} alt="Glitch" className="absolute top-8 right-4 w-28 md:w-44 opacity-40 pointer-events-none hidden md:block" />
+
+      {/* Comic starburst */}
+      <div className="absolute top-16 left-8 w-16 h-16 bg-neon-yellow starburst opacity-50 hidden md:block" />
+
+      <div ref={ref} className="relative z-10 container mx-auto max-w-6xl">
+        <h2 className={`font-display text-4xl md:text-6xl text-center mb-4 text-neon-yellow text-glow-yellow transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           O EVENTO
         </h2>
         <p className={`text-center text-muted-foreground max-w-3xl mx-auto mb-16 text-base md:text-lg leading-relaxed transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
@@ -27,13 +32,15 @@ const EventoSection = () => {
           {eras.map((era, i) => (
             <div
               key={era.name}
-              className={`group relative rounded-xl p-6 bg-card border ${era.border} transition-all duration-500 hover:scale-105 cursor-default ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-              style={{ transitionDelay: `${300 + i * 150}ms`, boxShadow: isVisible ? era.glow : "none" }}
+              className={`group relative comic-card overflow-hidden transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+              style={{ transitionDelay: `${300 + i * 150}ms` }}
             >
-              <div className={`absolute inset-0 rounded-xl bg-gradient-to-br ${era.color} opacity-10 group-hover:opacity-20 transition-opacity`} />
-              <div className="relative z-10">
-                <span className="text-5xl mb-4 block">{era.emoji}</span>
-                <h3 className="font-display text-xl font-bold mb-2">{era.name}</h3>
+              {/* Colored header strip */}
+              <div className={`${era.color} px-6 py-4 border-b-3 border-black`}>
+                <span className="text-4xl mb-2 block">{era.emoji}</span>
+                <h3 className={`font-display text-2xl ${era.textHead}`}>{era.name}</h3>
+              </div>
+              <div className="bg-card p-6 halftone-dense">
                 <p className="text-muted-foreground text-sm">{era.desc}</p>
               </div>
             </div>
