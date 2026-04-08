@@ -2,6 +2,7 @@ import logo from "@/assets/logo-metaverso.png";
 import decoScribble from "@/assets/deco-scribble.png";
 import glitchApresentador from "@/assets/glitch-apresentador.png";
 import Particles from "./Particles";
+import { MapPinX, CalendarCheck2, AlarmClockCheck } from 'lucide-react';
 
 const HeroSection = () => {
   return (
@@ -27,11 +28,11 @@ const HeroSection = () => {
         </p>
 
         <div className="flex flex-wrap justify-center gap-4 text-sm md:text-base text-muted-foreground font-body mb-2">
-          <span className="flex items-center gap-2 bg-card/60 px-4 py-1 rounded-full border-2 border-border">📍 Usina Cultural Energisa — João Pessoa, PB</span>
+          <span className="flex items-center gap-2 bg-card/60 px-4 py-1 rounded-full border-2 border-border"><MapPinX /> Usina Cultural Energisa — João Pessoa, PB</span>
         </div>
         <div className="flex flex-wrap justify-center gap-4 text-sm md:text-base text-muted-foreground font-body mb-8">
-          <span className="bg-card/60 px-4 py-1 rounded-full border-2 border-border">📅 Outubro / Novembro 2026</span>
-          <span className="bg-card/60 px-4 py-1 rounded-full border-2 border-border">⏱️ 3 dias de evento</span>
+          <span className="flex items-center gap-2 bg-card/60 px-4 py-1 rounded-full border-2 border-border"><CalendarCheck2 /> Outubro / Novembro 2026</span>
+          <span className="flex items-center gap-2 bg-card/60 px-4 py-1 rounded-full border-2 border-border"><AlarmClockCheck  /> 3 dias de evento</span>
         </div>
 
         <a

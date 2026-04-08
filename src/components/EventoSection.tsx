@@ -1,9 +1,8 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import decoWave from "@/assets/deco-wave.png";
-import glitchNeutro from "@/assets/glitch-neutro.png";
 
 const eras = [
-  { emoji: "🏰", name: "Era Medieval", desc: "Card Games, universos de fantasia e RPG", color: "bg-neon-yellow", borderColor: "border-neon-yellow", textHead: "text-background" },
+  { emoji: "🏰", name: "Era Medieval", desc: "Card Games, universos de fantasia, RPG e senografia imersiva", color: "bg-neon-yellow", borderColor: "border-neon-yellow", textHead: "text-background" },
   { emoji: "🎵", name: "Era do Presente", desc: "K-Pop, Shows, Influencers, Cultura Pop e tudo que é tendência", color: "bg-neon-pink", borderColor: "border-neon-pink", textHead: "text-foreground" },
   { emoji: "🚀", name: "Era do Futuro", desc: "E-Sports, VR, Laser Tag, tecnologia e inovação além da realidade", color: "bg-comic-cyan", borderColor: "border-comic-cyan", textHead: "text-background" },
 ];
@@ -15,7 +14,6 @@ const EventoSection = () => {
     <section id="evento" className="relative py-24 px-4 overflow-hidden radial-burst-purple">
       <div className="absolute inset-0 halftone pointer-events-none" />
       <img src={decoWave} alt="" className="absolute bottom-0 left-0 w-64 opacity-15 pointer-events-none" />
-      <img src={glitchNeutro} alt="Glitch" className="absolute top-8 right-4 w-28 md:w-44 opacity-40 pointer-events-none hidden md:block" />
 
       {/* Comic starburst */}
       <div className="absolute top-16 left-8 w-16 h-16 bg-neon-yellow starburst opacity-50 hidden md:block" />

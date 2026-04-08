@@ -1,7 +1,50 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
 import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import glitchColerico from "@/assets/glitch-colerico.png";
+>>>>>>> 8157f0df3a7937e110b338a3da8f4e64ea4f1e02
+
+const LoopingVideo = ({ src }: { src: string }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [muted, setMuted] = useState(true);
+
+  useEffect(() => {
+    videoRef.current?.play().catch(() => {});
+  }, []);
+
+  return (
+    <div className="relative w-full h-full">
+      <video
+        ref={videoRef}
+        src={src}
+        loop
+        autoPlay
+        muted={muted}
+        playsInline
+        className="w-full h-full object-cover"
+      />
+      <button
+        onClick={() => setMuted(!muted)}
+        className="absolute bottom-3 right-3 z-10 w-10 h-10 rounded-full bg-black/60 border-2 border-neon-pink/60 flex items-center justify-center text-white hover:bg-black/80 transition-colors"
+      >
+        {muted ? "🔇" : "🔊"}
+      </button>
+    </div>
+  );
+};
+
+type MediaItem = {
+  id: string;
+  type: string;
+  url: string;
+  label: string | null;
+  display_order: number;
+};
 
 const LoopingVideo = ({ src }: { src: string }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -81,7 +124,16 @@ const GaleriaSection = () => {
   return (
     <section id="galeria" className="relative py-24 px-4 overflow-hidden radial-burst-purple">
       <div className="absolute inset-0 halftone pointer-events-none" />
+<<<<<<< Updated upstream
       <img src={glitchColerico} alt="Glitch" className="absolute top-10 left-4 w-28 md:w-40 opacity-30 pointer-events-none hidden md:block" />
+=======
+<<<<<<< HEAD
+
+      {/* Comic decoration */}
+=======
+      <img src={glitchColerico} alt="Glitch" className="absolute top-10 left-4 w-28 md:w-40 opacity-30 pointer-events-none hidden md:block" />
+>>>>>>> 8157f0df3a7937e110b338a3da8f4e64ea4f1e02
+>>>>>>> Stashed changes
       <div className="absolute bottom-16 right-10 w-16 h-16 bg-neon-yellow starburst opacity-40 hidden md:block" />
 
       <div ref={ref} className="relative z-10 container mx-auto max-w-6xl">

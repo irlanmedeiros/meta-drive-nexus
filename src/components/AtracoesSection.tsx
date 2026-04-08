@@ -2,7 +2,7 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import glitchCpe from "@/assets/glitch-cpe.png";
 
 const atracoes = [
-  { emoji: "🏆", name: "CPE", desc: "Campeonato Pessoense de E-Sports — 6 anos de história", accent: "border-neon-yellow" },
+  { emoji: "🏆", name: "CPE", desc: "Campeonato Pessoense de E-Sports a 6 anos fazendo história", accent: "border-neon-yellow" },
   { emoji: "🎵", name: "Campeonato de K-Pop", desc: "Performances e batalhas de dança e cover", accent: "border-neon-pink" },
   { emoji: "🕹️", name: "Arena Freeplay", desc: "Games clássicos e atuais em modo livre", accent: "border-comic-cyan" },
   { emoji: "🃏", name: "Card Games", desc: "Torneios de TCG, Magic, Pokémon e Yu-Gi-Oh!", accent: "border-neon-purple" },
