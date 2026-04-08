@@ -4,6 +4,7 @@ import { Trash2, Upload, LogOut, Image, Film, Plus } from "lucide-react";
 
 const ADMIN_USER = "midiaflama";
 const ADMIN_PASS = "Vagalume255*";
+const HERO_TAG = "[HERO]";
 
 type MediaItem = {
   id: string;
@@ -12,6 +13,15 @@ type MediaItem = {
   label: string | null;
   display_order: number;
   created_at: string;
+};
+
+const isHeroVideo = (label: string | null) =>
+  (label ?? "").trim().toUpperCase().startsWith(HERO_TAG);
+
+const formatVideoLabel = (label: string, hero: boolean) => {
+  const cleanLabel = label.trim() || "Video";
+  const withoutTag = cleanLabel.replace(/^\[HERO\]\s*/i, "");
+  return hero ? `${HERO_TAG} ${withoutTag}` : withoutTag;
 };
 
 const Admin = () => {
@@ -25,6 +35,7 @@ const Admin = () => {
   const [activeTab, setActiveTab] = useState<"photo" | "video">("photo");
   const [videoUrl, setVideoUrl] = useState("");
   const [videoLabel, setVideoLabel] = useState("");
+  const [markVideoAsHero, setMarkVideoAsHero] = useState(false);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,10 +88,16 @@ const Admin = () => {
         .from("galeria")
         .getPublicUrl(path);
 
+      const baseLabel = file.name.replace(/\.[^.]+$/, "");
+      const label =
+        activeTab === "video"
+          ? formatVideoLabel(baseLabel, markVideoAsHero)
+          : baseLabel;
+
       await supabase.from("galeria_media").insert({
         type: activeTab,
         url: publicData.publicUrl,
-        label: file.name.replace(/\.[^.]+$/, ""),
+        label,
         display_order: media.length,
       });
     }
@@ -92,7 +109,7 @@ const Admin = () => {
 
   const handleAddVideo = async () => {
     if (!videoUrl.trim()) return;
-    // Convert YouTube URLs to embed format
+
     let embedUrl = videoUrl.trim();
     const ytMatch = embedUrl.match(
       /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]+)/
@@ -104,17 +121,17 @@ const Admin = () => {
     await supabase.from("galeria_media").insert({
       type: "video",
       url: embedUrl,
-      label: videoLabel || "Vídeo",
+      label: formatVideoLabel(videoLabel || "Video", markVideoAsHero),
       display_order: media.length,
     });
 
     setVideoUrl("");
     setVideoLabel("");
+    setMarkVideoAsHero(false);
     fetchMedia();
   };
 
   const handleDelete = async (item: MediaItem) => {
-    // Delete from storage if it's an uploaded file
     if (item.url.includes("/storage/")) {
       const path = item.url.split("/galeria/")[1];
       if (path) {
@@ -141,7 +158,7 @@ const Admin = () => {
             🔐 ADMIN
           </h1>
           <p className="text-center text-muted-foreground text-sm">
-            Painel de gestão da galeria
+            Painel de gestao da galeria
           </p>
 
           {loginError && (
@@ -157,7 +174,7 @@ const Admin = () => {
               value={login}
               onChange={(e) => setLogin(e.target.value)}
               className="w-full bg-background border-2 border-foreground/20 rounded px-3 py-2 text-foreground focus:border-neon-pink outline-none"
-              placeholder="Usuário"
+              placeholder="Usuario"
             />
           </div>
           <div className="space-y-2">
@@ -186,7 +203,6 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Header */}
       <header className="border-b-3 border-foreground/20 bg-card">
         <div className="container mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
           <h1 className="font-display text-2xl text-neon-pink">
@@ -202,7 +218,6 @@ const Admin = () => {
       </header>
 
       <main className="container mx-auto max-w-6xl px-4 py-8 space-y-8">
-        {/* Tabs */}
         <div className="flex gap-2">
           <button
             onClick={() => setActiveTab("photo")}
@@ -222,11 +237,10 @@ const Admin = () => {
                 : "bg-card border-foreground/20 text-muted-foreground hover:border-comic-cyan/50"
             }`}
           >
-            <Film size={18} /> Vídeos
+            <Film size={18} /> Videos
           </button>
         </div>
 
-        {/* Upload Area */}
         {activeTab === "photo" ? (
           <div className="comic-card bg-card p-6">
             <h2 className="font-display text-xl mb-4 text-neon-yellow flex items-center gap-2">
@@ -245,19 +259,27 @@ const Admin = () => {
               <p className="text-muted-foreground">
                 {uploading
                   ? "Enviando..."
-                  : "Clique ou arraste fotos aqui (múltiplas permitidas)"}
+                  : "Clique ou arraste fotos aqui (multiplas permitidas)"}
               </p>
             </label>
           </div>
         ) : (
           <div className="comic-card bg-card p-6 space-y-4">
             <h2 className="font-display text-xl mb-4 text-neon-yellow flex items-center gap-2">
-              <Film size={20} /> Adicionar Vídeo
+              <Film size={20} /> Adicionar Video
             </h2>
 
-            {/* Upload video file */}
+            <label className="flex items-center gap-2 text-sm font-display">
+              <input
+                type="checkbox"
+                checked={markVideoAsHero}
+                onChange={(e) => setMarkVideoAsHero(e.target.checked)}
+              />
+              Usar este video como fundo do Hero
+            </label>
+
             <div>
-              <p className="text-sm text-muted-foreground mb-2 font-display">Upload de arquivo de vídeo:</p>
+              <p className="text-sm text-muted-foreground mb-2 font-display">Upload de arquivo de video:</p>
               <label className="block border-2 border-dashed border-foreground/20 rounded-lg p-6 text-center cursor-pointer hover:border-comic-cyan/50 transition-colors">
                 <input
                   type="file"
@@ -268,12 +290,11 @@ const Admin = () => {
                 />
                 <Plus size={24} className="mx-auto mb-1 text-muted-foreground" />
                 <p className="text-muted-foreground text-sm">
-                  {uploading ? "Enviando..." : "Clique para enviar vídeo"}
+                  {uploading ? "Enviando..." : "Clique para enviar video"}
                 </p>
               </label>
             </div>
 
-            {/* Or add YouTube link */}
             <div className="border-t border-foreground/10 pt-4">
               <p className="text-sm text-muted-foreground mb-2 font-display">Ou cole um link do YouTube:</p>
               <div className="flex flex-col sm:flex-row gap-2">
@@ -281,7 +302,7 @@ const Admin = () => {
                   type="text"
                   value={videoLabel}
                   onChange={(e) => setVideoLabel(e.target.value)}
-                  placeholder="Título do vídeo"
+                  placeholder="Titulo do video"
                   className="bg-background border-2 border-foreground/20 rounded px-3 py-2 text-foreground focus:border-comic-cyan outline-none sm:w-1/3"
                 />
                 <input
@@ -302,7 +323,6 @@ const Admin = () => {
           </div>
         )}
 
-        {/* Photos Grid */}
         {activeTab === "photo" && (
           <div>
             <h3 className="font-display text-lg mb-4 text-foreground">
@@ -342,15 +362,14 @@ const Admin = () => {
           </div>
         )}
 
-        {/* Videos List */}
         {activeTab === "video" && (
           <div>
             <h3 className="font-display text-lg mb-4 text-foreground">
-              Vídeos ({videos.length})
+              Videos ({videos.length})
             </h3>
             {videos.length === 0 ? (
               <p className="text-muted-foreground text-center py-8">
-                Nenhum vídeo adicionado ainda
+                Nenhum video adicionado ainda
               </p>
             ) : (
               <div className="grid md:grid-cols-2 gap-6">
@@ -362,7 +381,7 @@ const Admin = () => {
                           src={video.url}
                           className="w-full h-full"
                           allowFullScreen
-                          title={video.label || "Vídeo"}
+                          title={video.label || "Video"}
                         />
                       ) : (
                         <video
@@ -372,10 +391,15 @@ const Admin = () => {
                         />
                       )}
                     </div>
-                    <div className="p-3 flex items-center justify-between">
+                    <div className="p-3 flex items-center justify-between gap-2">
                       <p className="text-sm font-display text-foreground truncate">
                         {video.label}
                       </p>
+                      {isHeroVideo(video.label) ? (
+                        <span className="text-[10px] px-2 py-1 rounded bg-neon-yellow text-background font-display whitespace-nowrap">
+                          HERO BG
+                        </span>
+                      ) : null}
                       <button
                         onClick={() => handleDelete(video)}
                         className="text-destructive hover:text-destructive/80 transition-colors"

@@ -2,11 +2,96 @@ import logo from "@/assets/logo-metaverso.png";
 import decoScribble from "@/assets/deco-scribble.png";
 import glitchApresentador from "@/assets/glitch-apresentador.png";
 import Particles from "./Particles";
+<<<<<<< HEAD
+<<<<<<< HEAD
+import { AlarmClockCheck, CalendarCheck2, MapPinX, Volume2, VolumeX } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+
+const HERO_TAG = "[HERO]";
+
+const HeroSection = () => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isMuted, setIsMuted] = useState(true);
+  const [heroVideoUrl, setHeroVideoUrl] = useState("");
+
+  useEffect(() => {
+    const fetchHeroVideo = async () => {
+      const { data, error } = await supabase
+        .from("galeria_media")
+        .select("url, label, created_at")
+        .eq("type", "video")
+        .order("created_at", { ascending: false });
+
+      if (error || !data) {
+        return;
+      }
+
+      const cloudVideos = data.filter((item) => !item.url.includes("youtube.com/embed"));
+      const taggedHero = cloudVideos.find((item) =>
+        (item.label ?? "").trim().toUpperCase().startsWith(HERO_TAG)
+      );
+
+      const selected = taggedHero ?? cloudVideos[0];
+      if (selected?.url) {
+        setHeroVideoUrl(selected.url);
+      }
+    };
+
+    void fetchHeroVideo();
+  }, []);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = isMuted;
+    }
+  }, [isMuted]);
+
+  const handleAudioToggle = async () => {
+    const nextMuted = !isMuted;
+    setIsMuted(nextMuted);
+
+    if (!nextMuted) {
+      try {
+        await videoRef.current?.play();
+      } catch {
+        setIsMuted(true);
+      }
+    }
+  };
+
+  return (
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden radial-burst">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {heroVideoUrl ? (
+          <video
+            ref={videoRef}
+            className="absolute inset-0 h-full w-full object-cover"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            src={heroVideoUrl}
+          />
+        ) : null}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/35 via-background/55 to-background/80" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,221,87,0.18),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(107,33,168,0.25),transparent_28%)]" />
+      </div>
+
+=======
 import { MapPinX, CalendarCheck2, AlarmClockCheck } from 'lucide-react';
 
 const HeroSection = () => {
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden radial-burst">
+>>>>>>> parent of 868a184 (Atualizacao do design)
+=======
+import { MapPinX, CalendarCheck2, AlarmClockCheck } from 'lucide-react';
+
+const HeroSection = () => {
+  return (
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden radial-burst">
+>>>>>>> parent of 868a184 (Atualizacao do design)
       <div className="absolute inset-0 halftone pointer-events-none" />
       <Particles />
 
@@ -24,7 +109,7 @@ const HeroSection = () => {
         </div>
 
         <p className="font-display text-2xl md:text-4xl text-neon-yellow text-glow-yellow mb-4 tracking-wider">
-          O maior encontro geek do Nordeste
+          O maior encontro Jovem do Nordeste
         </p>
 
         <div className="flex flex-wrap justify-center gap-4 text-sm md:text-base text-muted-foreground font-body mb-2">
