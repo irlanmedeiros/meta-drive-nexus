@@ -112,17 +112,14 @@ const GaleriaSection = () => {
                 >
                   {video.url.includes("youtube.com/embed") ? (
                     <iframe
-                      src={video.url}
+                      src={`${video.url}${video.url.includes('?') ? '&' : '?'}autoplay=1&mute=1&loop=1&playlist=${video.url.split('/').pop()?.split('?')[0] || ''}&controls=0`}
                       className="w-full h-full"
+                      allow="autoplay; encrypted-media"
                       allowFullScreen
                       title={video.label || "Vídeo"}
                     />
                   ) : (
-                    <video
-                      src={video.url}
-                      controls
-                      className="w-full h-full object-cover"
-                    />
+                    <LoopingVideo src={video.url} />
                   )}
                 </div>
               ))
