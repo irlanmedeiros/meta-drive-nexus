@@ -1,7 +1,36 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import glitchColerico from "@/assets/glitch-colerico.png";
+
+const LoopingVideo = ({ src }: { src: string }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [muted, setMuted] = useState(true);
+
+  useEffect(() => {
+    videoRef.current?.play().catch(() => {});
+  }, []);
+
+  return (
+    <div className="relative w-full h-full">
+      <video
+        ref={videoRef}
+        src={src}
+        loop
+        autoPlay
+        muted={muted}
+        playsInline
+        className="w-full h-full object-cover"
+      />
+      <button
+        onClick={() => setMuted(!muted)}
+        className="absolute bottom-3 right-3 z-10 w-10 h-10 rounded-full bg-black/60 border-2 border-neon-pink/60 flex items-center justify-center text-white hover:bg-black/80 transition-colors"
+      >
+        {muted ? "🔇" : "🔊"}
+      </button>
+    </div>
+  );
+};
 
 type MediaItem = {
   id: string;
