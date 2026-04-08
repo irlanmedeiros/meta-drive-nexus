@@ -97,14 +97,6 @@ const HeroSection = () => {
           O maior encontro Jovem do Nordeste
         </p>
 
-        <div className="flex flex-wrap justify-center gap-4 text-sm md:text-base text-muted-foreground font-body mb-2">
-          <span className="flex items-center gap-2 bg-card/60 px-4 py-1 rounded-full border-2 border-border"><MapPinX /> Usina Cultural Energisa — João Pessoa, PB</span>
-        </div>
-        <div className="flex flex-wrap justify-center gap-4 text-sm md:text-base text-muted-foreground font-body mb-8">
-          <span className="flex items-center gap-2 bg-card/60 px-4 py-1 rounded-full border-2 border-border"><CalendarCheck2 /> Outubro / Novembro 2026</span>
-          <span className="flex items-center gap-2 bg-card/60 px-4 py-1 rounded-full border-2 border-border"><AlarmClockCheck /> 3 dias de evento</span>
-        </div>
-
         <a
           href="#contato"
           className="inline-block font-display text-lg md:text-xl px-8 py-4 rounded-lg bg-neon-yellow text-background uppercase tracking-widest transition-all hover:scale-105 comic-card border-4 border-black"
