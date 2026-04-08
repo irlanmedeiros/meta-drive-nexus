@@ -79,7 +79,7 @@ const GaleriaSection = () => {
   const hasVideos = videos.length > 0;
 
   return (
-    <section id="galeria" className="relative py-24 px-4 overflow-hidden radial-burst-purple">
+    <section id="galeria" className="relative py-24 px-4 halftone">
       <div className="absolute inset-0 halftone pointer-events-none" />
       <img src={glitchColerico} alt="Glitch" className="absolute top-10 left-4 w-28 md:w-40 opacity-30 pointer-events-none hidden md:block" />
       <div className="absolute bottom-16 right-10 w-16 h-16 bg-neon-yellow starburst opacity-40 hidden md:block" />
