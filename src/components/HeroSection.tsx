@@ -1,17 +1,34 @@
 import { useRef, useState, useEffect } from "react";
 import logo from "@/assets/logo-metaverso.png";
-import decoScribble from "@/assets/deco-scribble.png";
 import glitchApresentador from "@/assets/glitch-apresentador.png";
 import Particles from "./Particles";
-import { AlarmClockCheck, CalendarCheck2, MapPinX, Volume2, VolumeX } from "lucide-react";
+import { Volume2, VolumeX } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useEventDate } from "@/hooks/useEventDate";
+import { useCountdown } from "@/hooks/useCountdown";
 
 const HERO_TAG = "[HERO]";
+
+const CountdownBlock = ({ value, label }: { value: number; label: string }) => (
+  <div className="flex flex-col items-center">
+    <div className="relative w-20 h-24 md:w-28 md:h-32 flex items-center justify-center rounded-xl bg-black/60 backdrop-blur-md border border-neon-yellow/30 shadow-[0_0_25px_rgba(255,221,87,0.15)]">
+      <span className="font-display text-4xl md:text-6xl text-neon-yellow drop-shadow-[0_0_12px_rgba(255,221,87,0.6)] tabular-nums">
+        {String(value).padStart(2, "0")}
+      </span>
+    </div>
+    <span className="mt-2 text-xs md:text-sm font-display uppercase tracking-[0.2em] text-foreground/70">
+      {label}
+    </span>
+  </div>
+);
 
 const HeroSection = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isMuted, setIsMuted] = useState(true);
   const [heroVideoUrl, setHeroVideoUrl] = useState("");
+
+  const { eventDate } = useEventDate();
+  const { days, hours, minutes, seconds } = useCountdown(eventDate);
 
   useEffect(() => {
     const fetchHeroVideo = async () => {
@@ -48,7 +65,8 @@ const HeroSection = () => {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden radial-burst">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background video */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {heroVideoUrl ? (
           <video
@@ -62,55 +80,73 @@ const HeroSection = () => {
             src={heroVideoUrl}
           />
         ) : null}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/35 via-background/55 to-background/80" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,221,87,0.18),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(107,33,168,0.25),transparent_28%)]" />
+        {/* Gradient overlays */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/70 to-background/95" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,221,87,0.12),transparent_40%)]" />
       </div>
 
+      {/* Particles */}
       <div className="absolute inset-0 halftone pointer-events-none" />
       <Particles />
 
-      {/* Mute/unmute button */}
+      {/* Mute/Unmute */}
       {heroVideoUrl && (
         <button
           onClick={handleAudioToggle}
-          className="absolute top-4 right-4 z-30 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+          className="absolute bottom-6 left-6 z-30 flex items-center gap-2 px-4 py-2 rounded-full bg-black/50 backdrop-blur-sm text-white text-sm font-display hover:bg-black/70 transition-colors border border-white/10"
           aria-label={isMuted ? "Ativar som" : "Desativar som"}
         >
-          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+          {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+          <span className="hidden sm:inline">{isMuted ? "Som Desligado" : "Som Ligado"}</span>
         </button>
       )}
 
-      {/* Comic starburst decorations */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-neon-pink starburst opacity-60 hidden md:block animate-float" />
-      <div className="absolute bottom-32 left-20 w-14 h-14 bg-neon-yellow starburst opacity-50 hidden md:block" style={{ animationDelay: "1s" }} />
-      <div className="absolute top-40 right-20 w-16 h-16 bg-comic-cyan starburst opacity-40 hidden md:block animate-float" style={{ animationDelay: "2s" }} />
+      {/* Main content */}
+      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto flex flex-col items-center gap-8 md:gap-10">
+        {/* Logo */}
+        <img
+          src={logo}
+          alt="Metaverso Experience"
+          className="w-56 md:w-80 lg:w-96 drop-shadow-[0_0_40px_rgba(255,221,87,0.3)]"
+        />
 
-      {/* Decorative element */}
-      <img src={decoScribble} alt="" className="absolute top-10 right-10 w-32 opacity-30 animate-float pointer-events-none hidden md:block" />
-
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-        <div className="animate-glitch-color mb-6">
-          <img src={logo} alt="Metaverso Experience" className="mx-auto w-72 md:w-96 drop-shadow-2xl" />
+        {/* Countdown */}
+        <div className="flex items-center gap-3 md:gap-6">
+          <CountdownBlock value={days} label="Dias" />
+          <span className="text-neon-yellow text-3xl md:text-5xl font-display mt-[-1.5rem]">:</span>
+          <CountdownBlock value={hours} label="Horas" />
+          <span className="text-neon-yellow text-3xl md:text-5xl font-display mt-[-1.5rem]">:</span>
+          <CountdownBlock value={minutes} label="Min" />
+          <span className="text-neon-yellow text-3xl md:text-5xl font-display mt-[-1.5rem]">:</span>
+          <CountdownBlock value={seconds} label="Seg" />
         </div>
 
-        <p className="font-display text-2xl md:text-4xl text-neon-yellow text-glow-yellow mb-4 tracking-wider">
-          O maior encontro Jovem do Nordeste
+        {/* Tagline */}
+        <p className="font-display text-xl md:text-3xl lg:text-4xl text-foreground/90 tracking-wide leading-tight max-w-2xl">
+          Faça Parte do maior encontro{" "}
+          <span className="text-neon-yellow text-glow-yellow">geek</span>{" "}
+          do nordeste
         </p>
 
+        {/* CTA Button */}
         <a
           href="#contato"
-          className="inline-block font-display text-lg md:text-xl px-8 py-4 rounded-lg bg-neon-yellow text-background uppercase tracking-widest transition-all hover:scale-105 comic-card border-4 border-black"
+          className="inline-block font-display text-base md:text-lg px-10 py-4 rounded-lg bg-neon-yellow text-background uppercase tracking-[0.15em] transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(255,221,87,0.4)] border-2 border-neon-yellow/80"
         >
           Seja um Patrocinador 💥
         </a>
       </div>
 
       {/* Glitch mascot */}
-      <img src={glitchApresentador} alt="Glitch - Mascote do Metaverso Experience" className="absolute bottom-4 right-4 md:right-16 w-36 md:w-56 opacity-90 animate-float pointer-events-none drop-shadow-[0_0_30px_rgba(107,33,168,0.6)]" />
+      <img
+        src={glitchApresentador}
+        alt="Glitch - Mascote do Metaverso Experience"
+        className="absolute bottom-4 right-4 md:right-16 w-28 md:w-44 opacity-80 animate-float pointer-events-none drop-shadow-[0_0_30px_rgba(107,33,168,0.6)]"
+      />
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
-        <div className="w-6 h-10 rounded-full border-3 border-neon-yellow flex items-start justify-center p-1">
+        <div className="w-6 h-10 rounded-full border-2 border-neon-yellow/50 flex items-start justify-center p-1">
           <div className="w-1.5 h-3 bg-neon-yellow rounded-full animate-pulse-glow" />
         </div>
       </div>
