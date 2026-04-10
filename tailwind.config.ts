@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["Bangers", "cursive"],
+        display: ["SuperbusyActivity", "Bangers", "cursive"],
         orbitron: ["Orbitron", "sans-serif"],
         body: ["Inter", "sans-serif"],
       },
