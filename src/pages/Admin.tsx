@@ -255,6 +255,35 @@ const Admin = () => {
       </header>
 
       <main className="container mx-auto max-w-6xl px-4 py-8 space-y-8">
+        {/* Event Date Config */}
+        <div className="comic-card bg-card p-6">
+          <h2 className="font-display text-xl mb-4 text-neon-yellow flex items-center gap-2">
+            <CalendarCheck2 size={20} /> Configurações do Evento
+          </h2>
+          <div className="flex flex-col sm:flex-row gap-3 items-end">
+            <div className="flex-1 space-y-1">
+              <label className="text-sm font-display text-foreground">Data e Hora do Evento</label>
+              <input
+                type="datetime-local"
+                value={eventDate}
+                onChange={(e) => setEventDate(e.target.value)}
+                className="w-full bg-background border-2 border-foreground/20 rounded px-3 py-2 text-foreground focus:border-neon-yellow outline-none"
+              />
+            </div>
+            <button
+              onClick={handleSaveEventDate}
+              disabled={savingDate || !eventDate}
+              className="flex items-center gap-2 bg-neon-yellow text-background font-display px-6 py-2 rounded-lg hover:brightness-110 transition-all disabled:opacity-50"
+            >
+              <Save size={16} />
+              {savingDate ? "Salvando..." : dateSaved ? "Salvo ✓" : "Salvar Data"}
+            </button>
+          </div>
+          <p className="text-xs text-muted-foreground mt-2">
+            Essa data será usada no countdown timer da página principal.
+          </p>
+        </div>
+
         <div className="flex gap-2">
           <button
             onClick={() => setActiveTab("photo")}
