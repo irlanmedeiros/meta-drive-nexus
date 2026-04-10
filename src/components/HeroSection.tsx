@@ -57,11 +57,16 @@ const HeroSection = () => {
     if (videoRef.current) videoRef.current.muted = isMuted;
   }, [isMuted]);
 
-  const handleAudioToggle = async () => {
-    const nextMuted = !isMuted;
-    setIsMuted(nextMuted);
-    if (!nextMuted) {
-      try { await videoRef.current?.play(); } catch { setIsMuted(true); }
+  const handleAudioToggle = () => {
+    if (!videoRef.current) return;
+    const next = !isMuted;
+    videoRef.current.muted = next;
+    setIsMuted(next);
+    if (!next) {
+      videoRef.current.play().catch(() => {
+        videoRef.current!.muted = true;
+        setIsMuted(true);
+      });
     }
   };
 
@@ -75,7 +80,7 @@ const HeroSection = () => {
             className="absolute inset-0 h-full w-full object-cover"
             autoPlay
             loop
-            muted
+            muted={isMuted}
             playsInline
             preload="metadata"
             src={heroVideoUrl}
@@ -88,27 +93,26 @@ const HeroSection = () => {
       <div className="absolute inset-0 halftone pointer-events-none" />
       <Particles />
 
-      {/* Mute/Unmute — top right like reference */}
+      {/* Sound toggle — bottom left */}
       {heroVideoUrl && (
         <button
           onClick={handleAudioToggle}
-          className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-black/40 backdrop-blur-sm text-white/70 hover:text-white hover:bg-black/60 transition-colors"
+          className="absolute bottom-4 left-4 z-30 flex items-center gap-2 min-h-[44px] px-4 py-2 rounded-full bg-black/40 backdrop-blur-sm border border-white/10 text-white/70 hover:text-white hover:bg-black/60 transition-colors text-xs sm:text-sm"
           aria-label={isMuted ? "Ativar som" : "Desativar som"}
         >
-          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+          {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+          <span className="hidden sm:inline">{isMuted ? "Som Desligado" : "Som Ligado"}</span>
         </button>
       )}
 
       {/* Main content */}
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto flex flex-col items-center gap-6 md:gap-8">
-        {/* Logo */}
         <img
           src={logo}
           alt="Metaverso Experience"
           className="w-52 sm:w-64 md:w-80 lg:w-[420px] drop-shadow-[0_0_40px_rgba(107,33,168,0.5)]"
         />
 
-        {/* Countdown — clean style like reference */}
         <div className="flex items-start justify-center">
           <CountdownBlock value={days} label="Dias" />
           <CountdownBlock value={hours} label="Horas" />
@@ -116,14 +120,12 @@ const HeroSection = () => {
           <CountdownBlock value={seconds} label="Segundos" />
         </div>
 
-        {/* Tagline — clean, serif-like feel */}
         <p className="text-base sm:text-lg md:text-2xl text-white/80 leading-relaxed max-w-md font-light tracking-wide">
           Faça parte do maior
           <br />
           evento geek do nordeste.
         </p>
 
-        {/* CTA Button — outlined/rounded like reference */}
         <a
           href="#contato"
           className="inline-block font-display text-sm sm:text-base md:text-lg px-8 sm:px-10 py-3 sm:py-4 rounded-full border-2 border-white text-white uppercase tracking-[0.15em] transition-all hover:bg-white hover:text-background hover:scale-105"
