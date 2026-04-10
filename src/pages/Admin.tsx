@@ -36,6 +36,9 @@ const Admin = () => {
   const [videoUrl, setVideoUrl] = useState("");
   const [videoLabel, setVideoLabel] = useState("");
   const [markVideoAsHero, setMarkVideoAsHero] = useState(false);
+  const [eventDate, setEventDate] = useState("");
+  const [savingDate, setSavingDate] = useState(false);
+  const [dateSaved, setDateSaved] = useState(false);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
