@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import logo from "@/assets/Ativo15.svg";
 
 const navItems = [
   { label: "O Evento", href: "#evento" },
@@ -26,7 +27,7 @@ const Navbar = () => {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/95 backdrop-blur-md border-b-3 border-black shadow-[0_4px_0_hsl(270,76%,50%)]" : "bg-transparent"}`}>
       <div className="container mx-auto flex items-center justify-between py-3 px-4">
         <a href="#hero" className="font-display text-lg text-neon-yellow text-glow-yellow">
-          METAVERSO
+          <img src={logo} alt="Metaverso Experience" className="h-8 w-auto" />
         </a>
         <div className="hidden md:flex gap-6">
           {navItems.map(item => (
