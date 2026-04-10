@@ -69,6 +69,40 @@ const Admin = () => {
     if (authenticated) fetchMedia();
   }, [authenticated, fetchMedia]);
 
+  // Fetch event date
+  useEffect(() => {
+    if (!authenticated) return;
+    const fetchDate = async () => {
+      const { data } = await supabase
+        .from("event_settings")
+        .select("value")
+        .eq("key", "event_date")
+        .maybeSingle();
+      if (data?.value) {
+        // Convert to datetime-local format
+        const d = new Date(data.value);
+        const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000)
+          .toISOString()
+          .slice(0, 16);
+        setEventDate(local);
+      }
+    };
+    void fetchDate();
+  }, [authenticated]);
+
+  const handleSaveEventDate = async () => {
+    if (!eventDate) return;
+    setSavingDate(true);
+    const isoDate = new Date(eventDate).toISOString();
+    await supabase
+      .from("event_settings")
+      .update({ value: isoDate, updated_at: new Date().toISOString() })
+      .eq("key", "event_date");
+    setSavingDate(false);
+    setDateSaved(true);
+    setTimeout(() => setDateSaved(false), 3000);
+  };
+
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
