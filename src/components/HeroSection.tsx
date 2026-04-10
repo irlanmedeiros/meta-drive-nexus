@@ -70,7 +70,92 @@ const HeroSection = () => {
     }
   };
 
+  return (
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background video */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {heroVideoUrl ? (
+          <video
+            ref={videoRef}
+            className="absolute inset-0 h-full w-full object-cover"
+            autoPlay
+            loop
+            muted={isMuted}
+            playsInline
+            preload="metadata"
+            src={heroVideoUrl}
+          />
+        ) : null}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background/90" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,221,87,0.08),transparent_45%)]" />
+      </div>
+
+      <div className="absolute inset-0 halftone pointer-events-none" />
+      <Particles />
+
+      {/* Sound toggle — bottom left */}
+      {heroVideoUrl && (
+        <button
+          onClick={handleAudioToggle}
+          className="absolute bottom-4 left-4 z-30 flex items-center gap-2 min-h-[44px] px-4 py-2 rounded-full bg-black/40 backdrop-blur-sm border border-white/10 text-white/70 hover:text-white hover:bg-black/60 transition-colors text-xs sm:text-sm"
+          aria-label={isMuted ? "Ativar som" : "Desativar som"}
+        >
+          {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+          <span className="hidden sm:inline">{isMuted ? "Som Desligado" : "Som Ligado"}</span>
+        </button>
+      )}
+
       {/* Main content */}
+      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto flex flex-col items-center gap-6 md:gap-8">
+        {/* Logo */}
+        <img
+          src={logo}
+          alt="Metaverso Experience"
+          className="w-52 sm:w-64 md:w-80 lg:w-[420px] drop-shadow-[0_0_40px_rgba(107,33,168,0.5)]"
+        />
+
+        {/* Countdown */}
+        <div className="flex items-start justify-center">
+          <CountdownBlock value={days} label="Dias" />
+          <CountdownBlock value={hours} label="Horas" />
+          <CountdownBlock value={minutes} label="Minutos" />
+          <CountdownBlock value={seconds} label="Segundos" />
+        </div>
+
+        {/* Tagline */}
+        <p className="text-base sm:text-lg md:text-2xl text-white/80 leading-relaxed max-w-md font-light tracking-wide">
+          Faça parte do maior
+          <br />
+          evento geek do nordeste.
+        </p>
+
+        {/* CTA Button */}
+        <a
+          href="#contato"
+          className="inline-block font-display text-sm sm:text-base md:text-lg px-8 sm:px-10 py-3 sm:py-4 rounded-full border-2 border-white text-white uppercase tracking-[0.15em] transition-all hover:bg-white hover:text-background hover:scale-105"
+        >
+          Seja um patrocinador
+        </a>
+      </div>
+
+      {/* Glitch mascot */}
+      <img
+        src={glitchApresentador}
+        alt="Glitch - Mascote do Metaverso Experience"
+        className="absolute bottom-4 right-4 md:right-12 w-24 md:w-40 opacity-85 animate-float pointer-events-none drop-shadow-[0_0_30px_rgba(107,33,168,0.6)]"
+      />
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
+        <div className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-1">
+          <div className="w-1.5 h-3 bg-white/50 rounded-full animate-pulse-glow" />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default HeroSection;
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto flex flex-col items-center gap-6 md:gap-8">
         {/* Logo */}
         <img
