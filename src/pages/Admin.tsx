@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Trash2, Upload, LogOut, Image, Film, Plus } from "lucide-react";
+import { Trash2, Upload, LogOut, Image, Film, Plus, CalendarCheck2, Save } from "lucide-react";
 
 const ADMIN_USER = "midiaflama";
 const ADMIN_PASS = "Vagalume255*";
