@@ -1,38 +1,24 @@
 
 
-## Plano: Corrigir botão de Som na HeroSection
+## Plano: Melhorar visual do botão de Som na HeroSection
 
-### Problema
-1. **Não funciona**: O vídeo tem o atributo `muted` fixo no JSX (linha 78), então mesmo mudando `videoRef.current.muted` via state, o atributo HTML permanece. Precisa controlar `muted` via ref/state, não via atributo fixo.
-2. **Visual fraco**: É apenas um ícone pequeno sem texto, difícil de identificar.
-3. **Sem responsividade mobile**: Tamanho fixo, pode ficar apertado.
+### Objetivo
+Redesenhar o botão de som com visual mais elegante, usando a fonte SuperbusyActivity e um estilo que combine com a identidade visual do projeto.
 
-### Correções em `src/components/HeroSection.tsx`
+### Alteração em `src/components/HeroSection.tsx`
 
-1. **Remover `muted` fixo do `<video>`** — usar `muted={isMuted}` para que o React controle o atributo dinamicamente.
+Substituir o botão atual (linhas 97-106) por um botão com:
 
-2. **Refazer o botão de som** com visual melhor:
-   - Ícone + texto "Som Ligado" / "Som Desligado"
-   - Posição: canto inferior esquerdo (evita conflito com mascote Glitch no canto inferior direito)
-   - Estilo: fundo semi-transparente com backdrop-blur, borda sutil, cantos arredondados
-   - Mobile: texto menor, padding ajustado, `min-h-[44px]` para área de toque confortável
+- **Fonte**: `font-display` (SuperbusyActivity) para o texto
+- **Visual**: Fundo com gradiente escuro semi-transparente, borda com brilho sutil roxo/ciano, ícone animado com pulse quando som ligado
+- **Layout**: Ícone + texto sempre visível (inclusive mobile), com tamanho ajustado
+- **Texto**: "SOM LIGADO" / "SOM DESLIGADO" em uppercase com tracking
+- **Hover**: Glow sutil e scale leve
+- **Mobile**: Texto menor, padding compacto, min-h-[44px] mantido
+- **Posição**: Canto inferior esquerdo (mantido)
 
-3. **Corrigir `handleAudioToggle`** — garantir que `play()` é chamado dentro do contexto de gesto do usuário (sincronamente antes do await):
-   ```tsx
-   const handleAudioToggle = () => {
-     if (!videoRef.current) return;
-     const next = !isMuted;
-     videoRef.current.muted = next;
-     setIsMuted(next);
-     if (!next) {
-       videoRef.current.play().catch(() => {
-         videoRef.current!.muted = true;
-         setIsMuted(true);
-       });
-     }
-   };
-   ```
+Estilo inspirado na referência enviada mas com acabamento premium usando a identidade visual do projeto (bordas neon, backdrop blur, fonte customizada).
 
 ### Arquivo alterado
-- `src/components/HeroSection.tsx`
+- `src/components/HeroSection.tsx` (apenas o bloco do botão de som)
 
