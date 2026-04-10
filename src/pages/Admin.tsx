@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Trash2, Upload, LogOut, Image, Film, Plus } from "lucide-react";
+import { Trash2, Upload, LogOut, Image, Film, Plus, CalendarCheck2, Save } from "lucide-react";
 
 const ADMIN_USER = "midiaflama";
 const ADMIN_PASS = "Vagalume255*";
@@ -36,6 +36,9 @@ const Admin = () => {
   const [videoUrl, setVideoUrl] = useState("");
   const [videoLabel, setVideoLabel] = useState("");
   const [markVideoAsHero, setMarkVideoAsHero] = useState(false);
+  const [eventDate, setEventDate] = useState("");
+  const [savingDate, setSavingDate] = useState(false);
+  const [dateSaved, setDateSaved] = useState(false);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,6 +68,40 @@ const Admin = () => {
   useEffect(() => {
     if (authenticated) fetchMedia();
   }, [authenticated, fetchMedia]);
+
+  // Fetch event date
+  useEffect(() => {
+    if (!authenticated) return;
+    const fetchDate = async () => {
+      const { data } = await supabase
+        .from("event_settings")
+        .select("value")
+        .eq("key", "event_date")
+        .maybeSingle();
+      if (data?.value) {
+        // Convert to datetime-local format
+        const d = new Date(data.value);
+        const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000)
+          .toISOString()
+          .slice(0, 16);
+        setEventDate(local);
+      }
+    };
+    void fetchDate();
+  }, [authenticated]);
+
+  const handleSaveEventDate = async () => {
+    if (!eventDate) return;
+    setSavingDate(true);
+    const isoDate = new Date(eventDate).toISOString();
+    await supabase
+      .from("event_settings")
+      .update({ value: isoDate, updated_at: new Date().toISOString() })
+      .eq("key", "event_date");
+    setSavingDate(false);
+    setDateSaved(true);
+    setTimeout(() => setDateSaved(false), 3000);
+  };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -218,6 +255,35 @@ const Admin = () => {
       </header>
 
       <main className="container mx-auto max-w-6xl px-4 py-8 space-y-8">
+        {/* Event Date Config */}
+        <div className="comic-card bg-card p-6">
+          <h2 className="font-display text-xl mb-4 text-neon-yellow flex items-center gap-2">
+            <CalendarCheck2 size={20} /> Configurações do Evento
+          </h2>
+          <div className="flex flex-col sm:flex-row gap-3 items-end">
+            <div className="flex-1 space-y-1">
+              <label className="text-sm font-display text-foreground">Data e Hora do Evento</label>
+              <input
+                type="datetime-local"
+                value={eventDate}
+                onChange={(e) => setEventDate(e.target.value)}
+                className="w-full bg-background border-2 border-foreground/20 rounded px-3 py-2 text-foreground focus:border-neon-yellow outline-none"
+              />
+            </div>
+            <button
+              onClick={handleSaveEventDate}
+              disabled={savingDate || !eventDate}
+              className="flex items-center gap-2 bg-neon-yellow text-background font-display px-6 py-2 rounded-lg hover:brightness-110 transition-all disabled:opacity-50"
+            >
+              <Save size={16} />
+              {savingDate ? "Salvando..." : dateSaved ? "Salvo ✓" : "Salvar Data"}
+            </button>
+          </div>
+          <p className="text-xs text-muted-foreground mt-2">
+            Essa data será usada no countdown timer da página principal.
+          </p>
+        </div>
+
         <div className="flex gap-2">
           <button
             onClick={() => setActiveTab("photo")}

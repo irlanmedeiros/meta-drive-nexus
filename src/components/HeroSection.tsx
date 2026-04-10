@@ -1,17 +1,35 @@
 import { useRef, useState, useEffect } from "react";
 import logo from "@/assets/logo-metaverso.png";
-import decoScribble from "@/assets/deco-scribble.png";
 import glitchApresentador from "@/assets/glitch-apresentador.png";
 import Particles from "./Particles";
-import { AlarmClockCheck, CalendarCheck2, MapPinX, Volume2, VolumeX } from "lucide-react";
+import { Volume2, VolumeX } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useEventDate } from "@/hooks/useEventDate";
+import { useCountdown } from "@/hooks/useCountdown";
 
 const HERO_TAG = "[HERO]";
+
+const formatNumber = (n: number) =>
+  n.toLocaleString("pt-BR");
+
+const CountdownBlock = ({ value, label }: { value: number; label: string }) => (
+  <div className="flex flex-col items-center px-3 md:px-5">
+    <span className="font-display text-4xl sm:text-5xl md:text-7xl text-white leading-none tracking-tight">
+      {formatNumber(value)}
+    </span>
+    <span className="mt-1 text-[10px] sm:text-xs font-display uppercase tracking-[0.25em] text-white/60">
+      {label}
+    </span>
+  </div>
+);
 
 const HeroSection = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isMuted, setIsMuted] = useState(true);
   const [heroVideoUrl, setHeroVideoUrl] = useState("");
+
+  const { eventDate } = useEventDate();
+  const { days, hours, minutes, seconds } = useCountdown(eventDate);
 
   useEffect(() => {
     const fetchHeroVideo = async () => {
@@ -48,7 +66,8 @@ const HeroSection = () => {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden radial-burst">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background video */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {heroVideoUrl ? (
           <video
@@ -62,56 +81,68 @@ const HeroSection = () => {
             src={heroVideoUrl}
           />
         ) : null}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/35 via-background/55 to-background/80" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,221,87,0.18),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(107,33,168,0.25),transparent_28%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background/90" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,221,87,0.08),transparent_45%)]" />
       </div>
 
       <div className="absolute inset-0 halftone pointer-events-none" />
       <Particles />
 
-      {/* Mute/unmute button */}
+      {/* Mute/Unmute — top right like reference */}
       {heroVideoUrl && (
         <button
           onClick={handleAudioToggle}
-          className="absolute top-4 right-4 z-30 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+          className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-black/40 backdrop-blur-sm text-white/70 hover:text-white hover:bg-black/60 transition-colors"
           aria-label={isMuted ? "Ativar som" : "Desativar som"}
         >
           {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
         </button>
       )}
 
-      {/* Comic starburst decorations */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-neon-pink starburst opacity-60 hidden md:block animate-float" />
-      <div className="absolute bottom-32 left-20 w-14 h-14 bg-neon-yellow starburst opacity-50 hidden md:block" style={{ animationDelay: "1s" }} />
-      <div className="absolute top-40 right-20 w-16 h-16 bg-comic-cyan starburst opacity-40 hidden md:block animate-float" style={{ animationDelay: "2s" }} />
+      {/* Main content */}
+      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto flex flex-col items-center gap-6 md:gap-8">
+        {/* Logo */}
+        <img
+          src={logo}
+          alt="Metaverso Experience"
+          className="w-52 sm:w-64 md:w-80 lg:w-[420px] drop-shadow-[0_0_40px_rgba(107,33,168,0.5)]"
+        />
 
-      {/* Decorative element */}
-      <img src={decoScribble} alt="" className="absolute top-10 right-10 w-32 opacity-30 animate-float pointer-events-none hidden md:block" />
-
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-        <div className="animate-glitch-color mb-6">
-          <img src={logo} alt="Metaverso Experience" className="mx-auto w-72 md:w-96 drop-shadow-2xl" />
+        {/* Countdown — clean style like reference */}
+        <div className="flex items-start justify-center">
+          <CountdownBlock value={days} label="Dias" />
+          <CountdownBlock value={hours} label="Horas" />
+          <CountdownBlock value={minutes} label="Minutos" />
+          <CountdownBlock value={seconds} label="Segundos" />
         </div>
 
-        <p className="font-display text-2xl md:text-4xl text-neon-yellow text-glow-yellow mb-4 tracking-wider">
-          O maior encontro Jovem do Nordeste
+        {/* Tagline — clean, serif-like feel */}
+        <p className="text-base sm:text-lg md:text-2xl text-white/80 leading-relaxed max-w-md font-light tracking-wide">
+          Faça parte do maior
+          <br />
+          evento geek do nordeste.
         </p>
 
+        {/* CTA Button — outlined/rounded like reference */}
         <a
           href="#contato"
-          className="inline-block font-display text-lg md:text-xl px-8 py-4 rounded-lg bg-neon-yellow text-background uppercase tracking-widest transition-all hover:scale-105 comic-card border-4 border-black"
+          className="inline-block font-display text-sm sm:text-base md:text-lg px-8 sm:px-10 py-3 sm:py-4 rounded-full border-2 border-white text-white uppercase tracking-[0.15em] transition-all hover:bg-white hover:text-background hover:scale-105"
         >
-          Seja um Patrocinador 💥
+          Seja um patrocinador
         </a>
       </div>
 
       {/* Glitch mascot */}
-      <img src={glitchApresentador} alt="Glitch - Mascote do Metaverso Experience" className="absolute bottom-4 right-4 md:right-16 w-36 md:w-56 opacity-90 animate-float pointer-events-none drop-shadow-[0_0_30px_rgba(107,33,168,0.6)]" />
+      <img
+        src={glitchApresentador}
+        alt="Glitch - Mascote do Metaverso Experience"
+        className="absolute bottom-4 right-4 md:right-12 w-24 md:w-40 opacity-85 animate-float pointer-events-none drop-shadow-[0_0_30px_rgba(107,33,168,0.6)]"
+      />
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
-        <div className="w-6 h-10 rounded-full border-3 border-neon-yellow flex items-start justify-center p-1">
-          <div className="w-1.5 h-3 bg-neon-yellow rounded-full animate-pulse-glow" />
+        <div className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-1">
+          <div className="w-1.5 h-3 bg-white/50 rounded-full animate-pulse-glow" />
         </div>
       </div>
     </section>

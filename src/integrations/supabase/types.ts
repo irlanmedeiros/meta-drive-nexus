@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      event_settings: {
+        Row: {
+          id: string
+          key: string
+          updated_at: string | null
+          value: string
+        }
+        Insert: {
+          id?: string
+          key: string
+          updated_at?: string | null
+          value: string
+        }
+        Update: {
+          id?: string
+          key?: string
+          updated_at?: string | null
+          value?: string
+        }
+        Relationships: []
+      }
       galeria_media: {
         Row: {
           created_at: string
