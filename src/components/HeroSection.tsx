@@ -128,7 +128,7 @@ const HeroSection = () => {
           <CountdownBlock value={seconds} label="Segundos" />
         </div>
 
-        <p className="text-base sm:text-lg md:text-2xl text-white/80 leading-relaxed max-w-md font-light tracking-wide">
+        <p className="text-base sm:text-lg md:text-1xl text-white/80 leading-relaxed max-w-md font-light tracking-wide">
           Faça parte do maior
           <br />
           evento geek do nordeste.
