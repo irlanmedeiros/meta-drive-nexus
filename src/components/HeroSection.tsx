@@ -97,11 +97,19 @@ const HeroSection = () => {
       {heroVideoUrl && (
         <button
           onClick={handleAudioToggle}
-          className="absolute bottom-4 left-4 z-30 flex items-center gap-2 min-h-[44px] px-4 py-2 rounded-full bg-black/40 backdrop-blur-sm border border-white/10 text-white/70 hover:text-white hover:bg-black/60 transition-colors text-xs sm:text-sm"
+          className={`absolute bottom-6 left-4 sm:left-6 z-30 flex items-center gap-2 min-h-[44px] px-4 sm:px-5 py-2 sm:py-2.5 rounded-full backdrop-blur-md border transition-all duration-300 hover:scale-105 font-display uppercase tracking-[0.15em] text-[10px] sm:text-xs ${
+            isMuted
+              ? "bg-black/50 border-white/15 text-white/60 hover:text-white hover:border-white/30"
+              : "bg-black/60 border-cyan-400/40 text-cyan-300 shadow-[0_0_15px_rgba(0,255,255,0.15)] hover:shadow-[0_0_25px_rgba(0,255,255,0.25)]"
+          }`}
           aria-label={isMuted ? "Ativar som" : "Desativar som"}
         >
-          {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
-          <span className="hidden sm:inline">{isMuted ? "Som Desligado" : "Som Ligado"}</span>
+          {isMuted ? (
+            <VolumeX size={16} className="shrink-0" />
+          ) : (
+            <Volume2 size={16} className="shrink-0 animate-pulse" />
+          )}
+          <span>{isMuted ? "Som Desligado" : "Som Ligado"}</span>
         </button>
       )}
 
