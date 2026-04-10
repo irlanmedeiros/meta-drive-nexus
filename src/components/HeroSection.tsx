@@ -57,47 +57,18 @@ const HeroSection = () => {
     if (videoRef.current) videoRef.current.muted = isMuted;
   }, [isMuted]);
 
-  const handleAudioToggle = async () => {
-    const nextMuted = !isMuted;
-    setIsMuted(nextMuted);
-    if (!nextMuted) {
-      try { await videoRef.current?.play(); } catch { setIsMuted(true); }
+  const handleAudioToggle = () => {
+    if (!videoRef.current) return;
+    const next = !isMuted;
+    videoRef.current.muted = next;
+    setIsMuted(next);
+    if (!next) {
+      videoRef.current.play().catch(() => {
+        videoRef.current!.muted = true;
+        setIsMuted(true);
+      });
     }
   };
-
-  return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background video */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {heroVideoUrl ? (
-          <video
-            ref={videoRef}
-            className="absolute inset-0 h-full w-full object-cover"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            src={heroVideoUrl}
-          />
-        ) : null}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background/90" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,221,87,0.08),transparent_45%)]" />
-      </div>
-
-      <div className="absolute inset-0 halftone pointer-events-none" />
-      <Particles />
-
-      {/* Mute/Unmute — top right like reference */}
-      {heroVideoUrl && (
-        <button
-          onClick={handleAudioToggle}
-          className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-black/40 backdrop-blur-sm text-white/70 hover:text-white hover:bg-black/60 transition-colors"
-          aria-label={isMuted ? "Ativar som" : "Desativar som"}
-        >
-          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-        </button>
-      )}
 
       {/* Main content */}
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto flex flex-col items-center gap-6 md:gap-8">
