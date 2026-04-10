@@ -9,14 +9,15 @@ import { useCountdown } from "@/hooks/useCountdown";
 
 const HERO_TAG = "[HERO]";
 
+const formatNumber = (n: number) =>
+  n.toLocaleString("pt-BR");
+
 const CountdownBlock = ({ value, label }: { value: number; label: string }) => (
-  <div className="flex flex-col items-center">
-    <div className="relative w-20 h-24 md:w-28 md:h-32 flex items-center justify-center rounded-xl bg-black/60 backdrop-blur-md border border-neon-yellow/30 shadow-[0_0_25px_rgba(255,221,87,0.15)]">
-      <span className="font-display text-4xl md:text-6xl text-neon-yellow drop-shadow-[0_0_12px_rgba(255,221,87,0.6)] tabular-nums">
-        {String(value).padStart(2, "0")}
-      </span>
-    </div>
-    <span className="mt-2 text-xs md:text-sm font-display uppercase tracking-[0.2em] text-foreground/70">
+  <div className="flex flex-col items-center px-3 md:px-5">
+    <span className="font-display text-4xl sm:text-5xl md:text-7xl text-white leading-none tracking-tight">
+      {formatNumber(value)}
+    </span>
+    <span className="mt-1 text-[10px] sm:text-xs font-display uppercase tracking-[0.25em] text-white/60">
       {label}
     </span>
   </div>
@@ -80,60 +81,54 @@ const HeroSection = () => {
             src={heroVideoUrl}
           />
         ) : null}
-        {/* Gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/70 to-background/95" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,221,87,0.12),transparent_40%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background/90" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,221,87,0.08),transparent_45%)]" />
       </div>
 
-      {/* Particles */}
       <div className="absolute inset-0 halftone pointer-events-none" />
       <Particles />
 
-      {/* Mute/Unmute */}
+      {/* Mute/Unmute — top right like reference */}
       {heroVideoUrl && (
         <button
           onClick={handleAudioToggle}
-          className="absolute bottom-6 left-6 z-30 flex items-center gap-2 px-4 py-2 rounded-full bg-black/50 backdrop-blur-sm text-white text-sm font-display hover:bg-black/70 transition-colors border border-white/10"
+          className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-black/40 backdrop-blur-sm text-white/70 hover:text-white hover:bg-black/60 transition-colors"
           aria-label={isMuted ? "Ativar som" : "Desativar som"}
         >
-          {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
-          <span className="hidden sm:inline">{isMuted ? "Som Desligado" : "Som Ligado"}</span>
+          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
         </button>
       )}
 
       {/* Main content */}
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto flex flex-col items-center gap-8 md:gap-10">
+      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto flex flex-col items-center gap-6 md:gap-8">
         {/* Logo */}
         <img
           src={logo}
           alt="Metaverso Experience"
-          className="w-56 md:w-80 lg:w-96 drop-shadow-[0_0_40px_rgba(255,221,87,0.3)]"
+          className="w-52 sm:w-64 md:w-80 lg:w-[420px] drop-shadow-[0_0_40px_rgba(107,33,168,0.5)]"
         />
 
-        {/* Countdown */}
-        <div className="flex items-center gap-3 md:gap-6">
+        {/* Countdown — clean style like reference */}
+        <div className="flex items-start justify-center">
           <CountdownBlock value={days} label="Dias" />
-          <span className="text-neon-yellow text-3xl md:text-5xl font-display mt-[-1.5rem]">:</span>
           <CountdownBlock value={hours} label="Horas" />
-          <span className="text-neon-yellow text-3xl md:text-5xl font-display mt-[-1.5rem]">:</span>
-          <CountdownBlock value={minutes} label="Min" />
-          <span className="text-neon-yellow text-3xl md:text-5xl font-display mt-[-1.5rem]">:</span>
-          <CountdownBlock value={seconds} label="Seg" />
+          <CountdownBlock value={minutes} label="Minutos" />
+          <CountdownBlock value={seconds} label="Segundos" />
         </div>
 
-        {/* Tagline */}
-        <p className="font-display text-xl md:text-3xl lg:text-4xl text-foreground/90 tracking-wide leading-tight max-w-2xl">
-          Faça Parte do maior encontro{" "}
-          <span className="text-neon-yellow text-glow-yellow">geek</span>{" "}
-          do nordeste
+        {/* Tagline — clean, serif-like feel */}
+        <p className="text-base sm:text-lg md:text-2xl text-white/80 leading-relaxed max-w-md font-light tracking-wide">
+          Faça parte do maior
+          <br />
+          evento geek do nordeste.
         </p>
 
-        {/* CTA Button */}
+        {/* CTA Button — outlined/rounded like reference */}
         <a
           href="#contato"
-          className="inline-block font-display text-base md:text-lg px-10 py-4 rounded-lg bg-neon-yellow text-background uppercase tracking-[0.15em] transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(255,221,87,0.4)] border-2 border-neon-yellow/80"
+          className="inline-block font-display text-sm sm:text-base md:text-lg px-8 sm:px-10 py-3 sm:py-4 rounded-full border-2 border-white text-white uppercase tracking-[0.15em] transition-all hover:bg-white hover:text-background hover:scale-105"
         >
-          Seja um Patrocinador 💥
+          Seja um patrocinador
         </a>
       </div>
 
@@ -141,13 +136,13 @@ const HeroSection = () => {
       <img
         src={glitchApresentador}
         alt="Glitch - Mascote do Metaverso Experience"
-        className="absolute bottom-4 right-4 md:right-16 w-28 md:w-44 opacity-80 animate-float pointer-events-none drop-shadow-[0_0_30px_rgba(107,33,168,0.6)]"
+        className="absolute bottom-4 right-4 md:right-12 w-24 md:w-40 opacity-85 animate-float pointer-events-none drop-shadow-[0_0_30px_rgba(107,33,168,0.6)]"
       />
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
-        <div className="w-6 h-10 rounded-full border-2 border-neon-yellow/50 flex items-start justify-center p-1">
-          <div className="w-1.5 h-3 bg-neon-yellow rounded-full animate-pulse-glow" />
+        <div className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-1">
+          <div className="w-1.5 h-3 bg-white/50 rounded-full animate-pulse-glow" />
         </div>
       </div>
     </section>
