@@ -118,7 +118,7 @@ const HeroSection = () => {
         <img
           src={logo}
           alt="Metaverso Experience"
-          className="w-52 sm:w-64 md:w-80 lg:w-[420px] drop-shadow-[0_0_40px_rgba(107,33,168,0.5)]"
+          className="w-52 sm:w-64 md:w-80 lg:w-[420px] animate-logo-drift drop-shadow-[0_0_40px_rgba(107,33,168,0.5)]"
         />
 
         <div className="flex items-start justify-center">

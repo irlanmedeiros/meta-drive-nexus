@@ -256,6 +256,13 @@
   50% { transform: translateY(-10px); }
 }
 
+@keyframes logo-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+  25% { transform: translate3d(1px, -8px, 0) rotate(-1.4deg) scale(1.02); }
+  50% { transform: translate3d(4px, -13px, 0) rotate(0deg) scale(1.035); }
+  75% { transform: translate3d(-3px, -6px, 0) rotate(1.2deg) scale(1.02); }
+}
+
 @keyframes pulse-glow {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
@@ -289,6 +296,11 @@
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
+.animate-logo-drift {
+  animation: logo-drift 5s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform;
+}
 .animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
 }
@@ -297,6 +309,12 @@
 }
 .animate-comic-shake {
   animation: comic-shake 0.5s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-logo-drift {
+    animation: none;
+  }
 }
 
 html {
