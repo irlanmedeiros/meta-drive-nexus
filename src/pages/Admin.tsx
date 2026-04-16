@@ -358,28 +358,28 @@ const Admin = () => {
               <Film size={20} /> Adicionar Video
             </h2>
 
-            <label className="flex items-center gap-2 text-sm font-display">
-              <input
-                type="checkbox"
-                checked={markVideoAsHero}
-                onChange={(e) => setMarkVideoAsHero(e.target.checked)}
-              />
-              Usar este video como fundo do Hero
-            </label>
+            <p className="text-xs text-muted-foreground">
+              💡 Após enviar, use o botão <strong className="text-neon-yellow">"Definir como Hero"</strong> em qualquer vídeo abaixo para escolher qual será o fundo da home.
+            </p>
 
             <div>
-              <p className="text-sm text-muted-foreground mb-2 font-display">Upload de arquivo de video:</p>
+              <p className="text-sm text-muted-foreground mb-2 font-display">Upload de arquivos de video (múltiplos permitidos):</p>
               <label className="block border-2 border-dashed border-foreground/20 rounded-lg p-6 text-center cursor-pointer hover:border-comic-cyan/50 transition-colors">
                 <input
                   type="file"
                   accept="video/*"
+                  multiple
                   onChange={handleFileUpload}
                   className="hidden"
                   disabled={uploading}
                 />
                 <Plus size={24} className="mx-auto mb-1 text-muted-foreground" />
                 <p className="text-muted-foreground text-sm">
-                  {uploading ? "Enviando..." : "Clique para enviar video"}
+                  {uploading
+                    ? uploadProgress
+                      ? `Enviando ${uploadProgress.current} de ${uploadProgress.total}...`
+                      : "Enviando..."
+                    : "Clique para enviar vídeos (selecione vários)"}
                 </p>
               </label>
             </div>
