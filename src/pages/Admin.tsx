@@ -32,10 +32,11 @@ const Admin = () => {
 
   const [media, setMedia] = useState<MediaItem[]>([]);
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{ current: number; total: number } | null>(null);
   const [activeTab, setActiveTab] = useState<"photo" | "video">("photo");
   const [videoUrl, setVideoUrl] = useState("");
   const [videoLabel, setVideoLabel] = useState("");
-  const [markVideoAsHero, setMarkVideoAsHero] = useState(false);
+  const [settingHeroId, setSettingHeroId] = useState<string | null>(null);
   const [eventDate, setEventDate] = useState("");
   const [savingDate, setSavingDate] = useState(false);
   const [dateSaved, setDateSaved] = useState(false);
