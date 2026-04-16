@@ -347,7 +347,9 @@ const Admin = () => {
               <Plus size={32} className="mx-auto mb-2 text-muted-foreground" />
               <p className="text-muted-foreground">
                 {uploading
-                  ? "Enviando..."
+                  ? uploadProgress
+                    ? `Enviando ${uploadProgress.current} de ${uploadProgress.total}...`
+                    : "Enviando..."
                   : "Clique ou arraste fotos aqui (multiplas permitidas)"}
               </p>
             </label>
@@ -462,42 +464,71 @@ const Admin = () => {
               </p>
             ) : (
               <div className="grid md:grid-cols-2 gap-6">
-                {videos.map((video) => (
-                  <div key={video.id} className="comic-card bg-card overflow-hidden">
-                    <div className="aspect-video">
-                      {video.url.includes("youtube.com/embed") ? (
-                        <iframe
-                          src={video.url}
-                          className="w-full h-full"
-                          allowFullScreen
-                          title={video.label || "Video"}
-                        />
-                      ) : (
-                        <video
-                          src={video.url}
-                          controls
-                          className="w-full h-full object-cover"
-                        />
-                      )}
+                {videos.map((video) => {
+                  const isHero = isHeroVideo(video.label);
+                  return (
+                    <div
+                      key={video.id}
+                      className={`comic-card bg-card overflow-hidden transition-all ${
+                        isHero
+                          ? "ring-2 ring-neon-yellow shadow-[0_0_25px_hsl(var(--neon-yellow)/0.4)]"
+                          : ""
+                      }`}
+                    >
+                      <div className="aspect-video relative">
+                        {video.url.includes("youtube.com/embed") ? (
+                          <iframe
+                            src={video.url}
+                            className="w-full h-full"
+                            allowFullScreen
+                            title={video.label || "Video"}
+                          />
+                        ) : (
+                          <video
+                            src={video.url}
+                            controls
+                            preload="metadata"
+                            className="w-full h-full object-cover"
+                          />
+                        )}
+                        {isHero && (
+                          <span className="absolute top-2 left-2 text-[10px] px-2 py-1 rounded bg-neon-yellow text-background font-display whitespace-nowrap shadow-lg">
+                            🎬 HERO ATIVO
+                          </span>
+                        )}
+                      </div>
+                      <div className="p-3 space-y-2">
+                        <p className="text-sm font-display text-foreground truncate">
+                          {(video.label ?? "").replace(/^\[HERO\]\s*/i, "") || "Video"}
+                        </p>
+                        <div className="flex items-center justify-between gap-2">
+                          <button
+                            onClick={() => handleSetHero(video.id)}
+                            disabled={isHero || settingHeroId === video.id}
+                            className={`flex-1 text-xs font-display px-3 py-2 rounded transition-all ${
+                              isHero
+                                ? "bg-neon-yellow/20 text-neon-yellow border border-neon-yellow/40 cursor-default"
+                                : "bg-foreground/5 hover:bg-neon-yellow hover:text-background border border-foreground/20"
+                            } disabled:opacity-60`}
+                          >
+                            {isHero
+                              ? "⭐ É o Hero atual"
+                              : settingHeroId === video.id
+                              ? "Definindo..."
+                              : "⭐ Definir como Hero"}
+                          </button>
+                          <button
+                            onClick={() => handleDelete(video)}
+                            className="text-destructive hover:text-destructive/80 transition-colors p-2"
+                            aria-label="Deletar"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    <div className="p-3 flex items-center justify-between gap-2">
-                      <p className="text-sm font-display text-foreground truncate">
-                        {video.label}
-                      </p>
-                      {isHeroVideo(video.label) ? (
-                        <span className="text-[10px] px-2 py-1 rounded bg-neon-yellow text-background font-display whitespace-nowrap">
-                          HERO BG
-                        </span>
-                      ) : null}
-                      <button
-                        onClick={() => handleDelete(video)}
-                        className="text-destructive hover:text-destructive/80 transition-colors"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
