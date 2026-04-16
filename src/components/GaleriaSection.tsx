@@ -1,36 +1,16 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import glitchColerico from "@/assets/glitch-colerico.png";
-
-const LoopingVideo = ({ src }: { src: string }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [muted, setMuted] = useState(true);
-
-  useEffect(() => {
-    videoRef.current?.play().catch(() => {});
-  }, []);
-
-  return (
-    <div className="relative w-full h-full">
-      <video
-        ref={videoRef}
-        src={src}
-        loop
-        autoPlay
-        muted={muted}
-        playsInline
-        className="w-full h-full object-cover"
-      />
-      <button
-        onClick={() => setMuted(!muted)}
-        className="absolute bottom-3 right-3 z-10 w-10 h-10 rounded-full bg-black/60 border-2 border-neon-pink/60 flex items-center justify-center text-white hover:bg-black/80 transition-colors"
-      >
-        {muted ? "🔇" : "🔊"}
-      </button>
-    </div>
-  );
-};
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Play } from "lucide-react";
 
 type MediaItem = {
   id: string;
@@ -40,26 +20,36 @@ type MediaItem = {
   display_order: number;
 };
 
-const photoPlaceholders = [
-  { id: "p1", label: "Foto 1", aspect: "aspect-[4/3]" },
-  { id: "p2", label: "Foto 2", aspect: "aspect-[4/3]" },
-  { id: "p3", label: "Foto 3", aspect: "aspect-[4/3]" },
-  { id: "p4", label: "Foto 4", aspect: "aspect-[4/3]" },
-  { id: "p5", label: "Foto 5", aspect: "aspect-[4/3]" },
-  { id: "p6", label: "Foto 6", aspect: "aspect-[4/3]" },
-  { id: "p7", label: "Foto 7", aspect: "aspect-[4/3]" },
-  { id: "p8", label: "Foto 8", aspect: "aspect-[4/3]" },
-];
+const photoPlaceholders = Array.from({ length: 8 }, (_, i) => ({
+  id: `p${i + 1}`,
+  label: `Foto ${i + 1}`,
+}));
 
 const videoPlaceholders = [
   { id: "v1", label: "Vídeo 1 — Aftermovie / Teaser" },
   { id: "v2", label: "Vídeo 2 — Highlights" },
+  { id: "v3", label: "Vídeo 3 — Backstage" },
+  { id: "v4", label: "Vídeo 4 — Cosplay" },
 ];
+
+const getYouTubeId = (url: string): string | null => {
+  const m = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
+  return m ? m[1] : null;
+};
+
+const getYouTubeThumb = (url: string): string | null => {
+  const id = getYouTubeId(url);
+  return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null;
+};
+
+const cleanLabel = (label: string | null) =>
+  (label ?? "").replace(/^\[HERO\]\s*/i, "").trim();
 
 const GaleriaSection = () => {
   const { ref, isVisible } = useScrollAnimation();
   const [photos, setPhotos] = useState<MediaItem[]>([]);
   const [videos, setVideos] = useState<MediaItem[]>([]);
+  const [activeVideo, setActiveVideo] = useState<MediaItem | null>(null);
 
   useEffect(() => {
     const fetchMedia = async () => {
@@ -81,96 +71,215 @@ const GaleriaSection = () => {
   return (
     <section id="galeria" className="relative py-24 px-4 halftone">
       <div className="absolute inset-0 halftone pointer-events-none" />
-      <img src={glitchColerico} alt="Glitch" className="absolute top-10 left-4 w-28 md:w-40 opacity-30 pointer-events-none hidden md:block" />
+      <img
+        src={glitchColerico}
+        alt="Glitch"
+        className="absolute top-10 left-4 w-28 md:w-40 opacity-30 pointer-events-none hidden md:block"
+      />
       <div className="absolute bottom-16 right-10 w-16 h-16 bg-neon-yellow starburst opacity-40 hidden md:block" />
 
       <div ref={ref} className="relative z-10 container mx-auto max-w-6xl">
-        <h2 className={`font-display text-4xl md:text-6xl text-center mb-4 text-neon-pink text-glow-pink transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+        <h2
+          className={`font-display text-4xl md:text-6xl text-center mb-4 text-neon-pink text-glow-pink transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           GALERIA DO EVENTO 📸
         </h2>
-        <p className={`text-center text-muted-foreground max-w-2xl mx-auto mb-16 transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+        <p
+          className={`text-center text-muted-foreground max-w-2xl mx-auto mb-12 transition-all duration-700 delay-200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           Confira os melhores momentos das edições anteriores do Metaverso Experience
         </p>
 
-        {/* Photos Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-          {hasPhotos
-            ? photos.map((photo, i) => (
-                <div
+        {/* Photos Carousel */}
+        <div
+          className={`mb-16 transition-all duration-700 delay-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <Carousel
+            opts={{ align: "start", loop: true }}
+            className="w-full px-2 md:px-0"
+          >
+            <CarouselContent className="-ml-3">
+              {(hasPhotos ? photos : photoPlaceholders).map((photo) => (
+                <CarouselItem
                   key={photo.id}
-                  className={`group relative aspect-[4/3] comic-card bg-card overflow-hidden transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-                  style={{ transitionDelay: `${300 + i * 80}ms` }}
+                  className="pl-3 basis-1/2 md:basis-1/4 lg:basis-[12.5%]"
                 >
-                  <img
-                    src={photo.url}
-                    alt={photo.label || "Foto do evento"}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-neon-pink/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
-              ))
-            : photoPlaceholders.map((photo, i) => (
-                <div
-                  key={photo.id}
-                  className={`group relative ${photo.aspect} comic-card bg-card overflow-hidden transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-                  style={{ transitionDelay: `${300 + i * 80}ms` }}
-                >
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 halftone-dense">
-                    <span className="text-3xl opacity-40">📷</span>
-                    <span className="text-xs text-muted-foreground font-display uppercase tracking-wider">
-                      {photo.label}
-                    </span>
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-neon-pink/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
+                  {hasPhotos ? (
+                    <div className="group relative aspect-[4/3] comic-card bg-card overflow-hidden">
+                      <img
+                        src={(photo as MediaItem).url}
+                        alt={cleanLabel((photo as MediaItem).label) || "Foto do evento"}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-neon-pink/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                  ) : (
+                    <div className="group relative aspect-[4/3] comic-card bg-card overflow-hidden">
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 halftone-dense">
+                        <span className="text-3xl opacity-40">📷</span>
+                        <span className="text-xs text-muted-foreground font-display uppercase tracking-wider text-center px-2">
+                          {(photo as { label: string }).label}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </CarouselItem>
               ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex -left-4 lg:-left-12 bg-background/80 border-neon-pink/40 text-neon-pink hover:bg-neon-pink hover:text-background" />
+            <CarouselNext className="hidden md:flex -right-4 lg:-right-12 bg-background/80 border-neon-pink/40 text-neon-pink hover:bg-neon-pink hover:text-background" />
+          </Carousel>
         </div>
 
         {/* Videos */}
-        <h3 className={`font-display text-2xl md:text-3xl text-center mb-8 text-comic-cyan transition-all duration-700 delay-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+        <h3
+          className={`font-display text-2xl md:text-3xl text-center mb-8 text-comic-cyan transition-all duration-700 delay-500 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           🎬 VÍDEOS
         </h3>
-        <div className="grid md:grid-cols-2 gap-6">
-          {hasVideos
-            ? videos.map((video, i) => (
-                <div
+        <div
+          className={`transition-all duration-700 delay-500 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <Carousel
+            opts={{ align: "start", loop: true }}
+            className="w-full px-2 md:px-0"
+          >
+            <CarouselContent className="-ml-4">
+              {(hasVideos ? videos : videoPlaceholders).map((video) => (
+                <CarouselItem
                   key={video.id}
-                  className={`group relative aspect-video comic-card bg-card overflow-hidden transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-                  style={{ transitionDelay: `${700 + i * 150}ms` }}
+                  className="pl-4 basis-full md:basis-1/2 lg:basis-1/4"
                 >
-                  {video.url.includes("youtube.com/embed") ? (
-                    <iframe
-                      src={`${video.url}${video.url.includes('?') ? '&' : '?'}autoplay=1&mute=1&loop=1&playlist=${video.url.split('/').pop()?.split('?')[0] || ''}&controls=0`}
-                      className="w-full h-full"
-                      allow="autoplay; encrypted-media"
-                      allowFullScreen
-                      title={video.label || "Vídeo"}
+                  {hasVideos ? (
+                    <VideoCard
+                      video={video as MediaItem}
+                      onPlay={() => setActiveVideo(video as MediaItem)}
                     />
                   ) : (
-                    <LoopingVideo src={video.url} />
-                  )}
-                </div>
-              ))
-            : videoPlaceholders.map((video, i) => (
-                <div
-                  key={video.id}
-                  className={`group relative aspect-video comic-card bg-card overflow-hidden transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-                  style={{ transitionDelay: `${700 + i * 150}ms` }}
-                >
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 halftone-dense">
-                    <div className="w-16 h-16 rounded-full bg-neon-pink/20 border-3 border-neon-pink/60 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <span className="text-2xl ml-1">▶</span>
+                    <div className="relative aspect-video comic-card bg-card overflow-hidden">
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 halftone-dense">
+                        <div className="w-16 h-16 rounded-full bg-neon-pink/20 border-3 border-neon-pink/60 flex items-center justify-center">
+                          <Play className="ml-1 text-neon-pink" />
+                        </div>
+                        <span className="text-sm text-muted-foreground font-display uppercase tracking-wider text-center px-2">
+                          {(video as { label: string }).label}
+                        </span>
+                      </div>
                     </div>
-                    <span className="text-sm text-muted-foreground font-display uppercase tracking-wider">
-                      {video.label}
-                    </span>
-                  </div>
-                </div>
+                  )}
+                </CarouselItem>
               ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex -left-4 lg:-left-12 bg-background/80 border-comic-cyan/40 text-comic-cyan hover:bg-comic-cyan hover:text-background" />
+            <CarouselNext className="hidden md:flex -right-4 lg:-right-12 bg-background/80 border-comic-cyan/40 text-comic-cyan hover:bg-comic-cyan hover:text-background" />
+          </Carousel>
         </div>
       </div>
+
+      {/* Modal Player */}
+      <Dialog open={!!activeVideo} onOpenChange={(open) => !open && setActiveVideo(null)}>
+        <DialogContent className="max-w-4xl w-[95vw] p-0 bg-black border-neon-pink/40 overflow-hidden">
+          <DialogTitle className="sr-only">
+            {activeVideo ? cleanLabel(activeVideo.label) || "Vídeo" : "Vídeo"}
+          </DialogTitle>
+          {activeVideo && (
+            <div className="aspect-video w-full bg-black">
+              {activeVideo.url.includes("youtube.com/embed") ? (
+                <iframe
+                  key={activeVideo.id}
+                  src={`${activeVideo.url}?autoplay=1`}
+                  className="w-full h-full"
+                  allow="autoplay; encrypted-media; fullscreen"
+                  allowFullScreen
+                  title={cleanLabel(activeVideo.label) || "Vídeo"}
+                />
+              ) : (
+                <video
+                  key={activeVideo.id}
+                  src={activeVideo.url}
+                  controls
+                  autoPlay
+                  playsInline
+                  className="w-full h-full object-contain bg-black"
+                />
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
+  );
+};
+
+const VideoCard = ({
+  video,
+  onPlay,
+}: {
+  video: MediaItem;
+  onPlay: () => void;
+}) => {
+  const isYouTube = video.url.includes("youtube.com/embed");
+  const ytThumb = isYouTube ? getYouTubeThumb(video.url) : null;
+  const label = cleanLabel(video.label);
+
+  return (
+    <button
+      type="button"
+      onClick={onPlay}
+      className="group relative aspect-video w-full comic-card bg-card overflow-hidden block text-left"
+      aria-label={`Reproduzir ${label || "vídeo"}`}
+    >
+      {isYouTube ? (
+        ytThumb ? (
+          <img
+            src={ytThumb}
+            alt={label || "Vídeo"}
+            loading="lazy"
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        ) : (
+          <div className="w-full h-full bg-card" />
+        )
+      ) : (
+        <video
+          src={video.url}
+          preload="metadata"
+          muted
+          playsInline
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      )}
+
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90 group-hover:opacity-100 transition-opacity" />
+
+      {/* Play button */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-neon-pink/90 border-2 border-white flex items-center justify-center shadow-[0_0_25px_hsl(var(--neon-pink)/0.6)] transition-transform group-hover:scale-110">
+          <Play className="ml-1 text-white" fill="currentColor" size={26} />
+        </div>
+      </div>
+
+      {/* Label */}
+      {label && (
+        <div className="absolute bottom-0 left-0 right-0 p-3">
+          <p className="text-xs md:text-sm font-display text-white uppercase tracking-wider truncate">
+            {label}
+          </p>
+        </div>
+      )}
+    </button>
   );
 };
 
