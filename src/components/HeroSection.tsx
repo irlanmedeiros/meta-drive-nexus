@@ -27,6 +27,8 @@ const HeroSection = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isMuted, setIsMuted] = useState(true);
   const [heroVideoUrl, setHeroVideoUrl] = useState("");
+  const [posterUrl, setPosterUrl] = useState<string | undefined>(undefined);
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   const { eventDate } = useEventDate();
   const { days, hours, minutes, seconds } = useCountdown(eventDate);
@@ -35,19 +37,22 @@ const HeroSection = () => {
     const fetchHeroVideo = async () => {
       const { data, error } = await supabase
         .from("galeria_media")
-        .select("url, label, created_at")
-        .eq("type", "video")
+        .select("url, label, type, created_at")
         .order("created_at", { ascending: false });
 
       if (error || !data) return;
 
-      const cloudVideos = data.filter((item) => !item.url.includes("youtube.com/embed"));
+      const videos = data.filter((item) => item.type === "video");
+      const cloudVideos = videos.filter((item) => !item.url.includes("youtube.com/embed"));
       const taggedHero = cloudVideos.find((item) =>
         (item.label ?? "").trim().toUpperCase().startsWith(HERO_TAG)
       );
 
       const selected = taggedHero ?? cloudVideos[0];
       if (selected?.url) setHeroVideoUrl(selected.url);
+
+      const firstPhoto = data.find((item) => item.type === "photo");
+      if (firstPhoto?.url) setPosterUrl(firstPhoto.url);
     };
 
     void fetchHeroVideo();
@@ -72,18 +77,32 @@ const HeroSection = () => {
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background video */}
+      {/* Background video + poster fallback */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {posterUrl && (
+          <img
+            src={posterUrl}
+            alt=""
+            aria-hidden="true"
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+              videoLoaded ? "opacity-0" : "opacity-100"
+            }`}
+          />
+        )}
         {heroVideoUrl ? (
           <video
             ref={videoRef}
-            className="absolute inset-0 h-full w-full object-cover"
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+              videoLoaded ? "opacity-100" : "opacity-0"
+            }`}
             autoPlay
             loop
             muted={isMuted}
             playsInline
             preload="metadata"
+            poster={posterUrl}
             src={heroVideoUrl}
+            onLoadedData={() => setVideoLoaded(true)}
           />
         ) : null}
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background/90" />
