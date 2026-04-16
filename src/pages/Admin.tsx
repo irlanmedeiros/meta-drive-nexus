@@ -32,10 +32,11 @@ const Admin = () => {
 
   const [media, setMedia] = useState<MediaItem[]>([]);
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{ current: number; total: number } | null>(null);
   const [activeTab, setActiveTab] = useState<"photo" | "video">("photo");
   const [videoUrl, setVideoUrl] = useState("");
   const [videoLabel, setVideoLabel] = useState("");
-  const [markVideoAsHero, setMarkVideoAsHero] = useState(false);
+  const [settingHeroId, setSettingHeroId] = useState<string | null>(null);
   const [eventDate, setEventDate] = useState("");
   const [savingDate, setSavingDate] = useState(false);
   const [dateSaved, setDateSaved] = useState(false);
@@ -107,8 +108,13 @@ const Admin = () => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
     setUploading(true);
+    const fileArr = Array.from(files);
+    setUploadProgress({ current: 0, total: fileArr.length });
 
-    for (const file of Array.from(files)) {
+    let i = 0;
+    for (const file of fileArr) {
+      i++;
+      setUploadProgress({ current: i, total: fileArr.length });
       const ext = file.name.split(".").pop();
       const path = `${activeTab}s/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
 
@@ -126,22 +132,40 @@ const Admin = () => {
         .getPublicUrl(path);
 
       const baseLabel = file.name.replace(/\.[^.]+$/, "");
-      const label =
-        activeTab === "video"
-          ? formatVideoLabel(baseLabel, markVideoAsHero)
-          : baseLabel;
+      const label = activeTab === "video" ? formatVideoLabel(baseLabel, false) : baseLabel;
 
       await supabase.from("galeria_media").insert({
         type: activeTab,
         url: publicData.publicUrl,
         label,
-        display_order: media.length,
+        display_order: media.length + i,
       });
     }
 
     setUploading(false);
+    setUploadProgress(null);
     fetchMedia();
     e.target.value = "";
+  };
+
+  const handleSetHero = async (videoId: string) => {
+    setSettingHeroId(videoId);
+    // Remove [HERO] tag from all videos
+    const videosToReset = media.filter(
+      (m) => m.type === "video" && m.id !== videoId && isHeroVideo(m.label)
+    );
+    for (const v of videosToReset) {
+      const cleanLabel = (v.label ?? "Video").replace(/^\[HERO\]\s*/i, "").trim() || "Video";
+      await supabase.from("galeria_media").update({ label: cleanLabel }).eq("id", v.id);
+    }
+    // Tag the selected video
+    const target = media.find((m) => m.id === videoId);
+    if (target) {
+      const newLabel = formatVideoLabel(target.label ?? "Video", true);
+      await supabase.from("galeria_media").update({ label: newLabel }).eq("id", videoId);
+    }
+    setSettingHeroId(null);
+    fetchMedia();
   };
 
   const handleAddVideo = async () => {
@@ -158,13 +182,12 @@ const Admin = () => {
     await supabase.from("galeria_media").insert({
       type: "video",
       url: embedUrl,
-      label: formatVideoLabel(videoLabel || "Video", markVideoAsHero),
+      label: formatVideoLabel(videoLabel || "Video", false),
       display_order: media.length,
     });
 
     setVideoUrl("");
     setVideoLabel("");
-    setMarkVideoAsHero(false);
     fetchMedia();
   };
 
@@ -324,7 +347,9 @@ const Admin = () => {
               <Plus size={32} className="mx-auto mb-2 text-muted-foreground" />
               <p className="text-muted-foreground">
                 {uploading
-                  ? "Enviando..."
+                  ? uploadProgress
+                    ? `Enviando ${uploadProgress.current} de ${uploadProgress.total}...`
+                    : "Enviando..."
                   : "Clique ou arraste fotos aqui (multiplas permitidas)"}
               </p>
             </label>
@@ -335,28 +360,28 @@ const Admin = () => {
               <Film size={20} /> Adicionar Video
             </h2>
 
-            <label className="flex items-center gap-2 text-sm font-display">
-              <input
-                type="checkbox"
-                checked={markVideoAsHero}
-                onChange={(e) => setMarkVideoAsHero(e.target.checked)}
-              />
-              Usar este video como fundo do Hero
-            </label>
+            <p className="text-xs text-muted-foreground">
+              💡 Após enviar, use o botão <strong className="text-neon-yellow">"Definir como Hero"</strong> em qualquer vídeo abaixo para escolher qual será o fundo da home.
+            </p>
 
             <div>
-              <p className="text-sm text-muted-foreground mb-2 font-display">Upload de arquivo de video:</p>
+              <p className="text-sm text-muted-foreground mb-2 font-display">Upload de arquivos de video (múltiplos permitidos):</p>
               <label className="block border-2 border-dashed border-foreground/20 rounded-lg p-6 text-center cursor-pointer hover:border-comic-cyan/50 transition-colors">
                 <input
                   type="file"
                   accept="video/*"
+                  multiple
                   onChange={handleFileUpload}
                   className="hidden"
                   disabled={uploading}
                 />
                 <Plus size={24} className="mx-auto mb-1 text-muted-foreground" />
                 <p className="text-muted-foreground text-sm">
-                  {uploading ? "Enviando..." : "Clique para enviar video"}
+                  {uploading
+                    ? uploadProgress
+                      ? `Enviando ${uploadProgress.current} de ${uploadProgress.total}...`
+                      : "Enviando..."
+                    : "Clique para enviar vídeos (selecione vários)"}
                 </p>
               </label>
             </div>
@@ -439,42 +464,71 @@ const Admin = () => {
               </p>
             ) : (
               <div className="grid md:grid-cols-2 gap-6">
-                {videos.map((video) => (
-                  <div key={video.id} className="comic-card bg-card overflow-hidden">
-                    <div className="aspect-video">
-                      {video.url.includes("youtube.com/embed") ? (
-                        <iframe
-                          src={video.url}
-                          className="w-full h-full"
-                          allowFullScreen
-                          title={video.label || "Video"}
-                        />
-                      ) : (
-                        <video
-                          src={video.url}
-                          controls
-                          className="w-full h-full object-cover"
-                        />
-                      )}
+                {videos.map((video) => {
+                  const isHero = isHeroVideo(video.label);
+                  return (
+                    <div
+                      key={video.id}
+                      className={`comic-card bg-card overflow-hidden transition-all ${
+                        isHero
+                          ? "ring-2 ring-neon-yellow shadow-[0_0_25px_hsl(var(--neon-yellow)/0.4)]"
+                          : ""
+                      }`}
+                    >
+                      <div className="aspect-video relative">
+                        {video.url.includes("youtube.com/embed") ? (
+                          <iframe
+                            src={video.url}
+                            className="w-full h-full"
+                            allowFullScreen
+                            title={video.label || "Video"}
+                          />
+                        ) : (
+                          <video
+                            src={video.url}
+                            controls
+                            preload="metadata"
+                            className="w-full h-full object-cover"
+                          />
+                        )}
+                        {isHero && (
+                          <span className="absolute top-2 left-2 text-[10px] px-2 py-1 rounded bg-neon-yellow text-background font-display whitespace-nowrap shadow-lg">
+                            🎬 HERO ATIVO
+                          </span>
+                        )}
+                      </div>
+                      <div className="p-3 space-y-2">
+                        <p className="text-sm font-display text-foreground truncate">
+                          {(video.label ?? "").replace(/^\[HERO\]\s*/i, "") || "Video"}
+                        </p>
+                        <div className="flex items-center justify-between gap-2">
+                          <button
+                            onClick={() => handleSetHero(video.id)}
+                            disabled={isHero || settingHeroId === video.id}
+                            className={`flex-1 text-xs font-display px-3 py-2 rounded transition-all ${
+                              isHero
+                                ? "bg-neon-yellow/20 text-neon-yellow border border-neon-yellow/40 cursor-default"
+                                : "bg-foreground/5 hover:bg-neon-yellow hover:text-background border border-foreground/20"
+                            } disabled:opacity-60`}
+                          >
+                            {isHero
+                              ? "⭐ É o Hero atual"
+                              : settingHeroId === video.id
+                              ? "Definindo..."
+                              : "⭐ Definir como Hero"}
+                          </button>
+                          <button
+                            onClick={() => handleDelete(video)}
+                            className="text-destructive hover:text-destructive/80 transition-colors p-2"
+                            aria-label="Deletar"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    <div className="p-3 flex items-center justify-between gap-2">
-                      <p className="text-sm font-display text-foreground truncate">
-                        {video.label}
-                      </p>
-                      {isHeroVideo(video.label) ? (
-                        <span className="text-[10px] px-2 py-1 rounded bg-neon-yellow text-background font-display whitespace-nowrap">
-                          HERO BG
-                        </span>
-                      ) : null}
-                      <button
-                        onClick={() => handleDelete(video)}
-                        className="text-destructive hover:text-destructive/80 transition-colors"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
