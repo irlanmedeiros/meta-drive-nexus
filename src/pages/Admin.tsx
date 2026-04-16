@@ -108,8 +108,13 @@ const Admin = () => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
     setUploading(true);
+    const fileArr = Array.from(files);
+    setUploadProgress({ current: 0, total: fileArr.length });
 
-    for (const file of Array.from(files)) {
+    let i = 0;
+    for (const file of fileArr) {
+      i++;
+      setUploadProgress({ current: i, total: fileArr.length });
       const ext = file.name.split(".").pop();
       const path = `${activeTab}s/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
 
@@ -127,22 +132,40 @@ const Admin = () => {
         .getPublicUrl(path);
 
       const baseLabel = file.name.replace(/\.[^.]+$/, "");
-      const label =
-        activeTab === "video"
-          ? formatVideoLabel(baseLabel, markVideoAsHero)
-          : baseLabel;
+      const label = activeTab === "video" ? formatVideoLabel(baseLabel, false) : baseLabel;
 
       await supabase.from("galeria_media").insert({
         type: activeTab,
         url: publicData.publicUrl,
         label,
-        display_order: media.length,
+        display_order: media.length + i,
       });
     }
 
     setUploading(false);
+    setUploadProgress(null);
     fetchMedia();
     e.target.value = "";
+  };
+
+  const handleSetHero = async (videoId: string) => {
+    setSettingHeroId(videoId);
+    // Remove [HERO] tag from all videos
+    const videosToReset = media.filter(
+      (m) => m.type === "video" && m.id !== videoId && isHeroVideo(m.label)
+    );
+    for (const v of videosToReset) {
+      const cleanLabel = (v.label ?? "Video").replace(/^\[HERO\]\s*/i, "").trim() || "Video";
+      await supabase.from("galeria_media").update({ label: cleanLabel }).eq("id", v.id);
+    }
+    // Tag the selected video
+    const target = media.find((m) => m.id === videoId);
+    if (target) {
+      const newLabel = formatVideoLabel(target.label ?? "Video", true);
+      await supabase.from("galeria_media").update({ label: newLabel }).eq("id", videoId);
+    }
+    setSettingHeroId(null);
+    fetchMedia();
   };
 
   const handleAddVideo = async () => {
@@ -159,13 +182,12 @@ const Admin = () => {
     await supabase.from("galeria_media").insert({
       type: "video",
       url: embedUrl,
-      label: formatVideoLabel(videoLabel || "Video", markVideoAsHero),
+      label: formatVideoLabel(videoLabel || "Video", false),
       display_order: media.length,
     });
 
     setVideoUrl("");
     setVideoLabel("");
-    setMarkVideoAsHero(false);
     fetchMedia();
   };
 
