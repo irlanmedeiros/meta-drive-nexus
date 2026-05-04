@@ -1,16 +1,11 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import decoWave from "@/assets/deco-wave.png";
-import medievalBg from "@/assets/MEDIEVAL1.svg";
-import presenteBg from "@/assets/PRESENTE1.svg";
-import futuroBg from "@/assets/FUTURO1.svg";
 
 const eras = [
   { name: "Era Medieval", desc: "Card Games, universos de fantasia, RPG e senografia imersiva", color: "bg-neon-yellow", borderColor: "border-neon-yellow", textHead: "text-background" },
   { name: "Era do Presente", desc: "K-Pop, Shows, Influencers, Cultura Pop e tudo que é tendência", color: "bg-neon-pink", borderColor: "border-neon-pink", textHead: "text-foreground" },
   { name: "Era do Futuro", desc: "E-Sports, VR, Laser Tag, tecnologia e inovação além da realidade", color: "bg-comic-cyan", borderColor: "border-comic-cyan", textHead: "text-background" },
 ];
-
-const eraBgs = [medievalBg, presenteBg, futuroBg];
 
 const EventoSection = () => {
   const { ref, isVisible } = useScrollAnimation();
@@ -35,18 +30,12 @@ const EventoSection = () => {
           {eras.map((era, i) => (
             <div
               key={era.name}
-              className={`group relative overflow-hidden transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+              className={`group relative comic-card overflow-hidden transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
               style={{ transitionDelay: `${300 + i * 150}ms` }}
             >
-              {/* Header with background image (name centered at bottom) */}
-              <div className="relative border-b-3 border-black overflow-hidden">
-                <div
-                  className="w-full h-40 md:h-48 lg:h-56 bg-contain bg-center bg-no-repeat"
-                  style={{ backgroundImage: `url(${eraBgs[i]})` }}
-                />
-                <div className="absolute inset-x-0 bottom-0 flex items-end justify-center pb-4">
-                  <h3 className={`font-display text-2xl ${era.textHead} text-center`}>{era.name}</h3>
-                </div>
+              {/* Colored header strip */}
+              <div className={`${era.color} px-6 py-4 border-b-3 border-black`}>
+                <h3 className={`font-display text-2xl ${era.textHead}`}>{era.name}</h3>
               </div>
               <div className="bg-card p-6 halftone-dense">
                 <p className="text-muted-foreground text-sm">{era.desc}</p>
