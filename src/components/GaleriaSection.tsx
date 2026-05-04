@@ -67,6 +67,7 @@ const GaleriaSection = () => {
 
   const hasPhotos = photos.length > 0;
   const hasVideos = videos.length > 0;
+  const displayedPhotos = (hasPhotos ? photos : photoPlaceholders).slice(0, 8);
 
   return (
     <section id="galeria" className="relative py-24 px-4 halftone">
@@ -94,48 +95,38 @@ const GaleriaSection = () => {
           Confira os melhores momentos das edições anteriores do Metaverso Experience
         </p>
 
-        {/* Photos Carousel */}
+        {/* Photos Grid (4 top + 4 bottom) */}
         <div
           className={`mb-16 transition-all duration-700 delay-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <Carousel
-            opts={{ align: "start", loop: true }}
-            className="w-full px-2 md:px-0"
-          >
-            <CarouselContent className="-ml-3">
-              {(hasPhotos ? photos : photoPlaceholders).map((photo) => (
-                <CarouselItem
-                  key={photo.id}
-                  className="pl-3 basis-1/2 md:basis-1/4 lg:basis-[12.5%]"
-                >
-                  {hasPhotos ? (
-                    <div className="group relative aspect-[4/3] comic-card bg-card overflow-hidden">
-                      <img
-                        src={(photo as MediaItem).url}
-                        alt={cleanLabel((photo as MediaItem).label) || "Foto do evento"}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-neon-pink/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+            {displayedPhotos.map((photo) => (
+              <div key={photo.id} className="relative">
+                {hasPhotos ? (
+                  <div className="group relative aspect-[4/3] comic-card bg-card overflow-hidden">
+                    <img
+                      src={(photo as MediaItem).url}
+                      alt={cleanLabel((photo as MediaItem).label) || "Foto do evento"}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-neon-pink/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                ) : (
+                  <div className="group relative aspect-[4/3] comic-card bg-card overflow-hidden">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 halftone-dense">
+                      <span className="text-3xl opacity-40">📷</span>
+                      <span className="text-xs text-muted-foreground font-display uppercase tracking-wider text-center px-2">
+                        {(photo as { label: string }).label}
+                      </span>
                     </div>
-                  ) : (
-                    <div className="group relative aspect-[4/3] comic-card bg-card overflow-hidden">
-                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 halftone-dense">
-                        <span className="text-3xl opacity-40">📷</span>
-                        <span className="text-xs text-muted-foreground font-display uppercase tracking-wider text-center px-2">
-                          {(photo as { label: string }).label}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="hidden md:flex -left-4 lg:-left-12 bg-background/80 border-neon-pink/40 text-neon-pink hover:bg-neon-pink hover:text-background" />
-            <CarouselNext className="hidden md:flex -right-4 lg:-right-12 bg-background/80 border-neon-pink/40 text-neon-pink hover:bg-neon-pink hover:text-background" />
-          </Carousel>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Videos */}
