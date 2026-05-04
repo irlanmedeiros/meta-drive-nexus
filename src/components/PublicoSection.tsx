@@ -22,7 +22,7 @@ const PublicoSection = () => {
 
       <div ref={ref} className="relative z-10 container mx-auto max-w-6xl">
         <h2 className={`font-display text-4xl md:text-6xl text-center mb-4 text-neon-pink text-glow-pink transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          PÚBLICO-ALVO 🎯
+          PÚBLICO-ALVO
         </h2>
         <p className={`text-center text-muted-foreground mb-16 transition-all duration-700 delay-200 ${isVisible ? "opacity-100" : "opacity-0"}`}>
           Faixa etária predominante: <span className="text-neon-yellow font-bold font-display text-lg">16–35 anos</span> · Região: João Pessoa, Paraíba e Nordeste

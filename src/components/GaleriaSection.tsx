@@ -1,5 +1,5 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import glitchColerico from "@/assets/glitch-colerico.png";
 import {
@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/carousel";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Play } from "lucide-react";
+import Autoplay from "embla-carousel-autoplay";
 
 type MediaItem = {
   id: string;
@@ -85,7 +86,7 @@ const GaleriaSection = () => {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          GALERIA DO EVENTO 📸
+          GALERIA DO EVENTO
         </h2>
         <p
           className={`text-center text-muted-foreground max-w-2xl mx-auto mb-12 transition-all duration-700 delay-200 ${
@@ -135,7 +136,7 @@ const GaleriaSection = () => {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          🎬 VÍDEOS
+          VÍDEOS
         </h3>
         <div
           className={`transition-all duration-700 delay-500 ${
@@ -144,6 +145,7 @@ const GaleriaSection = () => {
         >
           <Carousel
             opts={{ align: "start", loop: true }}
+            plugins={[Autoplay({ delay: 3000 })]}
             className="w-full px-2 md:px-0"
           >
             <CarouselContent className="-ml-4">

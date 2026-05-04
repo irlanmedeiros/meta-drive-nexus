@@ -4,7 +4,6 @@ import glitchSentado from "@/assets/glitch-sentado.png";
 const cotas = [
   {
     tier: "APOIO",
-    emoji: "🤝",
     color: "border-t-muted-foreground",
     cardBorder: "border-muted-foreground",
     textColor: "text-muted-foreground",
@@ -19,7 +18,6 @@ const cotas = [
   },
   {
     tier: "BRONZE",
-    emoji: "🥉",
     color: "border-t-comic-orange",
     cardBorder: "border-comic-orange",
     textColor: "text-comic-orange",
@@ -36,7 +34,6 @@ const cotas = [
   },
   {
     tier: "PRATA",
-    emoji: "🥈",
     color: "border-t-comic-cyan",
     cardBorder: "border-comic-cyan",
     textColor: "text-comic-cyan",
@@ -53,7 +50,6 @@ const cotas = [
   },
   {
     tier: "OURO",
-    emoji: "🥇",
     color: "border-t-neon-yellow",
     cardBorder: "border-neon-yellow",
     textColor: "text-neon-yellow",
@@ -73,7 +69,6 @@ const cotas = [
   {
     tier: "MASTER",
     subtitle: "NAMING RIGHTS",
-    emoji: "💎",
     color: "border-t-neon-pink",
     cardBorder: "border-neon-pink",
     textColor: "text-neon-pink",
@@ -112,7 +107,7 @@ const CotasSection = () => {
 
       <div ref={ref} className="relative z-10 container mx-auto max-w-7xl">
         <h2 className={`font-display text-4xl md:text-6xl text-center mb-4 text-neon-yellow text-glow-yellow transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          COTAS DE PATROCÍNIO 💰
+          COTAS DE PATROCÍNIO
         </h2>
         <p className={`text-center text-muted-foreground mb-16 transition-all duration-700 delay-200 ${isVisible ? "opacity-100" : "opacity-0"}`}>
           Escolha sua cota e entre neste universo
@@ -127,7 +122,6 @@ const CotasSection = () => {
               style={{ transitionDelay: `${300 + i * 150}ms` }}
             >
               <div className={`${c.headerBg} px-6 py-4 text-center border-b-2 border-black/30`}>
-                <span className="text-4xl">{c.emoji}</span>
                 <h3 className={`font-display text-2xl ${c.textColor} mt-1`}>{c.tier}</h3>
               </div>
 
@@ -161,7 +155,6 @@ const CotasSection = () => {
             style={{ transitionDelay: "900ms" }}
           >
             <div className={`${c.headerBg} px-8 py-6 text-center border-b-2 border-black/30`}>
-              <span className="text-5xl">{c.emoji}</span>
               <h3 className={`font-display text-3xl md:text-4xl ${c.textColor} mt-2`}>{c.tier}</h3>
               {c.subtitle && <p className="text-muted-foreground text-sm font-display mt-1">{c.subtitle}</p>}
               <div className={`font-display text-3xl md:text-4xl ${c.textColor} mt-4`}>
@@ -181,7 +174,7 @@ const CotasSection = () => {
 
               <div className="text-center">
                 <a href="#contato" className="inline-block font-display text-lg uppercase px-10 py-4 bg-neon-pink text-foreground comic-card tracking-widest transition-all hover:scale-105">
-                  Quero a cota Master 💎
+                  Quero a cota Master
                 </a>
               </div>
             </div>

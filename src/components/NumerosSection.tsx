@@ -38,7 +38,7 @@ const NumerosSection = () => {
 
       <div ref={ref} className="relative z-10 container mx-auto max-w-6xl">
         <h2 className={`font-display text-4xl md:text-6xl text-center mb-16 text-neon-green text-glow-green transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          NÚMEROS E IMPACTO 💪
+          NÚMEROS E IMPACTO
         </h2>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">

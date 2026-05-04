@@ -14,7 +14,7 @@ const SobreSection = () => {
 
       <div ref={ref} className="relative z-10 container mx-auto max-w-4xl text-center">
         <h2 className={`font-display text-4xl md:text-6xl mb-8 text-comic-cyan text-glow-blue transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          SOBRE NÓS 🎮
+          SOBRE NÓS
         </h2>
         <div className={`comic-card bg-card p-8 md:p-12 text-left transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-6">

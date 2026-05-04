@@ -2,9 +2,9 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import decoWave from "@/assets/deco-wave.png";
 
 const eras = [
-  { emoji: "🏰", name: "Era Medieval", desc: "Card Games, universos de fantasia, RPG e senografia imersiva", color: "bg-neon-yellow", borderColor: "border-neon-yellow", textHead: "text-background" },
-  { emoji: "🎵", name: "Era do Presente", desc: "K-Pop, Shows, Influencers, Cultura Pop e tudo que é tendência", color: "bg-neon-pink", borderColor: "border-neon-pink", textHead: "text-foreground" },
-  { emoji: "🚀", name: "Era do Futuro", desc: "E-Sports, VR, Laser Tag, tecnologia e inovação além da realidade", color: "bg-comic-cyan", borderColor: "border-comic-cyan", textHead: "text-background" },
+  { name: "Era Medieval", desc: "Card Games, universos de fantasia, RPG e senografia imersiva", color: "bg-neon-yellow", borderColor: "border-neon-yellow", textHead: "text-background" },
+  { name: "Era do Presente", desc: "K-Pop, Shows, Influencers, Cultura Pop e tudo que é tendência", color: "bg-neon-pink", borderColor: "border-neon-pink", textHead: "text-foreground" },
+  { name: "Era do Futuro", desc: "E-Sports, VR, Laser Tag, tecnologia e inovação além da realidade", color: "bg-comic-cyan", borderColor: "border-comic-cyan", textHead: "text-background" },
 ];
 
 const EventoSection = () => {
