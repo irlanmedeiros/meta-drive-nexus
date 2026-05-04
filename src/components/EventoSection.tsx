@@ -35,7 +35,6 @@ const EventoSection = () => {
             >
               {/* Colored header strip */}
               <div className={`${era.color} px-6 py-4 border-b-3 border-black`}>
-                <span className="text-4xl mb-2 block">{era.emoji}</span>
                 <h3 className={`font-display text-2xl ${era.textHead}`}>{era.name}</h3>
               </div>
               <div className="bg-card p-6 halftone-dense">
