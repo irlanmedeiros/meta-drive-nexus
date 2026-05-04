@@ -134,6 +134,17 @@ const AtracoesSection = () => {
 
                 {/* Nodos / estações */}
                 {atracoes.map((a, i) => {
+                  const isThisActive = active === i;
+                  // posição do card relativa ao nodo
+                  const cardW = 380;
+                  const cardH = 150;
+                  const placeAbove = a.y > 640;
+                  let cardX = a.x - cardW / 2;
+                  if (cardX < 12) cardX = 12;
+                  if (cardX + cardW > 1588) cardX = 1588 - cardW;
+                  const cardY = placeAbove ? a.y - 60 - cardH - 18 : a.y + 60 + 18;
+                  const arrowY = placeAbove ? a.y - 60 - 18 : a.y + 60;
+                  const arrowDir = placeAbove ? 1 : -1;
                   const isActive = active === i || hover === i;
                   return (
                     <g
