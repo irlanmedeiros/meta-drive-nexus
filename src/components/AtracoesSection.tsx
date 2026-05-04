@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import glitchCpe from "@/assets/glitch-cpe.png";
 
+<<<<<<< Updated upstream
 type Atracao = {
   emoji: string;
   name: string;
@@ -24,6 +25,21 @@ const atracoes: Atracao[] = [
   { emoji: "🍔", name: "Alimentação", desc: "Food trucks e opções gastronômicas temáticas", color: "var(--comic-cyan)", x: 1380, y: 580 },
   { emoji: "📱", name: "Influencers", desc: "Encontro com criadores de conteúdo do universo geek", color: "var(--neon-purple)", x: 1500, y: 340 },
   { emoji: "🏛️", name: "Deck Cultural", desc: "18 totens históricos da Paraíba em linguagem de HQ e Games", color: "var(--neon-green)", x: 1500, y: 720 },
+=======
+const atracoes = [
+  { emoji: "🏆", name: "CPE", desc: "Campeonato Pessoense de E-Sports a 6 anos fazendo história", accent: "border-neon-yellow" },
+  { emoji: "🎵", name: "Campeonato de K-Pop", desc: "Performances e batalhas de dança e cover", accent: "border-neon-pink" },
+  { emoji: "🕹️", name: "Arena Freeplay", desc: "Games clássicos e atuais em modo livre", accent: "border-comic-cyan" },
+  { emoji: "🃏", name: "Card Games", desc: "Torneios de TCG, Magic, Pokémon e Yu-Gi-Oh!", accent: "border-neon-purple" },
+  { emoji: "🥽", name: "Laser Tag + VR", desc: "Ativações imersivas de realidade virtual e combate", accent: "border-neon-green" },
+  { emoji: "🎤", name: "Shows de Música", desc: "Apresentações ao vivo no palco principal", accent: "border-neon-pink" },
+  { emoji: "🎨", name: "Artist Alley", desc: "Espaço para artistas independentes exporem e venderem", accent: "border-neon-yellow" },
+  { emoji: "🛍️", name: "Lojinhas", desc: "Produtos geek, colecionáveis e itens exclusivos", accent: "border-comic-orange" },
+  { emoji: "🍔", name: "Área de Alimentação", desc: "Food trucks e opções gastronômicas temáticas", accent: "border-comic-cyan" },
+  { emoji: "📱", name: "Influencers", desc: "Encontro com criadores de conteúdo do universo geek", accent: "border-neon-purple" },
+  { emoji: "🏛️", name: "Deck Cultural", desc: "18 totens históricos da Paraíba em linguagem de HQ e Games", accent: "border-neon-green" },
+  { emoji: "💼", name: "Ativacões dos apoiadores", desc: "Ativações imersivas para o público", accent: "border-neon-green" },
+>>>>>>> Stashed changes
 ];
 
 // Constrói path suave passando por todos os pontos (curva Catmull-Rom -> Bezier)
