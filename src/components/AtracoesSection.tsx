@@ -196,6 +196,59 @@ const AtracoesSection = () => {
                     </g>
                   );
                 })}
+
+                {/* Card de detalhes ancorado ao nodo ativo (renderizado por último para ficar no topo) */}
+                {active !== null && (() => {
+                  const a = atracoes[active];
+                  const cardW = 380;
+                  const cardH = 150;
+                  const placeAbove = a.y > 640;
+                  let cardX = a.x - cardW / 2;
+                  if (cardX < 12) cardX = 12;
+                  if (cardX + cardW > 1588) cardX = 1588 - cardW;
+                  const cardY = placeAbove ? a.y - 60 - cardH - 20 : a.y + 60 + 20;
+                  // setinha
+                  const arrowTipY = placeAbove ? a.y - 60 - 4 : a.y + 60 + 4;
+                  const arrowBaseY = placeAbove ? arrowTipY - 16 : arrowTipY + 16;
+                  return (
+                    <g key={`detail-${active}`} className="animate-comic-pop" style={{ transformOrigin: `${a.x}px ${a.y}px` }}>
+                      {/* setinha conectando nodo ao card */}
+                      <polygon
+                        points={`${a.x - 12},${arrowBaseY} ${a.x + 12},${arrowBaseY} ${a.x},${arrowTipY}`}
+                        fill={`hsl(${a.color})`}
+                        stroke="hsl(0 0% 0%)"
+                        strokeWidth="2"
+                        transform={placeAbove ? `rotate(180 ${a.x} ${(arrowBaseY + arrowTipY) / 2})` : undefined}
+                      />
+                      <foreignObject x={cardX} y={cardY} width={cardW} height={cardH}>
+                        <div
+                          className="comic-card bg-card p-4 flex items-start gap-3 h-full"
+                          style={{ borderLeft: `8px solid hsl(${a.color})` }}
+                        >
+                          <div
+                            className="text-3xl shrink-0 w-14 h-14 rounded-full flex items-center justify-center border-[3px] border-black"
+                            style={{ background: `hsl(${a.color})` }}
+                          >
+                            {a.emoji}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-display text-xl mb-1 leading-tight" style={{ color: `hsl(${a.color})` }}>
+                              {a.name.toUpperCase()}
+                            </h3>
+                            <p className="text-muted-foreground text-xs leading-snug">{a.desc}</p>
+                          </div>
+                          <button
+                            onClick={(e) => { e.stopPropagation(); setActive(null); }}
+                            className="font-display text-base text-muted-foreground hover:text-foreground transition-colors shrink-0 leading-none"
+                            aria-label="Fechar"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      </foreignObject>
+                    </g>
+                  );
+                })()}
               </svg>
             </div>
           </div>
@@ -206,40 +259,12 @@ const AtracoesSection = () => {
           </div>
         </div>
 
-        {/* Card de detalhe da atração ativa */}
-        <div className="mt-6 min-h-[110px]">
-          {active !== null ? (
-            <div
-              key={active}
-              className="comic-card bg-card p-5 max-w-2xl mx-auto flex items-start gap-4 animate-comic-pop"
-              style={{ borderLeft: `8px solid hsl(${atracoes[active].color})` }}
-            >
-              <div
-                className="text-4xl shrink-0 w-16 h-16 rounded-full flex items-center justify-center border-[3px] border-black"
-                style={{ background: `hsl(${atracoes[active].color})` }}
-              >
-                {atracoes[active].emoji}
-              </div>
-              <div className="flex-1">
-                <h3 className="font-display text-2xl mb-1" style={{ color: `hsl(${atracoes[active].color})` }}>
-                  {atracoes[active].name.toUpperCase()}
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{atracoes[active].desc}</p>
-              </div>
-              <button
-                onClick={() => setActive(null)}
-                className="font-display text-xs text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="Fechar"
-              >
-                ✕
-              </button>
-            </div>
-          ) : (
-            <p className="text-center text-muted-foreground text-sm font-display tracking-wide">
-              👆 TOQUE EM UMA ESTAÇÃO PARA VER OS DETALHES
-            </p>
-          )}
-        </div>
+        {/* Dica abaixo do mapa quando nada está selecionado */}
+        {active === null && (
+          <p className="mt-4 text-center text-muted-foreground text-sm font-display tracking-wide">
+            👆 TOQUE EM UMA ESTAÇÃO PARA VER OS DETALHES
+          </p>
+        )}
       </div>
 
       <style>{`

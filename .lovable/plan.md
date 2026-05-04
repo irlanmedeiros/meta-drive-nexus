@@ -1,73 +1,34 @@
+## Plano: Detalhes da atração ancorados ao nodo clicado
 
+### Problema atual
+Hoje o card de detalhes é renderizado **abaixo do SVG do mapa**, fora do container visível. Como o mapa é alto (viewBox 1600x900), ao clicar em uma estação o card nasce muito abaixo e fica fora da tela — o usuário precisa rolar para vê-lo.
 
-## Plano: Melhorias no Sistema de Mídia (ADM + Galeria + Hero)
+### Solução
+Renderizar o card de detalhes **dentro do próprio SVG**, posicionado logo abaixo do nodo ativo (como um "tooltip ancorado"), de forma que apareça imediatamente próximo da estação que o usuário clicou.
 
-### 1. ADM — Upload e Gestão de Vídeos (`src/pages/Admin.tsx`)
+### Mudanças em `src/components/AtracoesSection.tsx`
 
-**Upload múltiplo de vídeos:**
-- Adicionar atributo `multiple` no input de arquivo de vídeo (atualmente só aceita 1).
-- Mostrar progresso `Enviando X de Y...` durante upload em batch.
+1. **Remover o bloco de card atual** (`<div className="mt-6 min-h-[110px]">...</div>`) que fica fora do mapa.
 
-**Lista/galeria de vídeos com ação "Definir como Destaque":**
-- Substituir o checkbox global "Usar este video como fundo do Hero" por um botão **"⭐ Definir como Hero"** em cada card de vídeo da lista.
-- Ao clicar: remover a tag `[HERO]` de todos os outros vídeos e aplicar no selecionado (UPDATE no `label`).
-- Card do vídeo Hero atual destacado com borda amarela neon e badge "🎬 HERO ATIVO".
-- Como a tabela `galeria_media` não tem UPDATE no RLS, vou adicionar via migração: política `UPDATE` para `galeria_media`.
+2. **Adicionar um `<foreignObject>` dentro do SVG**, renderizado apenas quando há atração ativa, posicionado em `(active.x, active.y + 100)`:
+   - Largura ~360px, altura ~140px
+   - Centralizado horizontalmente no nodo (`x = active.x - 180`)
+   - Se o nodo estiver perto da borda direita/esquerda do viewBox (ex: x < 200 ou x > 1400), deslocar o card para dentro para não cortar
+   - Se o nodo estiver perto da borda inferior (y > 700), renderizar o card **acima** do nodo em vez de abaixo
+   - Conteúdo: HTML normal (div com classe `comic-card`, emoji circular, título, descrição, botão fechar) — mesma identidade visual do card atual
 
-**Organização visual:**
-- Cards em grid responsivo, com thumbnail/preview, label editável inline, botão "Definir como Hero", botão deletar.
+3. **Adicionar uma "setinha" SVG** (pequeno triângulo) conectando o nodo ao card, para reforçar a relação visual.
 
-### 2. HeroSection (`src/components/HeroSection.tsx`)
+4. **Animação de entrada**: aplicar `animate-comic-pop` no card via key={active} para re-disparar a animação a cada nova estação selecionada.
 
-- Manter lógica atual de buscar vídeo com tag `[HERO]`.
-- Adicionar **fallback**: enquanto o vídeo carrega ou se falhar, mostrar uma imagem de poster (overlay com gradiente já existente cobre bem). Usar evento `onLoadedData` para fade-in suave do vídeo.
-- Adicionar `poster` no `<video>` (usar primeira foto da galeria ou imagem placeholder existente).
+5. **Aumentar levemente o `min-h` ou padding-bottom da section** se necessário para acomodar cards próximos à borda inferior do mapa (evitar clipping no overflow-hidden do container do SVG — talvez trocar `overflow-hidden` por `overflow-visible` apenas no eixo Y, mantendo o scroll horizontal).
 
-### 3. GaleriaSection — Carrosséis (`src/components/GaleriaSection.tsx`)
+6. **Mensagem de instrução** (`👆 TOQUE EM UMA ESTAÇÃO...`) passa a aparecer abaixo do mapa apenas quando **nenhuma** estação está ativa, com altura mínima pequena para não criar espaço vazio.
 
-Substituir os grids fixos por carrosséis usando o componente `embla-carousel-react` já presente em `src/components/ui/carousel.tsx`.
+### Resultado esperado
+- Clique em qualquer estação → card aparece imediatamente colado ao nodo, visível sem scroll
+- Em mobile (scroll horizontal): o card aparece junto do nodo, acompanhando a posição visível
+- Borda inferior/lateral: card se reposiciona para nunca sair do mapa
 
-**Carrossel de Fotos:**
-- Desktop: 8 por vez (4 colunas × 2 linhas via grid dentro de cada slide, OU `basis-1/8`). Vou usar `basis-[12.5%]` para 8 visíveis em uma fileira deslizante.
-- Tablet: 4 por vez (`md:basis-1/4`).
-- Mobile: 2 por vez (`basis-1/2`).
-- Setas laterais + suporte a swipe (nativo do Embla).
-- `loading="lazy"` mantido nas `<img>`.
-
-**Carrossel de Vídeos:**
-- Desktop: 4 por vez (`lg:basis-1/4`).
-- Tablet: 2 por vez (`md:basis-1/2`).
-- Mobile: 1 por vez (`basis-full`).
-- Cada slide mostra **thumbnail/preview** (não auto-play em loop para economizar dados): 
-  - Para vídeos do storage: usar `<video preload="metadata">` com `poster` quando disponível, exibindo overlay com botão ▶ play.
-  - Para YouTube: thumbnail `https://img.youtube.com/vi/{id}/hqdefault.jpg` com botão play.
-- Ao clicar no card → abre **Modal (Dialog)** com player completo (controls, fullscreen, autoplay com som permitido pois é gesto do usuário).
-
-### 4. Modal de Player de Vídeo
-
-- Usar `Dialog` de `src/components/ui/dialog.tsx`.
-- Conteúdo: vídeo HTML5 com `controls` ou `<iframe>` do YouTube em `aspect-video`, largura responsiva (max-w-4xl).
-- Fechar pausa o vídeo automaticamente (unmount do conteúdo).
-
-### 5. Migração SQL
-
-```sql
--- Permitir UPDATE em galeria_media
-CREATE POLICY "Anyone can update gallery media"
-ON public.galeria_media FOR UPDATE
-USING (true) WITH CHECK (true);
-```
-
-### 6. Performance e UX
-
-- `loading="lazy"` em todas as imagens.
-- `preload="metadata"` em vídeos do carrossel (não baixa todo o arquivo).
-- Thumbnails de YouTube via URL pública (sem custo de banda).
-- Modal só monta o player quando aberto.
-
-### Arquivos modificados/criados
-- `src/pages/Admin.tsx` (upload múltiplo, botão "Definir Hero" por vídeo)
-- `src/components/GaleriaSection.tsx` (carrosséis + modal)
-- `src/components/HeroSection.tsx` (fallback/poster + fade-in)
-- Migration SQL (RLS UPDATE em `galeria_media`)
-
+### Arquivos modificados
+- `src/components/AtracoesSection.tsx`
