@@ -1,34 +1,63 @@
-## Plano: Detalhes da atração ancorados ao nodo clicado
+# Reformulação: Atrações como Hub Circular Futurista
 
-### Problema atual
-Hoje o card de detalhes é renderizado **abaixo do SVG do mapa**, fora do container visível. Como o mapa é alto (viewBox 1600x900), ao clicar em uma estação o card nasce muito abaixo e fica fora da tela — o usuário precisa rolar para vê-lo.
+Vou substituir o "mapa Overcooked" atual por uma interface circular estilo metaverso/neural-hub, mantendo as 11 atrações e o componente único `src/components/AtracoesSection.tsx`.
 
-### Solução
-Renderizar o card de detalhes **dentro do próprio SVG**, posicionado logo abaixo do nodo ativo (como um "tooltip ancorado"), de forma que apareça imediatamente próximo da estação que o usuário clicou.
+## Conceito visual
 
-### Mudanças em `src/components/AtracoesSection.tsx`
+```text
+             [Atração 2]
+       [Atração 1]   [Atração 3]
+                ╲    ╱
+   [Atração 11] ─[ LOGO ]─ [Atração 4]
+                ╱    ╲
+       [Atração 10]  [Atração 5]
+             [...]
+```
 
-1. **Remover o bloco de card atual** (`<div className="mt-6 min-h-[110px]">...</div>`) que fica fora do mapa.
+- Fundo escuro com gradiente radial roxo/azul-marinho profundo, partículas/pontos de "rede" sutis.
+- Logo central (`logo-metaverso.png`) dentro de um anel neon com glow pulsante e leve "respiração" (scale 1↔1.04).
+- 11 nós distribuídos em círculo (ângulo = i × 360/11), cada um com glow na cor neon da atração.
+- Conexões = curvas Bezier orgânicas (não retas) ligando cada nó ao centro, com leve curvatura tangencial — parecem sinapses/fluxo neural.
 
-2. **Adicionar um `<foreignObject>` dentro do SVG**, renderizado apenas quando há atração ativa, posicionado em `(active.x, active.y + 100)`:
-   - Largura ~360px, altura ~140px
-   - Centralizado horizontalmente no nodo (`x = active.x - 180`)
-   - Se o nodo estiver perto da borda direita/esquerda do viewBox (ex: x < 200 ou x > 1400), deslocar o card para dentro para não cortar
-   - Se o nodo estiver perto da borda inferior (y > 700), renderizar o card **acima** do nodo em vez de abaixo
-   - Conteúdo: HTML normal (div com classe `comic-card`, emoji circular, título, descrição, botão fechar) — mesma identidade visual do card atual
+## Animações de energia
 
-3. **Adicionar uma "setinha" SVG** (pequeno triângulo) conectando o nodo ao card, para reforçar a relação visual.
+- Cada conexão tem uma linha base sutil (stroke fino, baixa opacidade).
+- Sobre cada conexão corre uma "partícula de energia" (pequeno `<circle>` com glow) usando `<animateMotion>` ao longo do path da curva.
+- Ciclo global: a cada ~1.2s, o pulso "ativo" muda para a próxima atração no sentido horário → ela acende, sua conexão fica intensa, partícula viaja até o centro; em seguida o centro dispara para o próximo nó. Implementado via `setInterval` em React state `pulseIndex`.
+- Quando `pulseIndex === i` ou `hover === i` ou `active === i`: stroke da conexão vira cor neon cheia + filter glow, partícula acelera (dur menor).
 
-4. **Animação de entrada**: aplicar `animate-comic-pop` no card via key={active} para re-disparar a animação a cada nova estação selecionada.
+## Interação
 
-5. **Aumentar levemente o `min-h` ou padding-bottom da section** se necessário para acomodar cards próximos à borda inferior do mapa (evitar clipping no overflow-hidden do container do SVG — talvez trocar `overflow-hidden` por `overflow-visible` apenas no eixo Y, mantendo o scroll horizontal).
+- Hover: nó faz scale leve, halo expande, conexão correspondente intensifica.
+- Clique: abre card de detalhes ancorado ao nó (mantendo a abordagem `foreignObject` já validada antes — card aparece próximo ao nó, com setinha; auto-clamp dentro do viewBox; botão fechar).
+- Reaproveitamento do array `atracoes` (mesmos emoji/nome/desc/cor), apenas removendo `x/y` fixos — posições calculadas por trig.
 
-6. **Mensagem de instrução** (`👆 TOQUE EM UMA ESTAÇÃO...`) passa a aparecer abaixo do mapa apenas quando **nenhuma** estação está ativa, com altura mínima pequena para não criar espaço vazio.
+## Detalhes técnicos
 
-### Resultado esperado
-- Clique em qualquer estação → card aparece imediatamente colado ao nodo, visível sem scroll
-- Em mobile (scroll horizontal): o card aparece junto do nodo, acompanhando a posição visível
-- Borda inferior/lateral: card se reposiciona para nunca sair do mapa
+Arquivo único alterado: `src/components/AtracoesSection.tsx` (substituição completa do conteúdo do mapa, mantendo wrapper de seção, título e dica abaixo).
 
-### Arquivos modificados
-- `src/components/AtracoesSection.tsx`
+Layout SVG:
+- viewBox `0 0 1000 1000` (quadrado, melhor para circular). Container com `max-w-[820px] mx-auto` e `aspect-square`. No mobile mantém aspect-square (sem scroll horizontal — ocupa largura total).
+- Centro: (500, 500). Raio dos nós: 380. Logo: `<image>` 180×180 centralizada em anel `<circle r=120>` com `filter url(#neonGlow)`.
+- Nós: raio 42, com anel externo pulsante quando ativo. Label curto abaixo (rect arredondado preto translúcido + texto branco font-display).
+- Defs:
+  - `neonGlow` (feGaussianBlur stdDeviation 6 + merge)
+  - `strongGlow` (stdDeviation 12) para conexões ativas
+  - Gradientes radiais para fundo do anel central (cyan → roxo).
+- Conexões: para cada nó, path `M cx cy Q ctrlX ctrlY nodeX nodeY` onde o ponto de controle é deslocado ~30% perpendicular à reta nó-centro, alternando lado por índice par/ímpar → curvas orgânicas.
+- Partículas: um `<circle r=5>` por conexão com `<animateMotion dur="3s" repeatCount="indefinite" path="<mesma curva>"/>`. Quando ativa, dur=1s e r=7.
+
+Paleta: usar tokens existentes — `--neon-purple`, `--comic-cyan`, `--neon-blue`, `--neon-pink`. Fundo da seção mantém `radial-burst-purple`.
+
+Responsividade:
+- Desktop (>=768px): círculo completo, labels visíveis.
+- Mobile (<768px): mesmo layout (SVG escala via `width:100%`); fontes do label reduzidas via `font-size` no SVG (auto-escala com viewBox).
+
+CSS adicional (inline `<style>`):
+- `@keyframes breathe { 0%,100% { transform: scale(1) } 50% { transform: scale(1.04) } }` aplicado ao grupo central.
+- Ciclo de rotação muito lenta (60s) opcional no anel externo decorativo (não nos nós).
+
+## Fora de escopo
+
+- Sem mudanças em outros componentes, rotas, dados ou Supabase.
+- Sem novas dependências — tudo SVG + CSS + React state.
