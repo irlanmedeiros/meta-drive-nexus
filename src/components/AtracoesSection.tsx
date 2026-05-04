@@ -251,7 +251,7 @@ const AtracoesSection = () => {
                   <g key={`detail-${active}`} className="animate-comic-pop" style={{ transformOrigin: `${a.x}px ${a.y}px` }}>
                     <foreignObject x={cardX} y={cardY} width={cardW} height={cardH}>
                       <div
-                        className="h-full p-4 flex items-start gap-3 rounded-xl"
+                        className="p-3 flex items-start gap-3 rounded-xl"
                         style={{
                           background: "linear-gradient(135deg, hsl(255 60% 10% / 0.96), hsl(270 60% 14% / 0.96))",
                           border: `2px solid hsl(${a.color})`,
