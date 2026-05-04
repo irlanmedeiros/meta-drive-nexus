@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import glitchCpe from "@/assets/glitch-cpe.png";
 
-<<<<<<< Updated upstream
 type Atracao = {
   emoji: string;
   name: string;
@@ -25,21 +24,6 @@ const atracoes: Atracao[] = [
   { emoji: "🍔", name: "Alimentação", desc: "Food trucks e opções gastronômicas temáticas", color: "var(--comic-cyan)", x: 1380, y: 580 },
   { emoji: "📱", name: "Influencers", desc: "Encontro com criadores de conteúdo do universo geek", color: "var(--neon-purple)", x: 1500, y: 340 },
   { emoji: "🏛️", name: "Deck Cultural", desc: "18 totens históricos da Paraíba em linguagem de HQ e Games", color: "var(--neon-green)", x: 1500, y: 720 },
-=======
-const atracoes = [
-  { emoji: "🏆", name: "CPE", desc: "Campeonato Pessoense de E-Sports a 6 anos fazendo história", accent: "border-neon-yellow" },
-  { emoji: "🎵", name: "Campeonato de K-Pop", desc: "Performances e batalhas de dança e cover", accent: "border-neon-pink" },
-  { emoji: "🕹️", name: "Arena Freeplay", desc: "Games clássicos e atuais em modo livre", accent: "border-comic-cyan" },
-  { emoji: "🃏", name: "Card Games", desc: "Torneios de TCG, Magic, Pokémon e Yu-Gi-Oh!", accent: "border-neon-purple" },
-  { emoji: "🥽", name: "Laser Tag + VR", desc: "Ativações imersivas de realidade virtual e combate", accent: "border-neon-green" },
-  { emoji: "🎤", name: "Shows de Música", desc: "Apresentações ao vivo no palco principal", accent: "border-neon-pink" },
-  { emoji: "🎨", name: "Artist Alley", desc: "Espaço para artistas independentes exporem e venderem", accent: "border-neon-yellow" },
-  { emoji: "🛍️", name: "Lojinhas", desc: "Produtos geek, colecionáveis e itens exclusivos", accent: "border-comic-orange" },
-  { emoji: "🍔", name: "Área de Alimentação", desc: "Food trucks e opções gastronômicas temáticas", accent: "border-comic-cyan" },
-  { emoji: "📱", name: "Influencers", desc: "Encontro com criadores de conteúdo do universo geek", accent: "border-neon-purple" },
-  { emoji: "🏛️", name: "Deck Cultural", desc: "18 totens históricos da Paraíba em linguagem de HQ e Games", accent: "border-neon-green" },
-  { emoji: "💼", name: "Ativacões dos apoiadores", desc: "Ativações imersivas para o público", accent: "border-neon-green" },
->>>>>>> Stashed changes
 ];
 
 // Constrói path suave passando por todos os pontos (curva Catmull-Rom -> Bezier)
@@ -79,7 +63,7 @@ const AtracoesSection = () => {
           MAPA DE ATRAÇÕES
         </h2>
         <p className={`text-center text-muted-foreground mb-10 max-w-2xl mx-auto transition-all duration-700 delay-200 ${isVisible ? "opacity-100" : "opacity-0"}`}>
-          Explore cada estação do Metaverso — passe o mouse ou toque para descobrir as atrações.
+          Explore cada estação do Metaverso, passe o mouse ou toque para descobrir as atrações.
         </p>
 
         {/* Mapa */}
@@ -125,63 +109,6 @@ const AtracoesSection = () => {
                     <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
                   </filter>
                 </defs>
-
-                {/* Fundo terreno */}
-                <rect width="1600" height="900" fill="url(#terrain)" />
-
-                {/* Halftone overlay */}
-                <rect width="1600" height="900" fill="url(#terrain)" opacity="0.0" />
-
-                {/* Lagos / água decorativos */}
-                <ellipse cx="180" cy="120" rx="160" ry="70" fill="url(#water)" opacity="0.55" />
-                <ellipse cx="1380" cy="120" rx="200" ry="80" fill="url(#water)" opacity="0.5" />
-                <ellipse cx="700" cy="820" rx="240" ry="70" fill="url(#water)" opacity="0.5" />
-
-                {/* Ilhas/clareiras de areia atrás dos nodos */}
-                {atracoes.map((a, i) => (
-                  <ellipse
-                    key={`isle-${i}`}
-                    cx={a.x}
-                    cy={a.y + 8}
-                    rx="95"
-                    ry="55"
-                    fill="hsl(48 80% 55% / 0.18)"
-                    stroke="hsl(48 100% 60% / 0.25)"
-                    strokeWidth="2"
-                  />
-                ))}
-
-                {/* Decorações - árvores (triângulos estilizados) */}
-                {[
-                  [80, 380], [340, 480], [520, 200], [680, 720], [820, 180],
-                  [1020, 440], [1180, 720], [1340, 420], [1480, 200], [220, 700],
-                  [560, 760], [900, 720], [1240, 160], [60, 200], [400, 60],
-                  [760, 60], [1100, 60], [1440, 760], [1560, 500], [320, 160],
-                ].map(([x, y], i) => (
-                  <g key={`tree-${i}`} filter="url(#softShadow)">
-                    <ellipse cx={x} cy={y + 22} rx="14" ry="4" fill="hsl(0 0% 0% / 0.4)" />
-                    <rect x={x - 3} y={y + 4} width="6" height="14" fill="hsl(25 60% 25%)" />
-                    <polygon
-                      points={`${x},${y - 26} ${x - 18},${y + 6} ${x + 18},${y + 6}`}
-                      fill="hsl(72 60% 35%)"
-                      stroke="hsl(72 70% 22%)"
-                      strokeWidth="2"
-                    />
-                    <polygon
-                      points={`${x},${y - 14} ${x - 14},${y - 2} ${x + 14},${y - 2}`}
-                      fill="hsl(72 70% 45%)"
-                    />
-                  </g>
-                ))}
-
-                {/* Pedras decorativas */}
-                {[[180, 620], [1420, 460], [620, 140], [1080, 760]].map(([x, y], i) => (
-                  <g key={`rock-${i}`} filter="url(#softShadow)">
-                    <ellipse cx={x} cy={y + 6} rx="22" ry="6" fill="hsl(0 0% 0% / 0.35)" />
-                    <ellipse cx={x} cy={y} rx="20" ry="12" fill="hsl(270 15% 45%)" stroke="hsl(0 0% 0%)" strokeWidth="2" />
-                    <ellipse cx={x - 5} cy={y - 3} rx="8" ry="4" fill="hsl(270 15% 60%)" opacity="0.6" />
-                  </g>
-                ))}
 
                 {/* Caminho - sombra */}
                 <path d={path} fill="none" stroke="hsl(0 0% 0% / 0.45)" strokeWidth="60" strokeLinecap="round" strokeLinejoin="round" transform="translate(0,8)" />
