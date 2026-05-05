@@ -1,63 +1,70 @@
-# Reformulação: Atrações como Hub Circular Futurista
+## Redesign: Hub de Atrações Minimalista
 
-Vou substituir o "mapa Overcooked" atual por uma interface circular estilo metaverso/neural-hub, mantendo as 11 atrações e o componente único `src/components/AtracoesSection.tsx`.
+Refazer `src/components/AtracoesSection.tsx` com estética premium/minimalista, mantendo as 11 atrações e o layout circular — mas removendo o excesso visual da versão atual (anéis girando, partículas múltiplas, halos coloridos, gradientes pesados).
 
-## Conceito visual
+### Conceito
 
 ```text
-             [Atração 2]
-       [Atração 1]   [Atração 3]
-                ╲    ╱
-   [Atração 11] ─[ LOGO ]─ [Atração 4]
-                ╱    ╲
-       [Atração 10]  [Atração 5]
-             [...]
+              · Atração ·
+        ·                   ·
+   ·         ┌───────┐         ·
+              │ LOGO │
+   ·         └───────┘         ·
+        ·                   ·
+              · Atração ·
 ```
 
-- Fundo escuro com gradiente radial roxo/azul-marinho profundo, partículas/pontos de "rede" sutis.
-- Logo central (`logo-metaverso.png`) dentro de um anel neon com glow pulsante e leve "respiração" (scale 1↔1.04).
-- 11 nós distribuídos em círculo (ângulo = i × 360/11), cada um com glow na cor neon da atração.
-- Conexões = curvas Bezier orgânicas (não retas) ligando cada nó ao centro, com leve curvatura tangencial — parecem sinapses/fluxo neural.
+- Fundo escuro quase uniforme (slate/near-black) com degradê radial suave.
+- Logo central isolada, sem anéis decorativos pesados — apenas um halo muito sutil.
+- 11 nós em círculo: pequenos círculos brancos com borda fina, label clean.
+- Conexões: linhas finas (`strokeWidth 1`) brancas com baixa opacidade (~0.15).
 
-## Animações de energia
+### Animação de fluxo (única, sequencial)
 
-- Cada conexão tem uma linha base sutil (stroke fino, baixa opacidade).
-- Sobre cada conexão corre uma "partícula de energia" (pequeno `<circle>` com glow) usando `<animateMotion>` ao longo do path da curva.
-- Ciclo global: a cada ~1.2s, o pulso "ativo" muda para a próxima atração no sentido horário → ela acende, sua conexão fica intensa, partícula viaja até o centro; em seguida o centro dispara para o próximo nó. Implementado via `setInterval` em React state `pulseIndex`.
-- Quando `pulseIndex === i` ou `hover === i` ou `active === i`: stroke da conexão vira cor neon cheia + filter glow, partícula acelera (dur menor).
+Em vez de partículas em todas as conexões + ciclo rápido de 1.4s, terá um único pulso por vez:
 
-## Interação
+- A cada ~3.5s, o `pulseIndex` avança para a próxima atração.
+- Apenas a conexão ativa recebe um único ponto de luz suave que vai do nó até o centro (`animateMotion`, ~2.2s, ease-out).
+- A linha ativa sobe levemente de opacidade (0.15 → 0.5) e a cor passa de branca para azul/roxo suave.
+- Nó ativo recebe glow muito discreto (drop-shadow leve), sem mudança de tamanho brusca.
 
-- Hover: nó faz scale leve, halo expande, conexão correspondente intensifica.
-- Clique: abre card de detalhes ancorado ao nó (mantendo a abordagem `foreignObject` já validada antes — card aparece próximo ao nó, com setinha; auto-clamp dentro do viewBox; botão fechar).
-- Reaproveitamento do array `atracoes` (mesmos emoji/nome/desc/cor), apenas removendo `x/y` fixos — posições calculadas por trig.
+### Paleta
 
-## Detalhes técnicos
+- Base: branco (`hsl(0 0% 95%)`) e cinza-claro para textos secundários.
+- Único destaque: azul suave `hsl(210 90% 70%)` (ou roxo `hsl(260 80% 75%)`) — usado APENAS no pulso ativo e hover.
+- Fundo: degradê radial de `hsl(230 25% 8%)` (centro) para `hsl(230 30% 4%)` (bordas).
+- Remover uso das cores neon individuais por atração — todas compartilham a mesma paleta neutra para manter coesão.
 
-Arquivo único alterado: `src/components/AtracoesSection.tsx` (substituição completa do conteúdo do mapa, mantendo wrapper de seção, título e dica abaixo).
+### Tipografia
 
-Layout SVG:
-- viewBox `0 0 1000 1000` (quadrado, melhor para circular). Container com `max-w-[820px] mx-auto` e `aspect-square`. No mobile mantém aspect-square (sem scroll horizontal — ocupa largura total).
-- Centro: (500, 500). Raio dos nós: 380. Logo: `<image>` 180×180 centralizada em anel `<circle r=120>` com `filter url(#neonGlow)`.
-- Nós: raio 42, com anel externo pulsante quando ativo. Label curto abaixo (rect arredondado preto translúcido + texto branco font-display).
-- Defs:
-  - `neonGlow` (feGaussianBlur stdDeviation 6 + merge)
-  - `strongGlow` (stdDeviation 12) para conexões ativas
-  - Gradientes radiais para fundo do anel central (cyan → roxo).
-- Conexões: para cada nó, path `M cx cy Q ctrlX ctrlY nodeX nodeY` onde o ponto de controle é deslocado ~30% perpendicular à reta nó-centro, alternando lado por índice par/ímpar → curvas orgânicas.
-- Partículas: um `<circle r=5>` por conexão com `<animateMotion dur="3s" repeatCount="indefinite" path="<mesma curva>"/>`. Quando ativa, dur=1s e r=7.
+- Título da seção: `font-orbitron` (já no projeto) ou Inter light, tracking amplo, peso leve.
+- Labels dos nós: Inter, `font-size 14`, branco com 80% opacidade.
+- Remover `SuperbusyActivity/Bangers` desta seção (conflita com "premium minimalista").
 
-Paleta: usar tokens existentes — `--neon-purple`, `--comic-cyan`, `--neon-blue`, `--neon-pink`. Fundo da seção mantém `radial-burst-purple`.
+### Interação
 
-Responsividade:
-- Desktop (>=768px): círculo completo, labels visíveis.
-- Mobile (<768px): mesmo layout (SVG escala via `width:100%`); fontes do label reduzidas via `font-size` no SVG (auto-escala com viewBox).
+- Hover no nó: scale `1.0 → 1.08` (transition 300ms ease-out), conexão correspondente sobe para opacidade 0.6 e ganha cor de destaque.
+- Click: abre card de detalhes (`foreignObject`) ancorado ao nó, com visual minimalista — fundo `bg-background/95 backdrop-blur`, borda fina branca/10, sem glow forte; mesma lógica de clamp dentro do viewBox.
+- Sem `setActive(null)` automático; botão `×` discreto no canto.
 
-CSS adicional (inline `<style>`):
-- `@keyframes breathe { 0%,100% { transform: scale(1) } 50% { transform: scale(1.04) } }` aplicado ao grupo central.
-- Ciclo de rotação muito lenta (60s) opcional no anel externo decorativo (não nos nós).
+### Mudanças técnicas em `AtracoesSection.tsx`
 
-## Fora de escopo
+1. Remover do SVG: anéis rotativos (`ring-rotate-slow/rev`), gradiente roxo `bgRadial`, `coreRing`, halos coloridos por nó, partícula em todas as conexões, `strongGlow`.
+2. Manter: cálculo trig dos nós, paths Bezier (mas com curvatura menor — offset de 90 → 30, quase reto), `foreignObject` do detail card.
+3. Adicionar: um único `<circle>` de partícula renderizado apenas para `pulseIndex` corrente, com `<animateMotion key={pulseIndex}>` para reiniciar a cada troca.
+4. Trocar `setInterval` 1400ms → 3500ms.
+5. Remover gradientes do background da seção (`radial-burst-purple`) e o grid de pontos cyan — substituir por um `bg` sólido escuro com um `radial-gradient` sutil inline.
+6. Simplificar `<defs>`: manter apenas um `softGlow` com `stdDeviation 2`.
+7. Logo central: `<image>` 160×160 com `drop-shadow` muito sutil (`0 0 20px hsl(210 90% 70% / 0.25)`), sem círculos sobrepostos — opcionalmente um único `<circle r=110>` com stroke branco/10.
+8. Container: manter `aspect-square max-w-[820px]`.
 
-- Sem mudanças em outros componentes, rotas, dados ou Supabase.
-- Sem novas dependências — tudo SVG + CSS + React state.
+### Responsividade
+
+- Mantém o SVG responsivo com `viewBox 0 0 1000 1000` e `width:100%`.
+- Em mobile, `font-size` dos labels via SVG escala automaticamente.
+
+### Fora de escopo
+
+- Sem mexer em outros componentes ou no tema global.
+- Sem novas dependências.
+- Manter dados/atrações inalterados.
