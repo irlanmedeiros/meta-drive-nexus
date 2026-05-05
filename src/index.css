@@ -302,3 +302,13 @@
 html {
   scroll-behavior: smooth;
 }
+
+@keyframes atracao-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+.atracao-pulse {
+  animation: atracao-pulse 1.2s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}

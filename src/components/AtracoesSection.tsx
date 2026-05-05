@@ -110,10 +110,10 @@ const AtracoesSection = () => {
                     key={`conn-${i}`}
                     d={n.path}
                     fill="none"
-                    stroke={isHot ? `hsl(${n.color} / 0.9)` : "hsl(0 0% 100% / 0.12)"}
-                    strokeWidth={isHot ? 1.8 : 1}
+                    stroke={isHot ? `hsl(${n.color} / 0.85)` : "hsl(0 0% 100% / 0.1)"}
+                    strokeWidth={isHot ? 1.5 : 1}
                     strokeLinecap="round"
-                    style={{ transition: "all 0.5s ease", filter: isHot ? `drop-shadow(0 0 4px hsl(${n.color} / 0.7))` : undefined }}
+                    style={{ transition: "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)", filter: isHot ? `drop-shadow(0 0 3px hsl(${n.color} / 0.55))` : undefined }}
                   />
                 );
               })}
@@ -129,30 +129,39 @@ const AtracoesSection = () => {
                     filter="url(#softGlow)"
                     opacity="0.95"
                   >
-                    <animateMotion dur="2.4s" repeatCount="1" path={n.path} fill="freeze" />
+                    <animateMotion
+                      dur="2.4s"
+                      repeatCount="1"
+                      path={n.path}
+                      fill="freeze"
+                      calcMode="spline"
+                      keyTimes="0;1"
+                      keySplines="0.4 0 0.2 1"
+                    />
                     <animate attributeName="opacity" values="0;1;0" dur="2.4s" repeatCount="1" fill="freeze" />
                   </circle>
                 );
               })()}
 
-              {/* núcleo / logo */}
-              <g>
-                <circle cx={CX} cy={CY} r="105" fill="hsl(270 40% 12% / 0.6)" stroke="hsl(var(--comic-cyan) / 0.4)" strokeWidth="1.5" />
-                <circle cx={CX} cy={CY} r="125" fill="none" stroke="hsl(330 85% 60% / 0.3)" strokeWidth="1" strokeDasharray="3 6" />
-                <image
-                  href={logoMetaverso}
-                  x={CX - 90}
-                  y={CY - 90}
-                  width="180"
-                  height="180"
-                  style={{ filter: `drop-shadow(0 0 24px hsl(var(--comic-cyan) / 0.6)) drop-shadow(0 0 12px hsl(330 85% 60% / 0.4))` }}
-                />
-              </g>
+              {/* logo central sem fundo */}
+              <image
+                href={logoMetaverso}
+                x={CX - 100}
+                y={CY - 100}
+                width="200"
+                height="200"
+                style={{
+                  filter:
+                    "drop-shadow(0 0 18px hsl(var(--comic-cyan) / 0.55)) drop-shadow(0 0 28px hsl(330 85% 60% / 0.35))",
+                }}
+              />
 
               {/* nós coloridos estilo comic */}
               {nodes.map((n, i) => {
-                const isActive = active === i || hover === i;
-                const isHot = pulseIndex === i || isActive;
+                const isHover = hover === i;
+                const isActive = active === i;
+                const isHot = pulseIndex === i || isHover || isActive;
+                const scale = isHover ? 1 : isActive ? 1.05 : 1;
                 return (
                   <g
                     key={`node-${i}`}
@@ -161,8 +170,8 @@ const AtracoesSection = () => {
                     onMouseLeave={() => setHover(null)}
                     onClick={() => setActive(active === i ? null : i)}
                     style={{
-                      transition: "transform 0.4s ease",
-                      transform: `translate(${n.x}px, ${n.y}px) scale(${isActive ? 1.12 : 1})`,
+                      transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+                      transform: `translate(${n.x}px, ${n.y}px) scale(${scale})`,
                       transformOrigin: `${n.x}px ${n.y}px`,
                       transformBox: "fill-box",
                     } as React.CSSProperties}
@@ -172,20 +181,23 @@ const AtracoesSection = () => {
                       fill={`hsl(${n.color})`}
                       stroke="hsl(0 0% 0%)"
                       strokeWidth="3"
+                      className={isHover ? "atracao-pulse" : ""}
                       style={{
-                        transition: "all 0.4s ease",
-                        filter: `drop-shadow(0 0 ${isHot ? 14 : 8}px hsl(${n.color} / ${isHot ? 0.9 : 0.55}))`,
+                        transition: "filter 0.5s ease",
+                        transformOrigin: "center",
+                        transformBox: "fill-box",
+                        filter: `drop-shadow(0 0 ${isHot ? 14 : 8}px hsl(${n.color} / ${isHot ? 0.85 : 0.5}))`,
                       }}
                     />
                     <text
                       textAnchor="middle"
                       dominantBaseline="central"
                       fontSize="32"
-                      style={{ userSelect: "none" }}
+                      style={{ userSelect: "none", pointerEvents: "none" }}
                     >
                       {n.emoji}
                     </text>
-                    <g transform={`translate(0, ${NODE_R + 22})`}>
+                    <g transform={`translate(0, ${NODE_R + 22})`} style={{ pointerEvents: "none" }}>
                       <rect
                         x={-((n.name.length * 8) + 14) / 2}
                         y={-12}
