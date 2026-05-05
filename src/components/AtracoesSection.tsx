@@ -109,7 +109,7 @@ const AtracoesSection = () => {
                     key={`conn-${i}`}
                     d={n.path}
                     fill="none"
-                    stroke={isHot ? `hsl(${ACCENT} / 0.55)` : "hsl(0 0% 100% / 0.1)"}
+                    stroke={isHot ? `hsl(${ACCENT} / 0.65)` : "hsl(0 0% 100% / 0.14)"}
                     strokeWidth={isHot ? 1.4 : 1}
                     strokeLinecap="round"
                     style={{ transition: "all 0.8s ease" }}
