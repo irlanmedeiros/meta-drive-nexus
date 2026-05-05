@@ -1,49 +1,34 @@
-## Reformular seção Atrações: círculo limpo com ramificações da logo
+## Refinar animações da seção Atrações
 
-Refazer o layout para ser um **círculo perfeito de atrações** ao redor da logo central, com **linhas retas** saindo da logo (raios/ramificações) até cada nó, e um **pulso percorrendo uma ramificação por vez**, alternando entre as atrações.
+Ajustes focados em `src/components/AtracoesSection.tsx`:
 
-### Mudanças em `src/components/AtracoesSection.tsx`
+### 1. Hover dos nós — apenas pulsação suave
+- Remover o `scale(1.12)` brusco no hover.
+- Substituir por uma **pulsação contínua e sutil** apenas enquanto o mouse está sobre o nó:
+  - Animar `r` do círculo entre `NODE_R` e `NODE_R + 4` (ou usar `transform: scale(1) ↔ scale(1.06)`) com duração ~1.2s, ease-in-out, infinito.
+  - Glow do `drop-shadow` acompanhando o pulso (intensidade oscilando levemente).
+- Manter um leve destaque (cor da conexão acende), mas sem "saltar" o nó.
+- Para nós ativos (clicados), aplicar uma escala fixa bem discreta (1.05) sem pulsar, para diferenciar do hover.
 
-1. **Conexões retas (raios)** — substituir o path com curva (`Q ctrlX ctrlY`) por uma linha reta `M cx cy L x y`. Visual de "ramificações" saindo do centro.
+### 2. Logo central — sem fundo
+- Remover o `<circle>` escuro de fundo (`hsl(270 40% 12% / 0.6)`) e o anel tracejado rosa.
+- Manter apenas a `<image>` da logo com `drop-shadow` cyan/magenta para integração com o tema, sem moldura circular.
+- Opcional: aumentar levemente a logo (de 180 para ~200) já que o fundo sai.
+- As ramificações continuam terminando próximas ao centro (raio ~95–100) para não invadir a logo.
 
-2. **Disposição circular igualmente espaçada** — manter os 11 nós distribuídos em ângulos iguais (`i / N * 2π`), começando do topo. Reduzir levemente o raio para `R = 340` para deixar respiro nas bordas.
+### 3. Pulso percorrendo as ramificações
+- Manter o pulso atual (ponto luminoso viajando do nó até o centro), mas:
+  - Suavizar com `calcMode="spline"` e easing (`keySplines="0.4 0 0.2 1"`).
+  - Reduzir intervalo entre ciclos para 3s.
+  - Garantir que a linha da ramificação ativa acenda **gradualmente** (transição de 0.6s) em vez de "piscar".
 
-3. **Pulso único viajando do nó para o centro** — manter um ponto luminoso que segue o caminho da atração ativa até a logo, e ao terminar avança para a próxima atração (loop). Duração ~2.4s, cor do nó atual.
+### 4. Conexões — transições mais suaves
+- Aumentar `transition` de 0.5s para 0.6s com `cubic-bezier(0.4, 0, 0.2, 1)`.
+- Diferença entre estado inativo/ativo mais sutil: `strokeWidth` 1 → 1.5 (em vez de 1.8) e opacidade do glow reduzida.
 
-4. **Estilo das ramificações**:
-   - Inativa: `stroke hsl(0 0% 100% / 0.12)`, `strokeWidth 1`
-   - Ativa/hover/pulse: `stroke hsl(n.color / 0.9)`, `strokeWidth 1.8`, glow sutil
-   - Transição suave de 0.5s
-
-5. **Núcleo da logo** — manter o círculo escuro de fundo + logo, mas adicionar um **anel sutil tracejado** girando lentamente (opcional, bem leve) só para reforçar o "hub central".
-
-6. **Nós** — manter o estilo atual (círculo colorido + emoji + label retangular), apenas garantir que o tamanho `NODE_R = 42` e a escala no hover (1.12) sigam funcionando.
-
-7. **Card de detalhes** — manter como está (posicionado para fora do nó, com borda na cor do nó).
-
-8. **Fundo** — manter `radial-burst-purple` + grid sutil de pontos cyan (já está assim).
-
-### Diagrama do layout
-
-```text
-              ●  ←  nó (atração)
-             /
-            /  ← ramificação reta
-           /
-        ╔═══╗
-        ║LOGO║  ← centro
-        ╚═══╝
-           \
-            \
-             \
-              ●
-
-       (11 nós em círculo perfeito,
-        linhas retas até a logo,
-        pulso percorrendo um por vez)
-```
+### 5. Card de detalhes
+- Manter como está, apenas trocar a animação de entrada para `scale-in` (já existe no Tailwind config) para uma aparição mais natural.
 
 ### Fora de escopo
-
-- Não mexer em outras seções, paleta global, fontes ou animações globais.
-- Não alterar dados das atrações.
+- Não alterar layout circular, posições dos nós, paleta, fontes, ou outras seções.
+- Não mexer em dados das atrações.

@@ -110,10 +110,10 @@ const AtracoesSection = () => {
                     key={`conn-${i}`}
                     d={n.path}
                     fill="none"
-                    stroke={isHot ? `hsl(${n.color} / 0.9)` : "hsl(0 0% 100% / 0.12)"}
-                    strokeWidth={isHot ? 1.8 : 1}
+                    stroke={isHot ? `hsl(${n.color} / 0.85)` : "hsl(0 0% 100% / 0.1)"}
+                    strokeWidth={isHot ? 1.5 : 1}
                     strokeLinecap="round"
-                    style={{ transition: "all 0.5s ease", filter: isHot ? `drop-shadow(0 0 4px hsl(${n.color} / 0.7))` : undefined }}
+                    style={{ transition: "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)", filter: isHot ? `drop-shadow(0 0 3px hsl(${n.color} / 0.55))` : undefined }}
                   />
                 );
               })}
