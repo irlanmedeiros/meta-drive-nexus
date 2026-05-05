@@ -231,27 +231,28 @@ const AtracoesSection = () => {
                         <div
                           className="p-4 flex items-start gap-3 rounded-lg"
                           style={{
-                            background: "hsl(230 30% 7% / 0.92)",
-                            border: `1px solid hsl(${ACCENT} / 0.35)`,
-                            boxShadow: `0 8px 32px hsl(0 0% 0% / 0.6), 0 0 0 1px hsl(0 0% 100% / 0.04)`,
+                            background: "hsl(270 40% 10% / 0.95)",
+                            border: `2px solid hsl(${a.color})`,
+                            boxShadow: `0 0 24px hsl(${a.color} / 0.5), 4px 4px 0 hsl(0 0% 0%)`,
                             backdropFilter: "blur(12px)",
                           }}
                         >
-                          <div className="text-2xl shrink-0 leading-none pt-0.5">{a.emoji}</div>
+                          <div className="text-3xl shrink-0 leading-none pt-0.5">{a.emoji}</div>
                           <div className="flex-1 min-w-0">
                             <h3
-                              className="font-orbitron text-sm mb-1.5 leading-tight tracking-[0.15em] font-light text-white/95"
+                              className="font-display text-lg mb-1 leading-tight"
+                              style={{ color: `hsl(${a.color})`, textShadow: `2px 2px 0 hsl(0 0% 0%)` }}
                             >
                               {a.name.toUpperCase()}
                             </h3>
-                            <p className="text-white/55 text-xs leading-relaxed font-light">{a.desc}</p>
+                            <p className="text-white/85 text-xs leading-relaxed">{a.desc}</p>
                           </div>
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               setActive(null);
                             }}
-                            className="text-white/30 hover:text-white/80 transition-colors shrink-0 leading-none text-sm"
+                            className="text-white/50 hover:text-white transition-colors shrink-0 leading-none text-base"
                             aria-label="Fechar"
                           >
                             ✕
