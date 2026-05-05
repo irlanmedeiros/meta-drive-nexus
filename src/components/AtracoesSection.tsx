@@ -102,7 +102,7 @@ const AtracoesSection = () => {
                 </filter>
               </defs>
 
-              {/* conexões */}
+              {/* conexões coloridas */}
               {nodes.map((n, i) => {
                 const isHot = pulseIndex === i || hover === i || active === i;
                 return (
@@ -110,10 +110,10 @@ const AtracoesSection = () => {
                     key={`conn-${i}`}
                     d={n.path}
                     fill="none"
-                    stroke={isHot ? `hsl(${ACCENT} / 0.65)` : "hsl(0 0% 100% / 0.14)"}
-                    strokeWidth={isHot ? 1.4 : 1}
+                    stroke={`hsl(${n.color} / ${isHot ? 0.95 : 0.45})`}
+                    strokeWidth={isHot ? 2 : 1.2}
                     strokeLinecap="round"
-                    style={{ transition: "all 0.8s ease" }}
+                    style={{ transition: "all 0.6s ease", filter: isHot ? `drop-shadow(0 0 6px hsl(${n.color} / 0.8))` : undefined }}
                   />
                 );
               })}
@@ -124,80 +124,89 @@ const AtracoesSection = () => {
                 return (
                   <circle
                     key={`pulse-${pulseIndex}`}
-                    r={3.5}
-                    fill={`hsl(${ACCENT})`}
+                    r={4}
+                    fill={`hsl(${n.color})`}
                     filter="url(#softGlow)"
-                    opacity="0.9"
+                    opacity="0.95"
                   >
                     <animateMotion dur="2.4s" repeatCount="1" path={n.path} fill="freeze" />
-                    <animate attributeName="opacity" values="0;0.95;0" dur="2.4s" repeatCount="1" fill="freeze" />
+                    <animate attributeName="opacity" values="0;1;0" dur="2.4s" repeatCount="1" fill="freeze" />
                   </circle>
                 );
               })()}
 
               {/* núcleo / logo */}
               <g>
-                <circle cx={CX} cy={CY} r="115" fill="none" stroke="hsl(0 0% 100% / 0.08)" strokeWidth="1" />
-                <circle cx={CX} cy={CY} r="135" fill="none" stroke={`hsl(${ACCENT} / 0.15)`} strokeWidth="1" strokeDasharray="2 8" />
+                <circle cx={CX} cy={CY} r="105" fill="hsl(270 40% 12% / 0.6)" stroke="hsl(var(--comic-cyan) / 0.4)" strokeWidth="1.5" />
+                <circle cx={CX} cy={CY} r="125" fill="none" stroke="hsl(330 85% 60% / 0.3)" strokeWidth="1" strokeDasharray="3 6" />
                 <image
                   href={logoMetaverso}
                   x={CX - 90}
                   y={CY - 90}
                   width="180"
                   height="180"
-                  style={{ filter: `drop-shadow(0 0 18px hsl(${ACCENT} / 0.35))` }}
+                  style={{ filter: `drop-shadow(0 0 24px hsl(var(--comic-cyan) / 0.6)) drop-shadow(0 0 12px hsl(330 85% 60% / 0.4))` }}
                 />
               </g>
 
-              {/* nós */}
+              {/* nós coloridos estilo comic */}
               {nodes.map((n, i) => {
                 const isActive = active === i || hover === i;
                 const isHot = pulseIndex === i || isActive;
                 return (
                   <g
                     key={`node-${i}`}
-                    transform={`translate(${n.x}, ${n.y})`}
                     className="cursor-pointer"
                     onMouseEnter={() => setHover(i)}
                     onMouseLeave={() => setHover(null)}
                     onClick={() => setActive(active === i ? null : i)}
                     style={{
                       transition: "transform 0.4s ease",
-                      transform: `translate(${n.x}px, ${n.y}px) scale(${isActive ? 1.08 : 1})`,
+                      transform: `translate(${n.x}px, ${n.y}px) scale(${isActive ? 1.12 : 1})`,
                       transformOrigin: `${n.x}px ${n.y}px`,
-                            transformBox: "fill-box",
+                      transformBox: "fill-box",
                     } as React.CSSProperties}
                   >
                     <circle
                       r={NODE_R}
-                      fill="hsl(230 30% 6%)"
-                      stroke={isHot ? `hsl(${ACCENT} / 0.9)` : "hsl(0 0% 100% / 0.25)"}
-                      strokeWidth="1"
+                      fill={`hsl(${n.color})`}
+                      stroke="hsl(0 0% 0%)"
+                      strokeWidth="3"
                       style={{
-                        transition: "all 0.5s ease",
-                        filter: isHot ? `drop-shadow(0 0 10px hsl(${ACCENT} / 0.5))` : undefined,
+                        transition: "all 0.4s ease",
+                        filter: `drop-shadow(0 0 ${isHot ? 14 : 8}px hsl(${n.color} / ${isHot ? 0.9 : 0.55}))`,
                       }}
                     />
                     <text
                       textAnchor="middle"
                       dominantBaseline="central"
-                      fontSize="24"
+                      fontSize="32"
                       style={{ userSelect: "none" }}
                     >
                       {n.emoji}
                     </text>
-                    <text
-                      textAnchor="middle"
-                      dominantBaseline="central"
-                      y={NODE_R + 22}
-                      fill="hsl(0 0% 100% / 0.7)"
-                      fontFamily="Inter, sans-serif"
-                      fontSize="13"
-                      fontWeight="300"
-                      letterSpacing="1.5"
-                    >
-                      {n.name.toUpperCase()}
-                    </text>
+                    <g transform={`translate(0, ${NODE_R + 22})`}>
+                      <rect
+                        x={-((n.name.length * 8) + 14) / 2}
+                        y={-12}
+                        width={(n.name.length * 8) + 14}
+                        height={22}
+                        rx={11}
+                        fill="hsl(0 0% 0% / 0.85)"
+                        stroke={`hsl(${n.color} / 0.7)`}
+                        strokeWidth="1.5"
+                      />
+                      <text
+                        textAnchor="middle"
+                        dominantBaseline="central"
+                        fill={`hsl(${n.color})`}
+                        fontFamily="'Bangers', cursive"
+                        fontSize="13"
+                        letterSpacing="1.5"
+                      >
+                        {n.name.toUpperCase()}
+                      </text>
+                    </g>
                   </g>
                 );
               })}
