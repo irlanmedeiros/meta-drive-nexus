@@ -60,14 +60,14 @@ const AtracoesSection = () => {
   });
 
   return (
-    <section
-      id="atracoes"
-      className="relative py-28 px-4 overflow-hidden"
-      style={{
-        background:
-          "radial-gradient(ellipse at center, hsl(230 25% 9%) 0%, hsl(230 30% 5%) 70%, hsl(230 35% 3%) 100%)",
-      }}
-    >
+    <section id="atracoes" className="relative py-28 px-4 overflow-hidden radial-burst-purple">
+      <div
+        className="absolute inset-0 opacity-20 pointer-events-none"
+        style={{
+          backgroundImage: "radial-gradient(circle, hsl(var(--comic-cyan) / 0.18) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
+      />
       <div ref={ref} className="relative z-10 container mx-auto max-w-7xl">
         <h2
           className={`font-orbitron text-3xl md:text-5xl text-center mb-3 tracking-[0.2em] font-light text-white/95 transition-all duration-700 ${
@@ -109,7 +109,7 @@ const AtracoesSection = () => {
                     key={`conn-${i}`}
                     d={n.path}
                     fill="none"
-                    stroke={isHot ? `hsl(${ACCENT} / 0.55)` : "hsl(0 0% 100% / 0.1)"}
+                    stroke={isHot ? `hsl(${ACCENT} / 0.65)` : "hsl(0 0% 100% / 0.14)"}
                     strokeWidth={isHot ? 1.4 : 1}
                     strokeLinecap="round"
                     style={{ transition: "all 0.8s ease" }}
