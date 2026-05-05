@@ -25,7 +25,7 @@ const atracoes: Atracao[] = [
 
 const CX = 500;
 const CY = 500;
-const R = 360;
+const R = 340;
 const NODE_R = 42;
 const ACCENT = "185 75% 60%";
 
@@ -46,17 +46,17 @@ const AtracoesSection = () => {
     const angle = (i / atracoes.length) * Math.PI * 2 - Math.PI / 2;
     const x = CX + Math.cos(angle) * R;
     const y = CY + Math.sin(angle) * R;
-    const mx = (CX + x) / 2;
-    const my = (CY + y) / 2;
-    const dx = x - CX;
-    const dy = y - CY;
+    // ramificação reta do nó até a borda da logo central
+    const dx = CX - x;
+    const dy = CY - y;
     const len = Math.hypot(dx, dy) || 1;
-    const perpX = -dy / len;
-    const perpY = dx / len;
-    const offset = (i % 2 === 0 ? 1 : -1) * 24;
-    const ctrlX = mx + perpX * offset;
-    const ctrlY = my + perpY * offset;
-    const path = `M ${x} ${y} Q ${ctrlX} ${ctrlY} ${CX} ${CY}`;
+    const ux = dx / len;
+    const uy = dy / len;
+    const startX = x + ux * NODE_R;
+    const startY = y + uy * NODE_R;
+    const endX = CX - ux * 105;
+    const endY = CY - uy * 105;
+    const path = `M ${startX} ${startY} L ${endX} ${endY}`;
     return { ...a, x, y, path };
   });
 
@@ -110,10 +110,10 @@ const AtracoesSection = () => {
                     key={`conn-${i}`}
                     d={n.path}
                     fill="none"
-                    stroke={`hsl(${n.color} / ${isHot ? 0.95 : 0.45})`}
-                    strokeWidth={isHot ? 2 : 1.2}
+                    stroke={isHot ? `hsl(${n.color} / 0.9)` : "hsl(0 0% 100% / 0.12)"}
+                    strokeWidth={isHot ? 1.8 : 1}
                     strokeLinecap="round"
-                    style={{ transition: "all 0.6s ease", filter: isHot ? `drop-shadow(0 0 6px hsl(${n.color} / 0.8))` : undefined }}
+                    style={{ transition: "all 0.5s ease", filter: isHot ? `drop-shadow(0 0 4px hsl(${n.color} / 0.7))` : undefined }}
                   />
                 );
               })}
