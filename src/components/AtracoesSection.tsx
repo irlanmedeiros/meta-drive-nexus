@@ -71,18 +71,18 @@ const AtracoesSection = () => {
       />
       <div ref={ref} className="relative z-10 container mx-auto max-w-7xl">
         <h2
-          className={`font-orbitron text-3xl md:text-5xl text-center mb-3 tracking-[0.2em] font-light text-white/95 transition-all duration-700 ${
+          className={`font-display text-4xl md:text-6xl text-center mb-3 text-glow-blue text-[hsl(var(--comic-cyan))] transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          ATRAÇÕES
+          MAPA DE ATRAÇÕES
         </h2>
         <p
-          className={`text-center text-white/40 mb-16 max-w-xl mx-auto text-sm tracking-wide font-light transition-all duration-700 delay-200 ${
+          className={`text-center text-white/70 mb-12 max-w-xl mx-auto text-sm md:text-base font-light transition-all duration-700 delay-200 ${
             isVisible ? "opacity-100" : "opacity-0"
           }`}
         >
-          Um ecossistema conectado de experiências.
+          Explore cada estação do Metaverso, passe o mouse ou toque para descobrir as atrações.
         </p>
 
         <div
