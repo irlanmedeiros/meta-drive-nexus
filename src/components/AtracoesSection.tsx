@@ -6,27 +6,28 @@ type Atracao = {
   emoji: string;
   name: string;
   desc: string;
+  color: string; // hsl values
 };
 
 const atracoes: Atracao[] = [
-  { emoji: "🏆", name: "CPE", desc: "Campeonato Pessoense de E-Sports a 6 anos fazendo história" },
-  { emoji: "🎵", name: "K-Pop", desc: "Performances e batalhas de dança e cover" },
-  { emoji: "🕹️", name: "Arena Freeplay", desc: "Games clássicos e atuais em modo livre" },
-  { emoji: "🃏", name: "Card Games", desc: "Torneios de TCG, Magic, Pokémon e Yu-Gi-Oh!" },
-  { emoji: "🥽", name: "Laser Tag + VR", desc: "Ativações imersivas de realidade virtual e combate" },
-  { emoji: "🎤", name: "Shows", desc: "Apresentações ao vivo no palco principal" },
-  { emoji: "🎨", name: "Artist Alley", desc: "Espaço para artistas independentes exporem e venderem" },
-  { emoji: "🛍️", name: "Lojinhas", desc: "Produtos geek, colecionáveis e itens exclusivos" },
-  { emoji: "🍔", name: "Alimentação", desc: "Food trucks e opções gastronômicas temáticas" },
-  { emoji: "📱", name: "Influencers", desc: "Encontro com criadores de conteúdo do universo geek" },
-  { emoji: "🏛️", name: "Deck Cultural", desc: "18 totens históricos da Paraíba em linguagem de HQ e Games" },
+  { emoji: "🏆", name: "CPE", desc: "Campeonato Pessoense de E-Sports a 6 anos fazendo história", color: "48 100% 55%" },
+  { emoji: "🎵", name: "K-Pop", desc: "Performances e batalhas de dança e cover", color: "330 85% 60%" },
+  { emoji: "🕹️", name: "Arena Freeplay", desc: "Games clássicos e atuais em modo livre", color: "185 75% 55%" },
+  { emoji: "🃏", name: "Card Games", desc: "Torneios de TCG, Magic, Pokémon e Yu-Gi-Oh!", color: "270 76% 60%" },
+  { emoji: "🥽", name: "Laser Tag + VR", desc: "Ativações imersivas de realidade virtual e combate", color: "90 70% 55%" },
+  { emoji: "🎤", name: "Shows", desc: "Apresentações ao vivo no palco principal", color: "330 85% 60%" },
+  { emoji: "🎨", name: "Artist Alley", desc: "Espaço para artistas independentes exporem e venderem", color: "48 100% 55%" },
+  { emoji: "🛍️", name: "Lojinhas", desc: "Produtos geek, colecionáveis e itens exclusivos", color: "25 95% 58%" },
+  { emoji: "🍔", name: "Alimentação", desc: "Food trucks e opções gastronômicas temáticas", color: "185 75% 55%" },
+  { emoji: "📱", name: "Influencers", desc: "Encontro com criadores de conteúdo do universo geek", color: "270 76% 62%" },
+  { emoji: "🏛️", name: "Deck Cultural", desc: "18 totens históricos da Paraíba em linguagem de HQ e Games", color: "90 70% 55%" },
 ];
 
 const CX = 500;
 const CY = 500;
 const R = 360;
-const NODE_R = 32;
-const ACCENT = "210 90% 70%"; // azul suave
+const NODE_R = 42;
+const ACCENT = "185 75% 60%";
 
 const AtracoesSection = () => {
   const { ref, isVisible } = useScrollAnimation();
