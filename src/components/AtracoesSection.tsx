@@ -267,8 +267,8 @@ const AtracoesSection = () => {
         </div>
 
         {active === null && (
-          <p className="mt-10 text-center text-white/30 text-xs font-light tracking-[0.3em] uppercase">
-            Toque em um nó
+          <p className="mt-10 text-center text-white/70 text-sm font-display tracking-wider">
+            👆 Toque em uma estação para ver os detalhes
           </p>
         )}
       </div>
