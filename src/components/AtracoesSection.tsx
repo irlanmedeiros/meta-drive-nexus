@@ -66,7 +66,7 @@ const AtracoesSection = () => {
         </h2>
 
         <div className={`relative mx-auto w-full max-w-6xl transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
-          <div className="relative mx-auto aspect-square w-full max-w-5xl overflow-visible rounded-[2.5rem] border border-white/10 bg-[radial-gradient(circle_at_center,rgba(35,24,64,0.55)_0%,rgba(8,10,18,0.25)_50%,rgba(8,10,18,0)_100%)]">
+          <div className="relative mx-auto aspect-square w-full max-w-5xl overflow-visible rounded-[2.5rem],rgba(35,24,64,0.55)_0%,rgba(8,10,18,0.25)_50%,rgba(8,10,18,0)_100%)]">
             <div className="absolute inset-0 animate-orbit-slow">
               <svg viewBox="0 0 1000 1000" className="absolute inset-0 h-full w-full overflow-visible" aria-hidden="true">
                 <circle cx="500" cy="500" r="322" fill="none" stroke="hsl(0 0% 100% / 0.12)" strokeWidth="1" strokeDasharray="5 10" />
