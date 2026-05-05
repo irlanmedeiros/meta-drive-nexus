@@ -25,7 +25,7 @@ const atracoes: Atracao[] = [
 
 const CX = 500;
 const CY = 500;
-const R = 360;
+const R = 340;
 const NODE_R = 42;
 const ACCENT = "185 75% 60%";
 
