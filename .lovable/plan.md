@@ -1,34 +1,21 @@
-## Refinar animações da seção Atrações
+## Alterações em `src/components/AtracoesSection.tsx`
 
-Ajustes focados em `src/components/AtracoesSection.tsx`:
+**1. Clique pausa rotação por 8s**
+- Estado `isPaused` + ref `resumeTimerRef`.
+- `handleNodeClick(i)` define `activeIndex`, pausa, e agenda `setTimeout(8000)` para retomar.
+- `setInterval` que avança índice só roda quando `!isPaused`.
+- Unificar: usar apenas `activeIndex` (remover `pulseIndex`) — o card central reflete sempre o ativo.
 
-### 1. Hover dos nós — apenas pulsação suave
-- Remover o `scale(1.12)` brusco no hover.
-- Substituir por uma **pulsação contínua e sutil** apenas enquanto o mouse está sobre o nó:
-  - Animar `r` do círculo entre `NODE_R` e `NODE_R + 4` (ou usar `transform: scale(1) ↔ scale(1.06)`) com duração ~1.2s, ease-in-out, infinito.
-  - Glow do `drop-shadow` acompanhando o pulso (intensidade oscilando levemente).
-- Manter um leve destaque (cor da conexão acende), mas sem "saltar" o nó.
-- Para nós ativos (clicados), aplicar uma escala fixa bem discreta (1.05) sem pulsar, para diferenciar do hover.
+**2. Trocar emojis por ícones lucide-react**
+- Tipo `Atracao.emoji` → `Atracao.Icon: LucideIcon`.
+- Mapeamento: CPE→Trophy, K-Pop→Music2, Arena Freeplay→Gamepad2, Card Games→Spade, Laser Tag+VR→Glasses, Shows→Mic2, Artist Alley→Palette, Lojinhas→ShoppingBag, Alimentação→UtensilsCrossed, Influencers→Smartphone, Deck Cultural→Landmark, Apoiadores→Briefcase.
+- Renderizar com `color: hsl(<a.color>)` e drop-shadow colorido.
 
-### 2. Logo central — sem fundo
-- Remover o `<circle>` escuro de fundo (`hsl(270 40% 12% / 0.6)`) e o anel tracejado rosa.
-- Manter apenas a `<image>` da logo com `drop-shadow` cyan/magenta para integração com o tema, sem moldura circular.
-- Opcional: aumentar levemente a logo (de 180 para ~200) já que o fundo sai.
-- As ramificações continuam terminando próximas ao centro (raio ~95–100) para não invadir a logo.
+**3. Card central exibe o ícone da atração ativa**
+- Remover `logoMetaverso`; renderizar o ícone grande (h-10/h-12) com glow da cor da atração.
+- Adicionar `key={activeAtracao.name}` + `animate-scale-in` no card para transição suave ao trocar.
 
-### 3. Pulso percorrendo as ramificações
-- Manter o pulso atual (ponto luminoso viajando do nó até o centro), mas:
-  - Suavizar com `calcMode="spline"` e easing (`keySplines="0.4 0 0.2 1"`).
-  - Reduzir intervalo entre ciclos para 3s.
-  - Garantir que a linha da ramificação ativa acenda **gradualmente** (transição de 0.6s) em vez de "piscar".
+**4. Beam flow**
+- O `beam-flow` passa a seguir o nó ativo (em vez do `pulseIndex` separado).
 
-### 4. Conexões — transições mais suaves
-- Aumentar `transition` de 0.5s para 0.6s com `cubic-bezier(0.4, 0, 0.2, 1)`.
-- Diferença entre estado inativo/ativo mais sutil: `strokeWidth` 1 → 1.5 (em vez de 1.8) e opacidade do glow reduzida.
-
-### 5. Card de detalhes
-- Manter como está, apenas trocar a animação de entrada para `scale-in` (já existe no Tailwind config) para uma aparição mais natural.
-
-### Fora de escopo
-- Não alterar layout circular, posições dos nós, paleta, fontes, ou outras seções.
-- Não mexer em dados das atrações.
+Sem mudanças em layout, paleta, posições ou outras seções.
