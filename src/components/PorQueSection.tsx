@@ -1,5 +1,6 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Camera, Handshake, MapPin, Target, type LucideIcon } from "lucide-react";
+import Particles from "./Particles";
 
 const reasons = [
   { icon: MapPin, title: "Mercado em Expansão", desc: "A cena geek nordestina cresce rapidamente, com público ávido e mercado ainda pouco explorado por grandes marcas.", accent: "border-neon-yellow", color: "text-neon-yellow" },
@@ -13,6 +14,7 @@ const PorQueSection = () => {
 
   return (
     <section id="porque" className="relative py-16 md:py-24 px-4 overflow-hidden radial-burst-purple">
+      <Particles />
       <div className="absolute inset-0 halftone pointer-events-none" />
 
       <div className="absolute top-20 right-10 w-14 h-14 bg-neon-green starburst opacity-40 hidden md:block" />
