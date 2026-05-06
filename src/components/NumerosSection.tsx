@@ -3,14 +3,14 @@ import { useCountUp } from "@/hooks/useCountUp";
 import glitchInovatec from "@/assets/glitch-inovatec.png";
 
 const metrics = [
-  { value: 3, label: "Dias de Evento", suffix: "", color: "text-neon-green", bg: "bg-neon-green" },
+  { value: 4, label: "Dias de Evento", suffix: "", color: "text-neon-green", bg: "bg-neon-green" },
   { value: 6, label: "Anos do CPE", suffix: "", color: "text-comic-cyan", bg: "bg-comic-cyan" },
   { value: 18, label: "Totens do Deck Cultural", suffix: "", color: "text-neon-pink", bg: "bg-neon-pink" },
   { value: 3, label: "Eras Temáticas", suffix: "", color: "text-neon-purple", bg: "bg-neon-purple" },
 ];
 
 const placeholders = [
-  { label: "Público Estimado", value: "+de 10 Mil Pessoas", color: "text-neon-yellow", border: "border-neon-yellow" },
+  { label: "Público Estimado", value: "+de 20 Mil Pessoas", color: "text-neon-yellow", border: "border-neon-yellow" },
   { label: "Alcance nas Redes", value: "Em breve", color: "text-comic-cyan", border: "border-comic-cyan" },
   { label: "Influencers Confirmados", value: "Em breve", color: "text-neon-pink", border: "border-neon-pink" },
 ];

@@ -5,7 +5,7 @@ import { Gamepad2, GraduationCap, Laptop, Music2, Package, Palette, type LucideI
 const profiles = [
   { icon: Gamepad2, label: "Gamers", desc: "Jogadores casuais e competitivos", accent: "border-neon-green", color: "text-neon-green" },
   { icon: Music2, label: "Fãs de K-Pop", desc: "Comunidade de dance cover e fans", accent: "border-neon-pink", color: "text-neon-pink" },
-  { icon: Laptop, label: "Tech Enthusiasts", desc: "Entusiastas de tecnologia e inovação", accent: "border-comic-cyan", color: "text-comic-cyan" },
+  { icon: Laptop, label: "Tech Entusiastas", desc: "Entusiastas de tecnologia e inovação", accent: "border-comic-cyan", color: "text-comic-cyan" },
   { icon: Palette, label: "Artistas", desc: "Ilustradores, cosplayers e criadores", accent: "border-neon-yellow", color: "text-neon-yellow" },
   { icon: Package, label: "Colecionadores", desc: "Figuras, cards e itens exclusivos", accent: "border-neon-purple", color: "text-neon-purple" },
   { icon: GraduationCap, label: "Estudantes", desc: "Jovens universitários e do ensino médio", accent: "border-comic-orange", color: "text-comic-orange" },
