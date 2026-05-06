@@ -35,20 +35,20 @@ const EventoSection = () => {
           {eras.map((era, i) => (
             <div
               key={era.name}
-              className={`group relative overflow-hidden transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+              className={`group relative overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_20px_60px_rgba(0,0,0,0.35)] ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
               style={{ transitionDelay: `${300 + i * 150}ms` }}
             >
               {/* Header with background image (name centered at bottom) */}
               <div className="relative border-b-3 border-black overflow-hidden">
                 <div
-                  className="w-full h-40 md:h-48 lg:h-56 bg-cover bg-center bg-no-repeat"
+                  className="w-full h-40 md:h-48 lg:h-56 bg-cover bg-center bg-no-repeat transition-transform duration-500 group-hover:scale-105"
                   style={{ backgroundImage: `url(${eraBgs[i]})` }}
                 />
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-center pb-4">
                   <h3 className={`font-display text-2xl ${era.textHead} text-center`}>{era.name}</h3>
                 </div>
               </div>
-              <div className="bg-card p-6 halftone-dense">
+              <div className="bg-card p-6 halftone-dense transition-colors duration-300 group-hover:bg-card/90">
                 <p className="text-muted-foreground text-sm">{era.desc}</p>
               </div>
             </div>
