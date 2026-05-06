@@ -15,9 +15,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { useIsMobile } from "@/hooks/use-mobile";
-import tvBg from "@/assets/tv-bg.png";
-import tvBgVertical from "@/assets/tv-bg-vertical.png";
+import tvImg from "@/assets/tv-transparent.png";
 
 type Atracao = {
   Icon: LucideIcon;
@@ -44,9 +42,11 @@ const atracoes: Atracao[] = [
 const RESUME_DELAY_MS = 8000;
 const ROTATE_INTERVAL_MS = 4500;
 
+// Posição da tela preta dentro do PNG da TV (em % do bounding box do <img>)
+const SCREEN = { left: 26.2, top: 32.5, width: 41.2, height: 46.5 };
+
 const AtracoesSection = () => {
   const { ref, isVisible } = useScrollAnimation();
-  const isMobile = useIsMobile();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const resumeTimerRef = useRef<number | null>(null);
@@ -73,145 +73,108 @@ const AtracoesSection = () => {
   const active = atracoes[activeIndex];
   const ActiveIcon = active.Icon;
 
-  const ActiveCard = (
-    <div
-      key={active.name}
-      className="text-center animate-scale-in px-4"
-    >
-      <div
-        className="mx-auto mb-3 md:mb-4 flex h-14 w-14 md:h-20 md:w-20 items-center justify-center rounded-full"
-        style={{ background: `radial-gradient(circle, hsl(${active.color} / 0.25), transparent 70%)` }}
-      >
-        <ActiveIcon
-          className="h-8 w-8 md:h-12 md:w-12"
-          style={{
-            color: `hsl(${active.color})`,
-            filter: `drop-shadow(0 0 14px hsl(${active.color} / 0.85))`,
-          }}
-          strokeWidth={2}
-        />
-      </div>
-      <h3 className="font-display text-lg md:text-3xl text-white leading-tight mb-2 tracking-wide">
-        {active.name}
-      </h3>
-      <p className="text-xs md:text-sm text-slate-200/85 leading-relaxed max-w-xs mx-auto">
-        {active.desc}
-      </p>
-    </div>
-  );
-
-  const IconGrid = (
-    <div className="grid grid-cols-4 gap-x-3 gap-y-5 md:gap-x-5 md:gap-y-7">
-      {atracoes.map((a, index) => {
-        const NodeIcon = a.Icon;
-        const isActive = index === activeIndex;
-        return (
-          <button
-            key={a.name}
-            type="button"
-            onClick={() => handleClick(index)}
-            className={`group flex flex-col items-center gap-1.5 transition-transform duration-300 focus:outline-none ${isActive ? "scale-110" : "hover:scale-105 active:scale-95"}`}
-            aria-label={a.name}
-          >
-            <span className="relative flex items-center justify-center">
-              {isActive && (
-                <span
-                  className="absolute inset-0 -m-3 rounded-full opacity-80 blur-md"
-                  style={{ background: `radial-gradient(circle, hsl(${a.color} / 0.55), transparent 70%)` }}
-                />
-              )}
-              <span
-                className={`relative flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-full border bg-black/70 backdrop-blur-md transition-all ${isActive ? "border-white/70 ring-2 ring-white/40" : "border-white/15"}`}
-                style={{
-                  boxShadow: isActive
-                    ? `0 0 22px hsl(${a.color} / 0.7)`
-                    : `0 0 8px hsl(${a.color} / 0.18)`,
-                }}
-              >
-                <NodeIcon
-                  className="h-5 w-5 md:h-6 md:w-6"
-                  style={{ color: `hsl(${a.color})` }}
-                  strokeWidth={2}
-                />
-              </span>
-            </span>
-            <span
-              className={`text-[9px] md:text-[10px] leading-tight text-center font-display uppercase tracking-wide line-clamp-2 ${isActive ? "text-white" : "text-white/55"}`}
-            >
-              {a.name}
-            </span>
-          </button>
-        );
-      })}
-    </div>
-  );
-
   return (
     <section
       id="atracoes"
       className="relative py-16 md:py-24 px-4 overflow-hidden"
-      style={{ background: "hsl(280 50% 12%)" }}
+      style={{ background: "hsl(280 50% 14%)" }}
     >
       <div ref={ref} className="relative z-10 container mx-auto max-w-6xl">
         <h2 className={`font-display text-3xl sm:text-4xl md:text-6xl text-center mb-3 text-comic-cyan text-glow-blue transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           PROGRAMAÇÃO
         </h2>
-        <p className={`text-center text-sm md:text-base text-white/75 max-w-2xl mx-auto mb-10 md:mb-14 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-          Confira a nossa programação no canal Metaverso. <span className="text-comic-cyan">Clique em cada atração</span> para ver os detalhes — ou apenas relaxe e assista.
+        <p className={`text-center text-sm md:text-base text-white/75 max-w-2xl mx-auto mb-8 md:mb-12 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+          Confira a nossa programação no Canal Metaverso. <span className="text-comic-cyan">Clique em cada atração</span> para ver os detalhes — ou apenas relaxe e assista.
         </p>
 
-        {isMobile ? (
-          <div className={`relative mx-auto w-full max-w-md transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
-            {/* TV vertical com card no "screen" */}
-            <div className="relative w-full" style={{ aspectRatio: "1080 / 1920" }}>
-              <img
-                src={tvBgVertical}
-                alt=""
-                className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"
-                draggable={false}
-              />
-              {/* Screen area mobile - approx coords from bg_vertical */}
+        <div className={`relative mx-auto w-full max-w-3xl transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
+          {/* TV */}
+          <div className="relative w-full" style={{ aspectRatio: "1944 / 1296" }}>
+            <img
+              src={tvImg}
+              alt="TV Metaverso"
+              className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"
+              draggable={false}
+            />
+            {/* Programação dentro da tela */}
+            <div
+              className="absolute flex items-center justify-center overflow-hidden"
+              style={{
+                left: `${SCREEN.left}%`,
+                top: `${SCREEN.top}%`,
+                width: `${SCREEN.width}%`,
+                height: `${SCREEN.height}%`,
+              }}
+            >
               <div
-                className="absolute flex items-center justify-center"
-                style={{ left: "24%", top: "19%", width: "53%", height: "21%" }}
+                key={active.name}
+                className="w-full h-full flex flex-col items-center justify-center text-center px-3 animate-scale-in"
               >
-                {ActiveCard}
-              </div>
-              {/* Grid area within bottom of bg */}
-              <div className="absolute" style={{ left: "12%", right: "8%", top: "57%" }}>
-                {IconGrid}
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className={`relative w-full transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
-            <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-6 items-center">
-              {/* TV horizontal com card no screen */}
-              <div className="relative w-full" style={{ aspectRatio: "1920 / 1080" }}>
-                <img
-                  src={tvBg}
-                  alt=""
-                  className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"
-                  draggable={false}
-                />
-                {/* Screen area desktop - approx coords */}
                 <div
-                  className="absolute flex items-center justify-center"
-                  style={{ left: "9%", top: "33%", width: "37%", height: "53%" }}
+                  className="mb-1 sm:mb-2 md:mb-3 flex items-center justify-center"
+                  style={{ filter: `drop-shadow(0 0 14px hsl(${active.color} / 0.85))` }}
                 >
-                  {ActiveCard}
+                  <ActiveIcon
+                    className="h-7 w-7 sm:h-9 sm:w-9 md:h-12 md:w-12"
+                    style={{ color: `hsl(${active.color})` }}
+                    strokeWidth={2}
+                  />
                 </div>
-              </div>
-              {/* Grid à direita */}
-              <div className="relative px-2 md:px-4">
-                <div className="absolute inset-0 -z-10 opacity-60" style={{
-                  background: "radial-gradient(ellipse at center, hsl(280 60% 25% / 0.6), transparent 70%)",
-                }} />
-                {IconGrid}
+                <h3 className="font-display text-[11px] sm:text-base md:text-2xl text-white leading-tight mb-1 md:mb-2 tracking-wide">
+                  {active.name}
+                </h3>
+                <p className="text-[8px] sm:text-[10px] md:text-xs text-slate-200/85 leading-snug line-clamp-3 max-w-[92%]">
+                  {active.desc}
+                </p>
               </div>
             </div>
           </div>
-        )}
+
+          {/* Grid de atrações */}
+          <div className="mt-6 md:mt-10 grid grid-cols-4 sm:grid-cols-6 gap-x-3 gap-y-5 md:gap-x-5 md:gap-y-6 max-w-2xl mx-auto">
+            {atracoes.map((a, index) => {
+              const NodeIcon = a.Icon;
+              const isActive = index === activeIndex;
+              return (
+                <button
+                  key={a.name}
+                  type="button"
+                  onClick={() => handleClick(index)}
+                  className={`group flex flex-col items-center gap-1.5 transition-transform duration-300 focus:outline-none ${isActive ? "scale-110" : "hover:scale-105 active:scale-95"}`}
+                  aria-label={a.name}
+                >
+                  <span className="relative flex items-center justify-center">
+                    {isActive && (
+                      <span
+                        className="absolute inset-0 -m-3 rounded-full opacity-80 blur-md"
+                        style={{ background: `radial-gradient(circle, hsl(${a.color} / 0.55), transparent 70%)` }}
+                      />
+                    )}
+                    <span
+                      className={`relative flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-full border bg-black/70 backdrop-blur-md transition-all ${isActive ? "border-white/70 ring-2 ring-white/40" : "border-white/15"}`}
+                      style={{
+                        boxShadow: isActive
+                          ? `0 0 22px hsl(${a.color} / 0.7)`
+                          : `0 0 8px hsl(${a.color} / 0.18)`,
+                      }}
+                    >
+                      <NodeIcon
+                        className="h-5 w-5 md:h-6 md:w-6"
+                        style={{ color: `hsl(${a.color})` }}
+                        strokeWidth={2}
+                      />
+                    </span>
+                  </span>
+                  <span
+                    className={`text-[9px] md:text-[10px] leading-tight text-center font-display uppercase tracking-wide line-clamp-2 ${isActive ? "text-white" : "text-white/55"}`}
+                  >
+                    {a.name}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </section>
   );
