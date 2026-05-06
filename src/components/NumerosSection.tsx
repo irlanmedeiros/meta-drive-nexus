@@ -18,9 +18,9 @@ const placeholders = [
 const MetricCard = ({ value, label, color, bg, isVisible }: { value: number; label: string; color: string; bg: string; isVisible: boolean }) => {
   const count = useCountUp(value, isVisible);
   return (
-    <div className="comic-card bg-card p-6 text-center">
-      <div className={`${bg} w-16 h-16 rounded-full mx-auto mb-3 flex items-center justify-center`}>
-        <span className="font-display text-3xl text-background">{count}</span>
+    <div className="comic-card bg-card p-4 sm:p-6 text-center">
+      <div className={`${bg} w-14 h-14 sm:w-16 sm:h-16 rounded-full mx-auto mb-3 flex items-center justify-center`}>
+        <span className="font-display text-2xl sm:text-3xl text-background">{count}</span>
       </div>
       <div className="text-muted-foreground text-xs font-display uppercase tracking-wider">{label}</div>
     </div>
@@ -31,7 +31,7 @@ const NumerosSection = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="numeros" className="relative py-24 px-4 overflow-hidden halftone">
+    <section id="numeros" className="relative py-16 md:py-24 px-4 overflow-hidden halftone">
       <img src={glitchInovatec} alt="Glitch" className="absolute top-12 right-4 w-32 md:w-48 opacity-30 pointer-events-none hidden md:block" />
 
       <div className="absolute top-20 left-10 w-12 h-12 bg-neon-green starburst opacity-40 hidden md:block" />

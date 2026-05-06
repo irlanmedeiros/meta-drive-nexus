@@ -13,11 +13,11 @@ const formatNumber = (n: number) =>
   n.toLocaleString("pt-BR");
 
 const CountdownBlock = ({ value, label }: { value: number; label: string }) => (
-  <div className="flex flex-col items-center px-3 md:px-5">
-    <span className="font-display text-4xl sm:text-5xl md:text-7xl text-white leading-none tracking-tight">
+  <div className="flex flex-col items-center px-2 sm:px-3 md:px-5">
+    <span className="font-display text-3xl sm:text-5xl md:text-7xl text-white leading-none tracking-tight">
       {formatNumber(value)}
     </span>
-    <span className="mt-1 text-[10px] sm:text-xs font-display uppercase tracking-[0.25em] text-white/60">
+    <span className="mt-1 text-[9px] sm:text-xs font-display uppercase tracking-[0.2em] sm:tracking-[0.25em] text-white/60">
       {label}
     </span>
   </div>
@@ -165,11 +165,11 @@ const HeroSection = () => {
       <img
         src={glitchApresentador}
         alt="Glitch - Mascote do Metaverso Experience"
-        className="absolute bottom-4 right-4 md:right-12 w-24 md:w-40 opacity-85 animate-float pointer-events-none drop-shadow-[0_0_30px_rgba(107,33,168,0.6)]"
+        className="absolute bottom-2 right-2 md:right-12 w-20 md:w-40 opacity-85 animate-float pointer-events-none drop-shadow-[0_0_30px_rgba(107,33,168,0.6)]"
       />
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float hidden sm:block">
         <div className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-1">
           <div className="w-1.5 h-3 bg-white/50 rounded-full animate-pulse-glow" />
         </div>
