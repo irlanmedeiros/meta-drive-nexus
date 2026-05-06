@@ -70,7 +70,7 @@ const GaleriaSection = () => {
   const hasVideos = videos.length > 0;
 
   return (
-    <section id="galeria" className="relative py-24 px-4 halftone">
+    <section id="galeria" className="relative py-16 md:py-24 px-4 halftone">
       <div className="absolute inset-0 halftone pointer-events-none" />
       <img
         src={glitchColerico}
@@ -136,8 +136,8 @@ const GaleriaSection = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden md:flex -left-4 lg:-left-12 bg-background/80 border-neon-pink/40 text-neon-pink hover:bg-neon-pink hover:text-background" />
-            <CarouselNext className="hidden md:flex -right-4 lg:-right-12 bg-background/80 border-neon-pink/40 text-neon-pink hover:bg-neon-pink hover:text-background" />
+            <CarouselPrevious className="left-1 md:-left-4 lg:-left-12 h-8 w-8 md:h-10 md:w-10 bg-background/80 border-neon-pink/40 text-neon-pink hover:bg-neon-pink hover:text-background" />
+            <CarouselNext className="right-1 md:-right-4 lg:-right-12 h-8 w-8 md:h-10 md:w-10 bg-background/80 border-neon-pink/40 text-neon-pink hover:bg-neon-pink hover:text-background" />
           </Carousel>
         </div>
 
@@ -178,8 +178,8 @@ const GaleriaSection = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden md:flex -left-4 lg:-left-12 bg-background/80 border-comic-cyan/40 text-comic-cyan hover:bg-comic-cyan hover:text-background" />
-            <CarouselNext className="hidden md:flex -right-4 lg:-right-12 bg-background/80 border-comic-cyan/40 text-comic-cyan hover:bg-comic-cyan hover:text-background" />
+            <CarouselPrevious className="left-1 md:-left-4 lg:-left-12 h-8 w-8 md:h-10 md:w-10 bg-background/80 border-comic-cyan/40 text-comic-cyan hover:bg-comic-cyan hover:text-background" />
+            <CarouselNext className="right-1 md:-right-4 lg:-right-12 h-8 w-8 md:h-10 md:w-10 bg-background/80 border-comic-cyan/40 text-comic-cyan hover:bg-comic-cyan hover:text-background" />
           </Carousel>
         </div>
       </div>

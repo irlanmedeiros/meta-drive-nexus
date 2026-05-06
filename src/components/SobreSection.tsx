@@ -6,7 +6,7 @@ const SobreSection = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="sobre" className="relative py-24 px-4 overflow-hidden halftone">
+    <section id="sobre" className="relative py-16 md:py-24 px-4 overflow-hidden halftone">
       <img src={decoCloud} alt="" className="absolute top-10 left-10 w-40 opacity-15 pointer-events-none hidden md:block" />
       <img src={glitchSedutor} alt="Glitch" className="absolute bottom-0 right-10 w-40 md:w-46 opacity-40 pointer-events-none hidden md:block z-0" />
 

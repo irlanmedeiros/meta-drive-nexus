@@ -16,7 +16,7 @@ const EventoSection = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="evento" className="relative py-24 px-4 overflow-hidden radial-burst-purple">
+    <section id="evento" className="relative py-16 md:py-24 px-4 overflow-hidden radial-burst-purple">
       <div className="absolute inset-0 halftone pointer-events-none" />
       <img src={decoWave} alt="" className="absolute bottom-0 left-0 w-64 opacity-15 pointer-events-none" />
 

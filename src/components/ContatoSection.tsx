@@ -8,7 +8,7 @@ const ContatoSection = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="contato" className="relative py-24 px-4 overflow-hidden radial-burst">
+    <section id="contato" className="relative py-16 md:py-24 px-4 overflow-hidden radial-burst">
       <div className="absolute inset-0 halftone pointer-events-none" />
       <Particles />
 
@@ -24,7 +24,7 @@ const ContatoSection = () => {
           </div>
         </div>
 
-        <h2 className={`font-display text-4xl md:text-6xl mb-4 text-neon-yellow text-glow-yellow transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+        <h2 className={`font-display text-3xl sm:text-4xl md:text-6xl mb-4 text-neon-yellow text-glow-yellow transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           Vamos construir esse<br />metaverso juntos?
         </h2>
 

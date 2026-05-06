@@ -12,7 +12,7 @@ const PorQueSection = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="porque" className="relative py-24 px-4 overflow-hidden radial-burst-purple">
+    <section id="porque" className="relative py-16 md:py-24 px-4 overflow-hidden radial-burst-purple">
       <div className="absolute inset-0 halftone pointer-events-none" />
 
       <div className="absolute top-20 right-10 w-14 h-14 bg-neon-green starburst opacity-40 hidden md:block" />

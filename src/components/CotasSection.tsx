@@ -99,7 +99,7 @@ const CotasSection = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="cotas" className="relative py-24 px-4 overflow-hidden halftone">
+    <section id="cotas" className="relative py-16 md:py-24 px-4 overflow-hidden halftone">
       <img src={glitchSentado} alt="Glitch" className="absolute bottom-8 right-4 w-36 md:w-52 opacity-25 pointer-events-none hidden md:block" />
 
       <div className="absolute top-16 right-8 w-16 h-16 bg-neon-yellow starburst opacity-40 hidden md:block" />
@@ -162,7 +162,7 @@ const CotasSection = () => {
               </div>
             </div>
 
-            <div className="p-8 md:p-10">
+            <div className="p-6 md:p-10">
               <div className="grid md:grid-cols-3 gap-x-8 gap-y-2 mb-8">
                 {c.benefits.map(b => (
                   <div key={b} className="text-sm text-muted-foreground flex gap-2 py-1">
@@ -173,7 +173,7 @@ const CotasSection = () => {
               </div>
 
               <div className="text-center">
-                <a href="#contato" className="inline-block font-display text-lg uppercase px-10 py-4 bg-neon-pink text-foreground comic-card tracking-widest transition-all hover:scale-105">
+                <a href="#contato" className="inline-block font-display text-base sm:text-lg uppercase px-6 sm:px-10 py-3 sm:py-4 bg-neon-pink text-foreground comic-card tracking-wider sm:tracking-widest transition-all hover:scale-105">
                   Quero a cota Master
                 </a>
               </div>
