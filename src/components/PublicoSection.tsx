@@ -17,6 +17,7 @@ const PublicoSection = () => {
 
   return (
     <section id="publico" className="relative py-16 md:py-24 px-4 overflow-hidden radial-burst-purple">
+      <Particles />
       <div className="absolute inset-0 halftone pointer-events-none" />
       <img src={glitchKpop} alt="Glitch" className="absolute bottom-8 w-32 md:w-48 opacity-30 pointer-events-none hidden md:block" />
 

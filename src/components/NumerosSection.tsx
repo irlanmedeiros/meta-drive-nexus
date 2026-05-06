@@ -33,6 +33,7 @@ const NumerosSection = () => {
 
   return (
     <section id="numeros" className="relative py-16 md:py-24 px-4 overflow-hidden halftone">
+      <Particles />
       <img src={glitchInovatec} alt="Glitch" className="absolute top-12 right-4 w-32 md:w-48 opacity-30 pointer-events-none hidden md:block" />
 
       <div className="absolute top-20 left-10 w-12 h-12 bg-neon-green starburst opacity-40 hidden md:block" />

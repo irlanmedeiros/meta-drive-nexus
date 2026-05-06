@@ -8,6 +8,7 @@ const SobreSection = () => {
 
   return (
     <section id="sobre" className="relative py-16 md:py-24 px-4 overflow-hidden halftone">
+      <Particles />
       <img src={decoCloud} alt="" className="absolute top-10 left-10 w-40 opacity-15 pointer-events-none hidden md:block" />
 
       <div className="absolute bottom-16 right-20 w-12 h-12 bg-neon-yellow starburst opacity-30 hidden md:block" />
