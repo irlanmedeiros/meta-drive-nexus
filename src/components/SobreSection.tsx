@@ -8,15 +8,14 @@ const SobreSection = () => {
   return (
     <section id="sobre" className="relative py-16 md:py-24 px-4 overflow-hidden halftone">
       <img src={decoCloud} alt="" className="absolute top-10 left-10 w-40 opacity-15 pointer-events-none hidden md:block" />
-      <img src={glitchSedutor} alt="Glitch" className="absolute bottom-0 right-10 w-40 md:w-46 opacity-40 pointer-events-none hidden md:block z-0" />
 
-      <div className="absolute bottom-16 left-20 w-12 h-12 bg-neon-yellow starburst opacity-30 hidden md:block" />
+      <div className="absolute bottom-16 right-20 w-12 h-12 bg-neon-yellow starburst opacity-30 hidden md:block" />
 
       <div ref={ref} className="relative z-10 container mx-auto max-w-4xl text-center">
         <h2 className={`font-display text-4xl md:text-6xl mb-8 text-comic-cyan text-glow-blue transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           SOBRE NÓS
         </h2>
-        <div className={`comic-card bg-card p-8 md:p-12 text-left transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+        <div className={`comic-card bg-card p-8 md:p-12 text-justify transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-6">
             Por trás do <span className="text-neon-purple font-display text-xl">Metaverso Experience</span> está a <span className="text-neon-green font-display text-xl">Flama Studio</span>, uma agência de marketing e produtora de eventos que nasce em João Pessoa e é movida por talentos locais.
           </p>

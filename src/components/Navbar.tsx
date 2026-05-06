@@ -3,8 +3,8 @@ import logo from "@/assets/Ativo15.svg";
 
 const navItems = [
   { label: "O Evento", href: "#evento" },
-  { label: "Atrações", href: "#atracoes" },
   { label: "Galeria", href: "#galeria" },
+  { label: "Atrações", href: "#atracoes" },
   { label: "Números", href: "#numeros" },
   { label: "Público", href: "#publico" },
   { label: "Cotas", href: "#cotas" },

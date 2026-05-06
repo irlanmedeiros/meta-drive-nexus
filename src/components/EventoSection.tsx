@@ -28,7 +28,7 @@ const EventoSection = () => {
           O EVENTO
         </h2>
         <p className={`text-center text-muted-foreground max-w-3xl mx-auto mb-16 text-base md:text-lg leading-relaxed transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          Festival geek multitemático que une competição, cultura pop, tecnologia e entretenimento em um único espaço. Segunda edição com potencial de se tornar o <span className="text-neon-green font-semibold">maior evento geek da Paraíba e do Nordeste</span>.
+          Festival de Entretenimento e Cultura Digital que une competição, cultura pop e tecnologia em um único espaço. Segunda edição com potencial de se tornar o <span className="text-neon-green font-semibold">maior festival de Entretenimento e Cultura Digital do Nordeste</span>.
         </p>
 
         <div className="grid md:grid-cols-3 gap-6">
@@ -41,7 +41,7 @@ const EventoSection = () => {
               {/* Header with background image (name centered at bottom) */}
               <div className="relative border-b-3 border-black overflow-hidden">
                 <div
-                  className="w-full h-40 md:h-48 lg:h-56 bg-contain bg-center bg-no-repeat"
+                  className="w-full h-40 md:h-48 lg:h-56 bg-cover bg-center bg-no-repeat"
                   style={{ backgroundImage: `url(${eraBgs[i]})` }}
                 />
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-center pb-4">
