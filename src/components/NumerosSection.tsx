@@ -1,6 +1,7 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useCountUp } from "@/hooks/useCountUp";
 import glitchInovatec from "@/assets/glitch-inovatec.png";
+import Particles from "./Particles";
 
 const metrics = [
   { value: 4, label: "Dias de Evento", suffix: "", color: "text-neon-green", bg: "bg-neon-green" },

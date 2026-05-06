@@ -1,6 +1,7 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import decoWave from "@/assets/deco-wave.png";
 import medievalBg from "@/assets/MEDIEVAL1.svg";
+import Particles from "./Particles";
 import presenteBg from "@/assets/PRESENTE1.svg";
 import futuroBg from "@/assets/FUTURO1.svg";
 

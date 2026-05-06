@@ -1,5 +1,6 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Camera, Handshake, MapPin, Target, type LucideIcon } from "lucide-react";
+import Particles from "./Particles";
 
 const reasons = [
   { icon: MapPin, title: "Mercado em Expansão", desc: "A cena geek nordestina cresce rapidamente, com público ávido e mercado ainda pouco explorado por grandes marcas.", accent: "border-neon-yellow", color: "text-neon-yellow" },

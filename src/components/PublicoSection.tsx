@@ -1,5 +1,6 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import glitchKpop from "@/assets/glitch-kpop.png";
+import Particles from "./Particles";
 import { Gamepad2, GraduationCap, Laptop, Music2, Package, Palette, type LucideIcon } from "lucide-react";
 
 const profiles = [

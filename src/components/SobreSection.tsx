@@ -1,6 +1,7 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import decoCloud from "@/assets/deco-cloud.png";
 import glitchSedutor from "@/assets/glitch-sedutor.png";
+import Particles from "./Particles";
 
 const SobreSection = () => {
   const { ref, isVisible } = useScrollAnimation();

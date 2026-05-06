@@ -1,5 +1,6 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import glitchSentado from "@/assets/glitch-sentado.png";
+import Particles from "./Particles";
 
 const cotas = [
   {
