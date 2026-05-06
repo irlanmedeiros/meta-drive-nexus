@@ -2,6 +2,7 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import glitchColerico from "@/assets/glitch-colerico.png";
+import Particles from "./Particles";
 import {
   Carousel,
   CarouselContent,
@@ -72,6 +73,7 @@ const GaleriaSection = () => {
   return (
     <section id="galeria" className="relative py-16 md:py-24 px-4 halftone">
       <div className="absolute inset-0 halftone pointer-events-none" />
+      <Particles />
       <img
         src={glitchColerico}
         alt="Glitch"

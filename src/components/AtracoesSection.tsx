@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import tvImg from "@/assets/tv-transparent.png";
+import Particles from "./Particles";
 
 type Atracao = {
   Icon: LucideIcon;
@@ -83,6 +84,7 @@ const AtracoesSection = () => {
       }}
     >
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.14),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(244,114,182,0.14),transparent_28%)]" />
+      <Particles />
       <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/70 via-black/15 to-transparent pointer-events-none" />
       <div className="absolute inset-x-0 top-3 flex justify-center pointer-events-none">
       </div>

@@ -1,5 +1,6 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import glitchSentado from "@/assets/glitch-sentado.png";
+import Particles from "./Particles";
 
 const cotas = [
   {
@@ -100,6 +101,7 @@ const CotasSection = () => {
 
   return (
     <section id="cotas" className="relative py-16 md:py-24 px-4 overflow-hidden halftone">
+      <Particles />
       <img src={glitchSentado} alt="Glitch" className="absolute bottom-8 right-4 w-36 md:w-52 opacity-25 pointer-events-none hidden md:block" />
 
       <div className="absolute top-16 right-8 w-16 h-16 bg-neon-yellow starburst opacity-40 hidden md:block" />

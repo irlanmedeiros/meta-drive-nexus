@@ -1,6 +1,7 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import decoWave from "@/assets/deco-wave.png";
 import medievalBg from "@/assets/MEDIEVAL1.svg";
+import Particles from "./Particles";
 import presenteBg from "@/assets/PRESENTE1.svg";
 import futuroBg from "@/assets/FUTURO1.svg";
 
@@ -17,6 +18,7 @@ const EventoSection = () => {
 
   return (
     <section id="evento" className="relative py-16 md:py-24 px-4 overflow-hidden radial-burst-purple">
+      <Particles />
       <div className="absolute inset-0 halftone pointer-events-none" />
       <img src={decoWave} alt="" className="absolute bottom-0 left-0 w-64 opacity-15 pointer-events-none" />
 
