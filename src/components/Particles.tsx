@@ -1,4 +1,8 @@
-const Particles = () => {
+type ParticlesProps = {
+  className?: string;
+};
+
+const Particles = ({ className }: ParticlesProps) => {
   const particles = Array.from({ length: 30 }, (_, i) => ({
     id: i,
     left: Math.random() * 100,
@@ -9,7 +13,7 @@ const Particles = () => {
   }));
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div className={className ?? "absolute inset-0 overflow-hidden pointer-events-none"}>
       {particles.map(p => (
         <div
           key={p.id}

@@ -20,7 +20,7 @@ const EventoSection = () => {
     <section id="evento" className="relative py-16 md:py-24 px-4 overflow-hidden radial-burst-purple">
       <Particles />
       <div className="absolute inset-0 halftone pointer-events-none" />
-      <img src={decoWave} alt="" className="absolute bottom-0 left-0 w-64 opacity-15 pointer-events-none" />
+      <img src={decoWave} alt="" className="absolute bottom-0 right-0 w-64 opacity-15 pointer-events-none" />
 
       {/* Comic starburst */}
       <div className="absolute top-16 left-8 w-16 h-16 bg-neon-yellow starburst opacity-50 hidden md:block" />

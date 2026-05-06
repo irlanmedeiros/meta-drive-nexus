@@ -32,10 +32,10 @@ const atracoes: Atracao[] = [
   { Icon: Gamepad2, name: "Arena Freeplay", desc: "Games clássicos e atuais em modo livre", color: "190 95% 60%" },
   { Icon: Spade, name: "Card Games", desc: "Torneios de TCG, Magic, Pokémon e Yu-Gi-Oh!", color: "280 95% 65%" },
   { Icon: Briefcase, name: "Ativações dos apoiadores", desc: "Ativações imersivas para o público", color: "140 85% 60%" },
-  { Icon: Glasses, name: "Laser Tag + VR", desc: "Ativações imersivas de realidade virtual e combate", color: "140 85% 60%" },
   { Icon: Mic2, name: "Shows de Música", desc: "Apresentações ao vivo no palco principal", color: "330 100% 66%" },
   { Icon: Palette, name: "Artist Alley", desc: "Espaço para artistas independentes exporem e venderem", color: "48 100% 65%" },
   { Icon: ShoppingBag, name: "Lojinhas", desc: "Produtos geek, colecionáveis e itens exclusivos", color: "28 95% 60%" },
+  { Icon: Glasses, name: "Laser Tag + VR", desc: "Ativações imersivas de realidade virtual e combate", color: "140 85% 60%" },
   { Icon: Smartphone, name: "Influencers", desc: "Encontro com criadores de conteúdo do universo geek", color: "280 95% 65%" },
   { Icon: UtensilsCrossed, name: "Área de Alimentação", desc: "Food trucks e opções gastronômicas temáticas", color: "190 95% 60%" },
 ];
@@ -80,15 +80,15 @@ const AtracoesSection = () => {
       className="relative py-16 md:py-24 px-4 overflow-hidden"
       style={{
         background:
-          "radial-gradient(circle at top center, hsl(286 65% 20% / 0.72) 0%, transparent 42%), radial-gradient(circle at bottom center, hsl(190 90% 18% / 0.28) 0%, transparent 46%), linear-gradient(180deg, hsl(286 48% 10%) 0%, hsl(280 42% 13%) 48%, hsl(282 50% 9%) 100%)",
+          "radial-gradient(circle at top center, hsl(286 65% 20% / 0.72) 0%, transparent 42%), radial-gradient(circle at bottom center, hsl(190 90% 28% / 0.28) 0%, transparent 36%), linear-gradient(180deg, hsl(286 48% 10%) 0%, hsl(280 42% 13%) 88%, hsl(282 50% 9%) 100%)",
       }}
     >
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.14),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(244,114,182,0.14),transparent_28%)]" />
       <Particles />
-      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/70 via-black/15 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/30 via-black/15 to-transparent pointer-events-none" />
       <div className="absolute inset-x-0 top-3 flex justify-center pointer-events-none">
       </div>
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/85 via-neon-pink/8 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/30 via-neon-pink/8 to-transparent pointer-events-none" />
       <div className="absolute inset-x-0 bottom-4 flex justify-center pointer-events-none">
       </div>
 
