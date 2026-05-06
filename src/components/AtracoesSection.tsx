@@ -87,92 +87,94 @@ const AtracoesSection = () => {
           Confira a nossa programação no Canal Metaverso. <span className="text-comic-cyan">Clique em cada atração</span> para ver os detalhes — ou apenas relaxe e assista.
         </p>
 
-        <div className={`relative mx-auto w-full max-w-3xl transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
-          {/* TV */}
-          <div className="relative w-full" style={{ aspectRatio: "1944 / 1296" }}>
-            <img
-              src={tvImg}
-              alt="TV Metaverso"
-              className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"
-              draggable={false}
-            />
-            {/* Programação dentro da tela */}
-            <div
-              className="absolute flex items-center justify-center overflow-hidden"
-              style={{
-                left: `${SCREEN.left}%`,
-                top: `${SCREEN.top}%`,
-                width: `${SCREEN.width}%`,
-                height: `${SCREEN.height}%`,
-              }}
-            >
+        <div className={`relative mx-auto w-full max-w-6xl transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
+          <div className="grid grid-cols-1 lg:grid-cols-[1.45fr_1fr] gap-8 lg:gap-10 items-center">
+            {/* TV */}
+            <div className="relative w-full max-w-3xl mx-auto lg:mx-0" style={{ aspectRatio: "1944 / 1296" }}>
+              <img
+                src={tvImg}
+                alt="TV Metaverso"
+                className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"
+                draggable={false}
+              />
+              {/* Programação dentro da tela */}
               <div
-                key={active.name}
-                className="w-full h-full flex flex-col items-center justify-center text-center px-3 animate-scale-in"
+                className="absolute flex items-center justify-center overflow-hidden"
+                style={{
+                  left: `${SCREEN.left}%`,
+                  top: `${SCREEN.top}%`,
+                  width: `${SCREEN.width}%`,
+                  height: `${SCREEN.height}%`,
+                }}
               >
                 <div
-                  className="mb-1 sm:mb-2 md:mb-3 flex items-center justify-center"
-                  style={{ filter: `drop-shadow(0 0 14px hsl(${active.color} / 0.85))` }}
+                  key={active.name}
+                  className="w-full h-full flex flex-col items-center justify-center text-center px-3 animate-scale-in"
                 >
-                  <ActiveIcon
-                    className="h-7 w-7 sm:h-9 sm:w-9 md:h-12 md:w-12"
-                    style={{ color: `hsl(${active.color})` }}
-                    strokeWidth={2}
-                  />
+                  <div
+                    className="mb-1 sm:mb-2 md:mb-3 flex items-center justify-center"
+                    style={{ filter: `drop-shadow(0 0 14px hsl(${active.color} / 0.85))` }}
+                  >
+                    <ActiveIcon
+                      className="h-7 w-7 sm:h-9 sm:w-9 md:h-12 md:w-12"
+                      style={{ color: `hsl(${active.color})` }}
+                      strokeWidth={2}
+                    />
+                  </div>
+                  <h3 className="font-display text-[11px] sm:text-base md:text-2xl text-white leading-tight mb-1 md:mb-2 tracking-wide">
+                    {active.name}
+                  </h3>
+                  <p className="text-[8px] sm:text-[10px] md:text-xs text-slate-200/85 leading-snug line-clamp-3 max-w-[92%]">
+                    {active.desc}
+                  </p>
                 </div>
-                <h3 className="font-display text-[11px] sm:text-base md:text-2xl text-white leading-tight mb-1 md:mb-2 tracking-wide">
-                  {active.name}
-                </h3>
-                <p className="text-[8px] sm:text-[10px] md:text-xs text-slate-200/85 leading-snug line-clamp-3 max-w-[92%]">
-                  {active.desc}
-                </p>
               </div>
             </div>
-          </div>
 
-          {/* Grid de atrações */}
-          <div className="mt-6 md:mt-10 grid grid-cols-4 sm:grid-cols-6 gap-x-3 gap-y-5 md:gap-x-5 md:gap-y-6 max-w-2xl mx-auto">
-            {atracoes.map((a, index) => {
-              const NodeIcon = a.Icon;
-              const isActive = index === activeIndex;
-              return (
-                <button
-                  key={a.name}
-                  type="button"
-                  onClick={() => handleClick(index)}
-                  className={`group flex flex-col items-center gap-1.5 transition-transform duration-300 focus:outline-none ${isActive ? "scale-110" : "hover:scale-105 active:scale-95"}`}
-                  aria-label={a.name}
-                >
-                  <span className="relative flex items-center justify-center">
-                    {isActive && (
-                      <span
-                        className="absolute inset-0 -m-3 rounded-full opacity-80 blur-md"
-                        style={{ background: `radial-gradient(circle, hsl(${a.color} / 0.55), transparent 70%)` }}
-                      />
-                    )}
-                    <span
-                      className={`relative flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-full border bg-black/70 backdrop-blur-md transition-all ${isActive ? "border-white/70 ring-2 ring-white/40" : "border-white/15"}`}
-                      style={{
-                        boxShadow: isActive
-                          ? `0 0 22px hsl(${a.color} / 0.7)`
-                          : `0 0 8px hsl(${a.color} / 0.18)`,
-                      }}
-                    >
-                      <NodeIcon
-                        className="h-5 w-5 md:h-6 md:w-6"
-                        style={{ color: `hsl(${a.color})` }}
-                        strokeWidth={2}
-                      />
-                    </span>
-                  </span>
-                  <span
-                    className={`text-[9px] md:text-[10px] leading-tight text-center font-display uppercase tracking-wide line-clamp-2 ${isActive ? "text-white" : "text-white/55"}`}
+            {/* Grid de atrações */}
+            <div className="grid grid-cols-4 lg:grid-cols-3 gap-x-3 gap-y-5 lg:gap-x-4 lg:gap-y-6 max-w-2xl mx-auto lg:mx-0 lg:w-full">
+              {atracoes.map((a, index) => {
+                const NodeIcon = a.Icon;
+                const isActive = index === activeIndex;
+                return (
+                  <button
+                    key={a.name}
+                    type="button"
+                    onClick={() => handleClick(index)}
+                    className={`group flex flex-col items-center gap-1.5 transition-transform duration-300 focus:outline-none ${isActive ? "scale-110" : "hover:scale-105 active:scale-95"}`}
+                    aria-label={a.name}
                   >
-                    {a.name}
-                  </span>
-                </button>
-              );
-            })}
+                    <span className="relative flex items-center justify-center">
+                      {isActive && (
+                        <span
+                          className="absolute inset-0 -m-3 rounded-full opacity-80 blur-md"
+                          style={{ background: `radial-gradient(circle, hsl(${a.color} / 0.55), transparent 70%)` }}
+                        />
+                      )}
+                      <span
+                        className={`relative flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-full border bg-black/70 backdrop-blur-md transition-all ${isActive ? "border-white/70 ring-2 ring-white/40" : "border-white/15"}`}
+                        style={{
+                          boxShadow: isActive
+                            ? `0 0 22px hsl(${a.color} / 0.7)`
+                            : `0 0 8px hsl(${a.color} / 0.18)`,
+                        }}
+                      >
+                        <NodeIcon
+                          className="h-5 w-5 md:h-6 md:w-6"
+                          style={{ color: `hsl(${a.color})` }}
+                          strokeWidth={2}
+                        />
+                      </span>
+                    </span>
+                    <span
+                      className={`text-[9px] md:text-[10px] leading-tight text-center font-display uppercase tracking-wide line-clamp-2 ${isActive ? "text-white" : "text-white/55"}`}
+                    >
+                      {a.name}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
