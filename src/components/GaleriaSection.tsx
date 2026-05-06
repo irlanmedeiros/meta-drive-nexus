@@ -263,19 +263,11 @@ const VideoCard = ({
 
       {/* Play button */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-neon-pink/90 border-2 border-white flex items-center justify-center shadow-[0_0_25px_hsl(var(--neon-pink)/0.6)] transition-transform group-hover:scale-110">
-          <Play className="ml-1 text-white" fill="currentColor" size={26} />
+        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white flex items-center justify-center shadow-[0_0_25px_hsl(var(--neon-pink)/0.6)] transition-transform group-hover:scale-110">
+          <Play className="ml-1 text-white" fill="currentColor" size={22} />
         </div>
       </div>
 
-      {/* Label */}
-      {label && (
-        <div className="absolute bottom-0 left-0 right-0 p-3">
-          <p className="text-xs md:text-sm font-display text-white uppercase tracking-wider truncate">
-            {label}
-          </p>
-        </div>
-      )}
     </button>
   );
 };

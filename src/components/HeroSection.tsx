@@ -148,7 +148,7 @@ const HeroSection = () => {
         </div>
 
         <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed max-w-2xl font-light tracking-wide">
-          Faça parte do maior festival de Entretenimento e Cultura Digital do Nordeste
+          Faça parte do maior festival de Entretenimento <br /> e Cultura Digital do Nordeste
         </p>
 
 
