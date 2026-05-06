@@ -15,6 +15,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useIsMobile } from "@/hooks/use-mobile";
 import glitchCpe from "@/assets/glitch-cpe.png";
 
 type Atracao = {
@@ -53,6 +54,7 @@ const getCircularPositions = (count: number, radius = 320, centerX = 500, center
 
 const AtracoesSection = () => {
   const { ref, isVisible } = useScrollAnimation();
+  const isMobile = useIsMobile();
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isPaused, setIsPaused] = useState(false);
   const resumeTimerRef = useRef<number | null>(null);
@@ -87,118 +89,185 @@ const AtracoesSection = () => {
   const ActiveIcon = activeAtracao.Icon;
 
   return (
-    <section id="atracoes" className="relative py-24 px-4 overflow-hidden radial-burst-purple">
+    <section id="atracoes" className="relative py-16 md:py-24 px-4 overflow-hidden radial-burst-purple">
       <img src={glitchCpe} alt="Glitch" className="absolute bottom-8 left-4 w-32 md:w-48 opacity-30 pointer-events-none hidden md:block" />
 
       <div className="absolute top-20 right-10 w-14 h-14 bg-neon-pink starburst opacity-40 hidden md:block" />
       <div className="absolute bottom-20 right-20 w-10 h-10 bg-neon-yellow starburst opacity-30 hidden md:block" />
 
       <div ref={ref} className="relative z-10 container mx-auto max-w-6xl">
-        <h2 className={`font-display sm:text-4xl text-4xl md:text-6xl text-center text-comic-cyan text-glow-blue transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+        <h2 className={`font-display text-3xl sm:text-4xl md:text-6xl text-center mb-6 md:mb-0 text-comic-cyan text-glow-blue transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           ATRAÇÕES
         </h2>
 
-        <div className={`relative mx-auto w-full max-w-6xl transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
-          <div className="relative mx-auto aspect-square w-full max-w-5xl overflow-visible rounded-[2.5rem]">
-            <div className="absolute inset-0 animate-orbit-slow">
-              <svg viewBox="0 0 1000 1000" className="absolute inset-0 h-full w-full overflow-visible" aria-hidden="true">
-                <circle cx="500" cy="500" r="322" fill="none" stroke="hsl(0 0% 100% / 0.12)" strokeWidth="1" strokeDasharray="5 10" />
-                <circle cx="500" cy="500" r="278" fill="none" stroke="hsl(190 95% 60% / 0.14)" strokeWidth="1" />
-
-                {positions.map((position, index) => {
-                  const a = atracoes[index];
-                  const isActive = index === activeIndex;
-
-                  return (
-                    <line
-                      key={`branch-${a.name}`}
-                      x1={500}
-                      y1={500}
-                      x2={position.x}
-                      y2={position.y}
-                      stroke={`hsl(${a.color})`}
-                      strokeWidth={isActive ? 4 : 2}
-                      opacity={isActive ? 0.95 : 0.2}
-                      strokeLinecap="round"
-                      className={isActive ? "beam-flow" : ""}
-                    />
-                  );
-                })}
-
-                <line
-                  x1={positions[activeIndex].x}
-                  y1={positions[activeIndex].y}
-                  x2="500"
-                  y2="500"
-                  stroke={`hsl(${activeAtracao.color})`}
-                  strokeWidth="5"
-                  strokeLinecap="round"
-                  className="active-beam"
+        {isMobile ? (
+          <div className={`relative mx-auto w-full max-w-md transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
+            {/* Active card */}
+            <div
+              key={activeAtracao.name}
+              className="relative w-full rounded-[1.75rem] border border-white/15 bg-black/60 backdrop-blur-xl p-5 text-center shadow-[0_0_40px_rgba(0,0,0,0.4)] animate-scale-in mb-6"
+            >
+              <div
+                className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full"
+                style={{ background: `radial-gradient(circle, hsl(${activeAtracao.color} / 0.22), transparent 70%)` }}
+              >
+                <ActiveIcon
+                  className="h-9 w-9"
+                  style={{
+                    color: `hsl(${activeAtracao.color})`,
+                    filter: `drop-shadow(0 0 10px hsl(${activeAtracao.color} / 0.7))`,
+                  }}
+                  strokeWidth={2}
                 />
-              </svg>
+              </div>
+              <h3 className="font-display text-xl text-white leading-tight mb-2">
+                {activeAtracao.name}
+              </h3>
+              <p className="text-xs text-slate-200/80 leading-relaxed">
+                {activeAtracao.desc}
+              </p>
+            </div>
 
-              {positions.map((position, index) => {
-                const a = atracoes[index];
-                const isActive = index === activeIndex;
+            {/* Grid of icons */}
+            <div className="grid grid-cols-4 gap-3">
+              {atracoes.map((a, index) => {
                 const NodeIcon = a.Icon;
-
+                const isActive = index === activeIndex;
                 return (
                   <button
                     key={a.name}
                     type="button"
                     onClick={() => handleNodeClick(index)}
-                    className={`absolute -translate-x-1/2 -translate-y-1/2 transition-all duration-300 focus:outline-none ${isActive ? "scale-115 z-20" : "scale-100 hover:scale-110 z-10"}`}
-                    style={{ left: `${(position.x / 1000) * 100}%`, top: `${(position.y / 1000) * 100}%` }}
+                    className={`flex flex-col items-center gap-1.5 transition-transform duration-300 focus:outline-none ${isActive ? "scale-110" : "active:scale-95"}`}
                     aria-label={a.name}
                   >
-                    <span className="orbit-counter block">
-                      <span
-                        className={`orbit-node flex h-14 w-14 md:h-16 md:w-16 items-center justify-center rounded-full border border-white/20 bg-black/60 backdrop-blur-md ${isActive ? "ring-2 ring-white/55" : ""}`}
-                        style={{ boxShadow: isActive ? `0 0 28px hsl(${a.color} / 0.55)` : `0 0 14px hsl(${a.color} / 0.22)` }}
-                      >
-                        <NodeIcon
-                          className="h-6 w-6 md:h-7 md:w-7"
-                          style={{ color: `hsl(${a.color})`, filter: `drop-shadow(0 0 6px hsl(${a.color} / 0.6))` }}
-                          strokeWidth={2}
-                        />
-                      </span>
+                    <span
+                      className={`flex h-12 w-12 items-center justify-center rounded-full border bg-black/60 backdrop-blur-md transition-all ${isActive ? "border-white/60 ring-2 ring-white/40" : "border-white/15"}`}
+                      style={{
+                        boxShadow: isActive
+                          ? `0 0 20px hsl(${a.color} / 0.6)`
+                          : `0 0 8px hsl(${a.color} / 0.18)`,
+                      }}
+                    >
+                      <NodeIcon
+                        className="h-5 w-5"
+                        style={{ color: `hsl(${a.color})` }}
+                        strokeWidth={2}
+                      />
+                    </span>
+                    <span
+                      className={`text-[9px] leading-tight text-center font-display uppercase tracking-wide line-clamp-2 ${isActive ? "text-white" : "text-white/50"}`}
+                    >
+                      {a.name}
                     </span>
                   </button>
                 );
               })}
             </div>
+          </div>
+        ) : (
+          <div className={`relative mx-auto w-full max-w-6xl transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
+            <div className="relative mx-auto aspect-square w-full max-w-5xl overflow-visible rounded-[2.5rem]">
+              <div className="absolute inset-0 animate-orbit-slow">
+                <svg viewBox="0 0 1000 1000" className="absolute inset-0 h-full w-full overflow-visible" aria-hidden="true">
+                  <circle cx="500" cy="500" r="322" fill="none" stroke="hsl(0 0% 100% / 0.12)" strokeWidth="1" strokeDasharray="5 10" />
+                  <circle cx="500" cy="500" r="278" fill="none" stroke="hsl(190 95% 60% / 0.14)" strokeWidth="1" />
 
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div
-                key={activeAtracao.name}
-                className="relative w-[300px] max-w-[78vw] rounded-[2rem] border border-white/120 bg-black/50 backdrop-blur-xl p-5 md:p-6 text-center shadow-[0_0_50px_rgba(0,0,0,0.35)] animate-scale-in"
-              >
-                <div className="absolute -inset-[1px] rounded-[2rem] border border-cyan-300/20" />
-                <div
-                  className="mx-auto mb-3 flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full"
-                  style={{
-                    background: `radial-gradient(circle, hsl(${activeAtracao.color} / 0.18), transparent 70%)`,
-                  }}
-                >
-                  <ActiveIcon
-                    className="h-10 w-10 md:h-12 md:w-12"
-                    style={{
-                      color: `hsl(${activeAtracao.color})`,
-                      filter: `drop-shadow(0 0 12px hsl(${activeAtracao.color} / 0.7))`,
-                    }}
-                    strokeWidth={2}
+                  {positions.map((position, index) => {
+                    const a = atracoes[index];
+                    const isActive = index === activeIndex;
+
+                    return (
+                      <line
+                        key={`branch-${a.name}`}
+                        x1={500}
+                        y1={500}
+                        x2={position.x}
+                        y2={position.y}
+                        stroke={`hsl(${a.color})`}
+                        strokeWidth={isActive ? 4 : 2}
+                        opacity={isActive ? 0.95 : 0.2}
+                        strokeLinecap="round"
+                        className={isActive ? "beam-flow" : ""}
+                      />
+                    );
+                  })}
+
+                  <line
+                    x1={positions[activeIndex].x}
+                    y1={positions[activeIndex].y}
+                    x2="500"
+                    y2="500"
+                    stroke={`hsl(${activeAtracao.color})`}
+                    strokeWidth="5"
+                    strokeLinecap="round"
+                    className="active-beam"
                   />
+                </svg>
+
+                {positions.map((position, index) => {
+                  const a = atracoes[index];
+                  const isActive = index === activeIndex;
+                  const NodeIcon = a.Icon;
+
+                  return (
+                    <button
+                      key={a.name}
+                      type="button"
+                      onClick={() => handleNodeClick(index)}
+                      className={`absolute -translate-x-1/2 -translate-y-1/2 transition-all duration-300 focus:outline-none ${isActive ? "scale-115 z-20" : "scale-100 hover:scale-110 z-10"}`}
+                      style={{ left: `${(position.x / 1000) * 100}%`, top: `${(position.y / 1000) * 100}%` }}
+                      aria-label={a.name}
+                    >
+                      <span className="orbit-counter block">
+                        <span
+                          className={`orbit-node flex h-14 w-14 md:h-16 md:w-16 items-center justify-center rounded-full border border-white/20 bg-black/60 backdrop-blur-md ${isActive ? "ring-2 ring-white/55" : ""}`}
+                          style={{ boxShadow: isActive ? `0 0 28px hsl(${a.color} / 0.55)` : `0 0 14px hsl(${a.color} / 0.22)` }}
+                        >
+                          <NodeIcon
+                            className="h-6 w-6 md:h-7 md:w-7"
+                            style={{ color: `hsl(${a.color})`, filter: `drop-shadow(0 0 6px hsl(${a.color} / 0.6))` }}
+                            strokeWidth={2}
+                          />
+                        </span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div
+                  key={activeAtracao.name}
+                  className="relative w-[300px] max-w-[78vw] rounded-[2rem] border border-white/120 bg-black/50 backdrop-blur-xl p-5 md:p-6 text-center shadow-[0_0_50px_rgba(0,0,0,0.35)] animate-scale-in"
+                >
+                  <div className="absolute -inset-[1px] rounded-[2rem] border border-cyan-300/20" />
+                  <div
+                    className="mx-auto mb-3 flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full"
+                    style={{
+                      background: `radial-gradient(circle, hsl(${activeAtracao.color} / 0.18), transparent 70%)`,
+                    }}
+                  >
+                    <ActiveIcon
+                      className="h-10 w-10 md:h-12 md:w-12"
+                      style={{
+                        color: `hsl(${activeAtracao.color})`,
+                        filter: `drop-shadow(0 0 12px hsl(${activeAtracao.color} / 0.7))`,
+                      }}
+                      strokeWidth={2}
+                    />
+                  </div>
+                  <h3 className="font-display text-xl md:text-2xl text-white leading-tight mb-2">
+                    {activeAtracao.name}
+                  </h3>
+                  <p className="text-xs md:text-sm text-slate-200/80 leading-relaxed">
+                    {activeAtracao.desc}
+                  </p>
                 </div>
-                <h3 className="font-display text-xl md:text-2xl text-white leading-tight mb-2">
-                  {activeAtracao.name}
-                </h3>
-                <p className="text-xs md:text-sm text-slate-200/80 leading-relaxed">
-                  {activeAtracao.desc}
-                </p>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       <style>{`
