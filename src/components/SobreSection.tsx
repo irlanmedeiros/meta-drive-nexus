@@ -7,10 +7,10 @@ const SobreSection = () => {
 
   return (
     <section id="sobre" className="relative py-24 px-4 overflow-hidden halftone">
-      <img src={decoCloud} alt="" className="absolute top-10 left-5 w-40 opacity-15 pointer-events-none hidden md:block" />
-      <img src={glitchSedutor} alt="Glitch" className="absolute bottom-8 right-4 w-28 md:w-44 opacity-30 pointer-events-none hidden md:block" />
+      <img src={decoCloud} alt="" className="absolute top-10 left-10 w-40 opacity-15 pointer-events-none hidden md:block" />
+      <img src={glitchSedutor} alt="Glitch" className="absolute bottom-0 right-10 w-40 md:w-46 opacity-40 pointer-events-none hidden md:block z-0" />
 
-      <div className="absolute bottom-16 left-10 w-12 h-12 bg-neon-yellow starburst opacity-30 hidden md:block" />
+      <div className="absolute bottom-16 left-20 w-12 h-12 bg-neon-yellow starburst opacity-30 hidden md:block" />
 
       <div ref={ref} className="relative z-10 container mx-auto max-w-4xl text-center">
         <h2 className={`font-display text-4xl md:text-6xl mb-8 text-comic-cyan text-glow-blue transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>

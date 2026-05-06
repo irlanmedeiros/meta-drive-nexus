@@ -1,12 +1,12 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import glitchVilanesco from "@/assets/glitch-vilanesco.png";
+import { Camera, Handshake, MapPin, Target, type LucideIcon } from "lucide-react";
 
 const reasons = [
-  { emoji: "📍", title: "Mercado em Expansão", desc: "A cena geek nordestina cresce rapidamente, com público ávido e mercado ainda pouco explorado por grandes marcas.", accent: "border-neon-yellow" },
-  { emoji: "🎯", title: "Público Segmentado", desc: "Alcance um público altamente engajado, jovem e conectado, com alto poder de influência digital.", accent: "border-neon-pink" },
-  { emoji: "📸", title: "Geração de Conteúdo", desc: "Alto potencial de mídia espontânea, UGC e viralização nas redes sociais durante e após o evento.", accent: "border-comic-cyan" },
-  { emoji: "🤝", title: "Evento Pioneiro", desc: "Associe sua marca a um evento referência regional, com DNA de inovação e cultura pop nordestina.", accent: "border-neon-green" },
-];
+  { icon: MapPin, title: "Mercado em Expansão", desc: "A cena geek nordestina cresce rapidamente, com público ávido e mercado ainda pouco explorado por grandes marcas.", accent: "border-neon-yellow", color: "text-neon-yellow" },
+  { icon: Target, title: "Público Segmentado", desc: "Alcance um público altamente engajado, jovem e conectado, com alto poder de influência digital.", accent: "border-neon-pink", color: "text-neon-pink" },
+  { icon: Camera, title: "Geração de Conteúdo", desc: "Alto potencial de mídia espontânea, UGC e viralização nas redes sociais durante e após o evento.", accent: "border-comic-cyan", color: "text-comic-cyan" },
+  { icon: Handshake, title: "Evento Pioneiro", desc: "Associe sua marca a um evento referência regional, com DNA de inovação e cultura pop nordestina.", accent: "border-neon-green", color: "text-neon-green" },
+] as Array<{ icon: LucideIcon; title: string; desc: string; accent: string; color: string }>;
 
 const PorQueSection = () => {
   const { ref, isVisible } = useScrollAnimation();
@@ -14,7 +14,6 @@ const PorQueSection = () => {
   return (
     <section id="porque" className="relative py-24 px-4 overflow-hidden radial-burst-purple">
       <div className="absolute inset-0 halftone pointer-events-none" />
-      <img src={glitchVilanesco} alt="Glitch" className="absolute top-12 left-4 w-28 md:w-44 opacity-30 pointer-events-none hidden md:block" />
 
       <div className="absolute top-20 right-10 w-14 h-14 bg-neon-green starburst opacity-40 hidden md:block" />
 
@@ -30,7 +29,7 @@ const PorQueSection = () => {
               className={`comic-card bg-card p-8 border-l-[8px] ${r.accent} transition-all duration-500 hover:scale-105 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
               style={{ transitionDelay: `${200 + i * 150}ms` }}
             >
-              <span className="text-5xl mb-4 block">{r.emoji}</span>
+              <r.icon className={`w-12 h-12 mb-4 ${r.color}`} aria-hidden="true" />
               <h3 className="font-display text-xl mb-2">{r.title}</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">{r.desc}</p>
             </div>

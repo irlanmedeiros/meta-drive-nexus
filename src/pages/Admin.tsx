@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Trash2, Upload, LogOut, Image, Film, Plus, CalendarCheck2, Save } from "lucide-react";
+import { Trash2, Upload, LogOut, Image, Film, Plus, CalendarCheck2, Save, Lock, Clapperboard, Star, Lightbulb } from "lucide-react";
 
 const ADMIN_USER = "midiaflama";
 const ADMIN_PASS = "Vagalume255*";
@@ -214,8 +214,8 @@ const Admin = () => {
           onSubmit={handleLogin}
           className="comic-card bg-card p-8 w-full max-w-sm space-y-6"
         >
-          <h1 className="font-display text-3xl text-center text-neon-pink">
-            🔐 ADMIN
+          <h1 className="font-display text-3xl text-center text-neon-pink inline-flex items-center justify-center gap-2 w-full">
+            <Lock size={28} aria-hidden="true" /> ADMIN
           </h1>
           <p className="text-center text-muted-foreground text-sm">
             Painel de gestao da galeria
@@ -265,8 +265,8 @@ const Admin = () => {
     <div className="min-h-screen bg-background text-foreground">
       <header className="border-b-3 border-foreground/20 bg-card">
         <div className="container mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
-          <h1 className="font-display text-2xl text-neon-pink">
-            📸 Galeria Admin
+          <h1 className="font-display text-2xl text-neon-pink inline-flex items-center gap-2">
+            <Image size={24} aria-hidden="true" /> Galeria Admin
           </h1>
           <button
             onClick={handleLogout}
@@ -360,8 +360,8 @@ const Admin = () => {
               <Film size={20} /> Adicionar Video
             </h2>
 
-            <p className="text-xs text-muted-foreground">
-              💡 Após enviar, use o botão <strong className="text-neon-yellow">"Definir como Hero"</strong> em qualquer vídeo abaixo para escolher qual será o fundo da home.
+            <p className="text-xs text-muted-foreground inline-flex items-center gap-2">
+              <Lightbulb size={14} aria-hidden="true" /> Após enviar, use o botão <strong className="text-neon-yellow">"Definir como Hero"</strong> em qualquer vídeo abaixo para escolher qual será o fundo da home.
             </p>
 
             <div>
@@ -492,8 +492,8 @@ const Admin = () => {
                           />
                         )}
                         {isHero && (
-                          <span className="absolute top-2 left-2 text-[10px] px-2 py-1 rounded bg-neon-yellow text-background font-display whitespace-nowrap shadow-lg">
-                            🎬 HERO ATIVO
+                          <span className="absolute top-2 left-2 text-[10px] px-2 py-1 rounded bg-neon-yellow text-background font-display whitespace-nowrap shadow-lg inline-flex items-center gap-1">
+                            <Clapperboard size={11} aria-hidden="true" /> HERO ATIVO
                           </span>
                         )}
                       </div>
@@ -511,11 +511,17 @@ const Admin = () => {
                                 : "bg-foreground/5 hover:bg-neon-yellow hover:text-background border border-foreground/20"
                             } disabled:opacity-60`}
                           >
-                            {isHero
-                              ? "⭐ É o Hero atual"
-                              : settingHeroId === video.id
-                              ? "Definindo..."
-                              : "⭐ Definir como Hero"}
+                            {isHero ? (
+                              <span className="inline-flex items-center gap-1">
+                                <Star size={12} aria-hidden="true" /> É o Hero atual
+                              </span>
+                            ) : settingHeroId === video.id ? (
+                              "Definindo..."
+                            ) : (
+                              <span className="inline-flex items-center gap-1">
+                                <Star size={12} aria-hidden="true" /> Definir como Hero
+                              </span>
+                            )}
                           </button>
                           <button
                             onClick={() => handleDelete(video)}

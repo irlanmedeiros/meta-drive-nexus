@@ -34,9 +34,9 @@ const atracoes: Atracao[] = [
   { Icon: Mic2, name: "Shows de Música", desc: "Apresentações ao vivo no palco principal", accent: "border-neon-pink", color: "330 100% 66%" },
   { Icon: Palette, name: "Artist Alley", desc: "Espaço para artistas independentes exporem e venderem", accent: "border-neon-yellow", color: "48 100% 65%" },
   { Icon: ShoppingBag, name: "Lojinhas", desc: "Produtos geek, colecionáveis e itens exclusivos", accent: "border-comic-orange", color: "28 95% 60%" },
+  { Icon: Landmark, name: "Deck Cultural", desc: "18 totens históricos da Paraíba em linguagem de HQ e Games", accent: "border-neon-green", color: "140 85% 60%" },
   { Icon: UtensilsCrossed, name: "Área de Alimentação", desc: "Food trucks e opções gastronômicas temáticas", accent: "border-comic-cyan", color: "190 95% 60%" },
   { Icon: Smartphone, name: "Influencers", desc: "Encontro com criadores de conteúdo do universo geek", accent: "border-neon-purple", color: "280 95% 65%" },
-  { Icon: Landmark, name: "Deck Cultural", desc: "18 totens históricos da Paraíba em linguagem de HQ e Games", accent: "border-neon-green", color: "140 85% 60%" },
   { Icon: Briefcase, name: "Ativações dos apoiadores", desc: "Ativações imersivas para o público", accent: "border-neon-green", color: "140 85% 60%" },
 ];
 
@@ -94,7 +94,7 @@ const AtracoesSection = () => {
       <div className="absolute bottom-20 right-20 w-10 h-10 bg-neon-yellow starburst opacity-30 hidden md:block" />
 
       <div ref={ref} className="relative z-10 container mx-auto max-w-6xl">
-        <h2 className={`font-display text-4xl md:text-6xl text-center text-comic-cyan text-glow-blue transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+        <h2 className={`font-display sm:text-4xl text-4xl md:text-6xl text-center text-comic-cyan text-glow-blue transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           ATRAÇÕES
         </h2>
 
@@ -171,7 +171,7 @@ const AtracoesSection = () => {
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div
                 key={activeAtracao.name}
-                className="relative w-[300px] max-w-[78vw] rounded-[2rem] border border-white/20 bg-black/50 backdrop-blur-xl p-5 md:p-6 text-center shadow-[0_0_50px_rgba(0,0,0,0.35)] animate-scale-in"
+                className="relative w-[300px] max-w-[78vw] rounded-[2rem] border border-white/120 bg-black/50 backdrop-blur-xl p-5 md:p-6 text-center shadow-[0_0_50px_rgba(0,0,0,0.35)] animate-scale-in"
               >
                 <div className="absolute -inset-[1px] rounded-[2rem] border border-cyan-300/20" />
                 <div
@@ -189,7 +189,6 @@ const AtracoesSection = () => {
                     strokeWidth={2}
                   />
                 </div>
-                <p className="font-display text-[10px] uppercase tracking-[0.4em] text-cyan-200/80 mb-2">Nexo Central</p>
                 <h3 className="font-display text-xl md:text-2xl text-white leading-tight mb-2">
                   {activeAtracao.name}
                 </h3>

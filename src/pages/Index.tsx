@@ -10,6 +10,7 @@ import PorQueSection from "@/components/PorQueSection";
 import SobreSection from "@/components/SobreSection";
 import ContatoSection from "@/components/ContatoSection";
 import ScrollToTop from "@/components/ScrollToTop";
+import { Copyright, Gamepad2 } from "lucide-react";
 
 const Index = () => {
   return (
@@ -29,8 +30,9 @@ const Index = () => {
 
       {/* Footer */}
       <footer className="py-8 text-center border-t-3 border-black bg-card halftone-dense">
-        <p className="text-muted-foreground text-sm font-display">
-          © 2026 Metaverso Experience — Todos os direitos reservados 🎮
+        <p className="text-muted-foreground text-sm font-display inline-flex items-center gap-2">
+          <Copyright className="w-4 h-4" aria-hidden="true" /> 2026 Metaverso Experience — Todos os direitos reservados
+          <Gamepad2 className="w-4 h-4" aria-hidden="true" />
         </p>
       </footer>
     </div>

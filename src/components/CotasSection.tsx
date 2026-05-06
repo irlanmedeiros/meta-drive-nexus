@@ -100,7 +100,7 @@ const CotasSection = () => {
 
   return (
     <section id="cotas" className="relative py-24 px-4 overflow-hidden halftone">
-      <img src={glitchSentado} alt="Glitch" className="absolute bottom-8 left-4 w-36 md:w-52 opacity-25 pointer-events-none hidden md:block" />
+      <img src={glitchSentado} alt="Glitch" className="absolute bottom-8 right-4 w-36 md:w-52 opacity-25 pointer-events-none hidden md:block" />
 
       <div className="absolute top-16 right-8 w-16 h-16 bg-neon-yellow starburst opacity-40 hidden md:block" />
       <div className="absolute bottom-32 left-20 w-12 h-12 bg-neon-pink starburst opacity-30 hidden md:block" />

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { ArrowUp } from "lucide-react";
 
 const ScrollToTop = () => {
   const [show, setShow] = useState(false);
@@ -17,7 +18,7 @@ const ScrollToTop = () => {
       className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-neon-yellow text-background font-display text-xl comic-card flex items-center justify-center hover:scale-110 transition-all rounded-full"
       aria-label="Voltar ao topo"
     >
-      ⬆
+      <ArrowUp className="w-6 h-6" aria-hidden="true" />
     </button>
   );
 };

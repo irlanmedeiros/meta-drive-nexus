@@ -10,7 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { Play } from "lucide-react";
+import { Camera, Play } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
 
 type MediaItem = {
@@ -68,7 +68,6 @@ const GaleriaSection = () => {
 
   const hasPhotos = photos.length > 0;
   const hasVideos = videos.length > 0;
-  const displayedPhotos = (hasPhotos ? photos : photoPlaceholders).slice(0, 8);
 
   return (
     <section id="galeria" className="relative py-24 px-4 halftone">
@@ -76,9 +75,9 @@ const GaleriaSection = () => {
       <img
         src={glitchColerico}
         alt="Glitch"
-        className="absolute top-10 left-4 w-28 md:w-40 opacity-30 pointer-events-none hidden md:block"
+        className="absolute bottom-0 right-10 w-40 md:w-64 opacity-40 pointer-events-none hidden md:block z-0"
       />
-      <div className="absolute bottom-16 right-10 w-16 h-16 bg-neon-yellow starburst opacity-40 hidden md:block" />
+      <div className="absolute bottom-16 w-16 h-16 bg-neon-yellow starburst opacity-40 hidden md:block" />
 
       <div ref={ref} className="relative z-10 container mx-auto max-w-6xl">
         <h2
@@ -96,48 +95,53 @@ const GaleriaSection = () => {
           Confira os melhores momentos das edições anteriores do Metaverso Experience
         </p>
 
-        {/* Photos Grid (4 top + 4 bottom) */}
+        {/* Photos Carousel */}
+
         <div
           className={`mb-16 transition-all duration-700 delay-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-            {displayedPhotos.map((photo) => (
-              <div key={photo.id} className="relative">
-                {hasPhotos ? (
-                  <div className="group relative aspect-[4/3] comic-card bg-card overflow-hidden">
-                    <img
-                      src={(photo as MediaItem).url}
-                      alt={cleanLabel((photo as MediaItem).label) || "Foto do evento"}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-neon-pink/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                ) : (
-                  <div className="group relative aspect-[4/3] comic-card bg-card overflow-hidden">
-                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 halftone-dense">
-                      <span className="text-3xl opacity-40">📷</span>
-                      <span className="text-xs text-muted-foreground font-display uppercase tracking-wider text-center px-2">
-                        {(photo as { label: string }).label}
-                      </span>
+          <Carousel
+            opts={{ align: "start", loop: true }}
+            plugins={[Autoplay({ delay:3000 })]}
+            className="w-full px-2 md:px-0"
+          >
+            <CarouselContent className="-ml-4">
+              {(hasPhotos ? photos : photoPlaceholders).map((photo) => (
+                <CarouselItem
+                  key={photo.id}
+                  className="pl-4 basis-full md:basis-1/2 lg:basis-1/3"
+                >
+                  {hasPhotos ? (
+                    <div className="group relative aspect-[4/3] comic-card bg-card overflow-hidden">
+                      <img
+                        src={(photo as MediaItem).url}
+                        alt={cleanLabel((photo as MediaItem).label) || "Foto do evento"}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-neon-pink/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+                  ) : (
+                    <div className="group relative aspect-[4/3] comic-card bg-card overflow-hidden">
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 halftone-dense">
+                        <Camera className="w-8 h-8 opacity-40" aria-hidden="true" />
+                        <span className="text-xs text-muted-foreground font-display uppercase tracking-wider text-center px-2">
+                          {(photo as { label: string }).label}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex -left-4 lg:-left-12 bg-background/80 border-neon-pink/40 text-neon-pink hover:bg-neon-pink hover:text-background" />
+            <CarouselNext className="hidden md:flex -right-4 lg:-right-12 bg-background/80 border-neon-pink/40 text-neon-pink hover:bg-neon-pink hover:text-background" />
+          </Carousel>
         </div>
 
         {/* Videos */}
-        <h3
-          className={`font-display text-2xl md:text-3xl text-center mb-8 text-comic-cyan transition-all duration-700 delay-500 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          VÍDEOS
-        </h3>
         <div
           className={`transition-all duration-700 delay-500 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -145,7 +149,7 @@ const GaleriaSection = () => {
         >
           <Carousel
             opts={{ align: "start", loop: true }}
-            plugins={[Autoplay({ delay: 3000 })]}
+            plugins={[Autoplay({ delay: 4000 })]}
             className="w-full px-2 md:px-0"
           >
             <CarouselContent className="-ml-4">
