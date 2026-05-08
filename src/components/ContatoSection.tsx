@@ -4,6 +4,12 @@ import Particles from "./Particles";
 import perfilmeta from "@/assets/perfilmeta.png";
 import { Instagram, Mail, Rocket, Smartphone } from "lucide-react";
 
+const WHATSAPP_PHONE = "5583999270216";
+
+const getWhatsAppLink = (message: string) => {
+  return `https://api.whatsapp.com/send/?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
+};
+
 const ContatoSection = () => {
   const { ref, isVisible } = useScrollAnimation();
 
@@ -33,25 +39,37 @@ const ContatoSection = () => {
         </p>
 
         <div className={`grid md:grid-cols-3 gap-4 mb-12 transition-all duration-700 delay-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <div className="comic-card bg-card p-6 border-t-[6px] border-t-neon-purple">
+          <a href="mailto:comercial@flamastudio.com" className="comic-card bg-card p-6 border-t-[6px] border-t-neon-purple hover:brightness-110 transition-all">
             <Mail className="w-7 h-7 mb-2 mx-auto text-neon-purple" aria-hidden="true" />
             <p className="text-xs text-muted-foreground font-display uppercase mb-1">E-mail</p>
             <p className="text-neon-purple text-sm font-semibold">comercial@flamastudio.com</p>
-          </div>
-          <div className="comic-card bg-card p-6 border-t-[6px] border-t-neon-pink">
+          </a>
+          <a
+            href={getWhatsAppLink("Ola, quero saber mais sobre o evento Metaverso Experience.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="comic-card bg-card p-6 border-t-[6px] border-t-neon-pink hover:brightness-110 transition-all"
+          >
             <Smartphone className="w-7 h-7 mb-2 mx-auto text-neon-pink" aria-hidden="true" />
             <p className="text-xs text-muted-foreground font-display uppercase mb-1">WhatsApp</p>
-            <p className="text-neon-pink text-sm font-semibold">(83) 99392-7595</p>
-          </div>
-          <div className="comic-card bg-card p-6 border-t-[6px] border-t-neon-green">
+            <p className="text-neon-pink text-sm font-semibold">(83) 99927-0216</p>
+          </a>
+          <a
+            href="https://instagram.com/metaversoexp"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="comic-card bg-card p-6 border-t-[6px] border-t-neon-green hover:brightness-110 transition-all"
+          >
             <Instagram className="w-7 h-7 mb-2 mx-auto text-neon-green" aria-hidden="true" />
             <p className="text-xs text-muted-foreground font-display uppercase mb-1">Instagram</p>
-            <p className="text-neon-green text-sm font-semibold">@metaversoexperience</p>
-          </div>
+            <p className="text-neon-green text-sm font-semibold">@metaversoexp</p>
+          </a>
         </div>
 
         <a
-          href="mailto:comercial@flamastudio.com"
+          href={getWhatsAppLink("Ola, quero entender melhor as oportunidades para ser patrocinador do Metaverso Experience.")}
+          target="_blank"
+          rel="noopener noreferrer"
           className={`inline-block font-display text-lg md:text-xl px-10 py-4 bg-neon-yellow text-background uppercase tracking-widest transition-all hover:scale-105 comic-card ${isVisible ? "opacity-100" : "opacity-0"}`}
           style={{ transitionDelay: "700ms" }}
         >

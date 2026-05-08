@@ -2,6 +2,13 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import glitchSentado from "@/assets/glitch-sentado.png";
 import Particles from "./Particles";
 
+const WHATSAPP_PHONE = "5583999270216";
+
+const getWhatsAppSponsorLink = (tier: string) => {
+  const message = `Quero ser um patrocinador da cota ${tier}`;
+  return `https://api.whatsapp.com/send/?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
+};
+
 const cotas = [
   {
     tier: "APOIO",
@@ -141,7 +148,12 @@ const CotasSection = () => {
                   ))}
                 </ul>
 
-                <a href="#contato" className={`mt-6 block text-center font-display text-sm uppercase py-3 comic-card ${c.headerBg} ${c.textColor} hover:brightness-125 transition-all`}>
+                <a
+                  href={getWhatsAppSponsorLink(c.tier)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`mt-6 block text-center font-display text-sm uppercase py-3 comic-card ${c.headerBg} ${c.textColor} hover:brightness-125 transition-all`}
+                >
                   Quero essa cota
                 </a>
               </div>
@@ -175,7 +187,12 @@ const CotasSection = () => {
               </div>
 
               <div className="text-center">
-                <a href="#contato" className="inline-block font-display text-base sm:text-lg uppercase px-6 sm:px-10 py-3 sm:py-4 bg-neon-pink text-foreground comic-card tracking-wider sm:tracking-widest transition-all hover:scale-105">
+                <a
+                  href={getWhatsAppSponsorLink(c.tier)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block font-display text-base sm:text-lg uppercase px-6 sm:px-10 py-3 sm:py-4 bg-neon-pink text-foreground comic-card tracking-wider sm:tracking-widest transition-all hover:scale-105"
+                >
                   Quero a cota Master
                 </a>
               </div>
